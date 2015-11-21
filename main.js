@@ -20,6 +20,16 @@ server.register([require('inert')], function(err) {
             config: { 
                 handler: handler.home 
             } 
+        },
+        {
+            method: "GET",
+            path: "/bundle.js",
+            config: {
+                auth: false,
+                handler: function(request, reply){
+                    reply.file("public/bundle.js");
+                }
+            }
         }
     ]);
 });
