@@ -19,7 +19,6 @@
     "joi": "^4.6.1",
     "babel": "^5.8.21",
     "bell": "^6.0.0",
-    "express": "^4.13.3",
     "hapi": "^11.1.1",
     "hapi-auth-cookie": "^3.1.0",
     "history": "^1.13.1",
@@ -34,7 +33,5 @@
     "browserify": "^11.0.1",
     "gulp-nodemon": "^2.0.4",
     "gulp-watch": "^4.3.5"
-  },
-  "devDependencies": {
   }
 }
