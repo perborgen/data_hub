@@ -2,7 +2,7 @@
   "name": "hapi-heroku",
   "version": "0.1.0",
   "description": "hapi example app running on heroku",
-  "main": "main.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/wpreul/hapi-heroku.git"
