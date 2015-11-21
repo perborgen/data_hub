@@ -2,13 +2,14 @@
   "name": "hapi-heroku",
   "version": "0.1.0",
   "description": "hapi example app running on heroku",
-  "main": "index.js",
+  "main": "main.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/wpreul/hapi-heroku.git"
   },
     "engines": {
-    "node": "4.2.2"
+    "node": "4.2.2",
+    "npm": "2.14.7"
   },
   "author": "Wyatt Preul",
   "license": "MIT",
@@ -28,12 +29,12 @@
     "react-dom": "^0.14.3",
     "react-router": "^1.0.0",
     "superagent": "^1.4.0",
-    "gulp": "^3.9.0"
-  },
-  "devDependencies": {
+    "gulp": "^3.9.0",
     "babelify": "^6.1.3",
     "browserify": "^11.0.1",
     "gulp-nodemon": "^2.0.4",
     "gulp-watch": "^4.3.5"
+  },
+  "devDependencies": {
   }
 }
