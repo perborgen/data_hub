@@ -5,8 +5,8 @@ var config = require('./config');
 var handler = require('./api/handler');
 
 server.connection({
-    port: process.env.PORT || 8080,
-    host: "0.0.0.0" || "localhost"
+    port: 8080,
+    host: 'herokuapp.com'
 });
 
 server.register([require('inert'), require('bell'), require('hapi-auth-cookie')], function(err){
