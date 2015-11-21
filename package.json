@@ -14,7 +14,7 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "hapi": "^6.2.0",
+    "hapi": "^11.1.1",
     "joi": "^4.6.1"
   }
 }
