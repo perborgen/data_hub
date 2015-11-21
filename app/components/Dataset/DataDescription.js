@@ -32,8 +32,7 @@ export default class DataDescription extends React.Component {
 									col-sm-6 
 									col-lg-6 
 									col-xs-6">
-						<img 
-							style={{width:'100%'}} 
+						<img className="dataset-img" 
 							src={this.props.data.img_url} />
 					</div>
 					<div className="col-xs-6 

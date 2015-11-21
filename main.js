@@ -32,16 +32,20 @@ server.register([require('inert'), require('bell'), require('hapi-auth-cookie')]
     };
 
     server.auth.strategy('github-oauth', 'bell', bellAuthOptions);
-    
+    server.auth.default('site-point-cookie');
+
     server.route([
         {
             method: "GET",
             path: "/",
             config: {
-                auth: {
+                 auth: {
+                    mode: 'optional'
+                 },
+       /*         auth: {
                     strategy: 'site-point-cookie',
                     mode: 'try'
-                },
+                },*/
                 handler: handler.home
             }
         },
