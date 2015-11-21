@@ -1,9 +1,9 @@
+console.log('HHHHHHHHANDLER');
 var config = require('../config');
 var index = "./public/index.html";
 var mongoose = require('mongoose');
 console.log('config.mongoose: ', config.mongoose);
 var Schema = mongoose.Schema;
-
 mongoose.connect(process.env.MONGOOSE || config.mongoose);
 
 var userSchema = new Schema({
@@ -28,6 +28,7 @@ var User = mongoose.model('User', userSchema);
 
 
 const login = (request, reply) => {
+	console.log('login handler');
     if (request.auth.isAuthenticated) {
     	request.auth.session.set(request.auth.credentials);
     	return reply.redirect('/');
@@ -36,6 +37,7 @@ const login = (request, reply) => {
 }
 
 const getDataset = (request, reply) => {
+	console.log('getDataset handler');
 	const dataset = request.params.datasetId;
 	Dataset.findById(dataset, function(err,dataset){
 	    if (err){
@@ -52,9 +54,10 @@ const getDataset = (request, reply) => {
 }
 
 var featuredDatasets = (request, reply) => {
+	console.log('featuredDatasets handler');
+
 	Dataset.find({}).sort({rating: -1}).limit(6).exec(
 		function(err,datasets){
-			console.log('datasets:', datasets);
 	    if (err){
 	        throw err;
 	       	reply.file(index);
@@ -69,8 +72,8 @@ var featuredDatasets = (request, reply) => {
 }
 
 
-var datasets = (request, reply) => {
-	console.log('handler');
+var home = (request, reply) => {
+	console.log('home handler');
 	// Check if user is authenticated
 	if (request.auth.isAuthenticated){
 		var profile = request.auth.credentials.profile;
@@ -89,7 +92,6 @@ var datasets = (request, reply) => {
 
             // if the user doesn't exist
             else {
-
                 //create new user object
                 var new_user = new User();
                 new_user.email = profile.email;
@@ -120,21 +122,24 @@ var datasets = (request, reply) => {
 
 
 const user = (request, reply) => {
+	console.log('USER HANDLER');
 	if (request.auth.isAuthenticated){
-		console.log('is authenticated--------: ', request.auth.credentials);
+		console.log('is authenticated-------');
 		reply(request.auth.credentials);
 	}else {
-		reply(false);
+		reply('123');
 	}
 }
 
 const logout = (request, reply) => {
+	console.log('logout HANDLER');
+
     request.auth.session.clear();
     reply.redirect('/');
 }
 
-
 const newDataset = (request, reply) => {
+	console.log('newDataset HANDLER');
 	if (request.auth.isAuthenticated){
 		const d = request.payload;
 	    Dataset.findOne({url: d.url}, function(err,dataset){
@@ -159,7 +164,7 @@ const newDataset = (request, reply) => {
 			            console.log('error when saving new member');
 			            throw error;
 			        }
-			        console.log('registration successful, dataset: ',res);
+			        console.log('registration successful');
 			        reply(res);
 		        });
 			}
@@ -167,7 +172,6 @@ const newDataset = (request, reply) => {
 	} 
 	// if the user isn't authenticated
 	else {
-		console.log('not logged in');
 		reply.file(index);
 	}
 }
@@ -177,7 +181,7 @@ module.exports = {
 	user: user,
 	login: login,
 	logout: logout,
-	datasets:datasets,
+	home: home,
 	newDataset: newDataset,
 	getDataset: getDataset,
 	featuredDatasets:featuredDatasets

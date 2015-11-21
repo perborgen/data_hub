@@ -5,7 +5,7 @@ var config = require('./config');
 var handler = require('./api/handler');
 
 server.connection({
-    port: process.env.PORT || 8080,
+    port: process.env.PORT || 8000,
     host: "0.0.0.0" || "localhost"
 });
 
@@ -34,6 +34,14 @@ server.register([require('inert'), require('bell'), require('hapi-auth-cookie')]
     server.auth.strategy('github-oauth', 'bell', bellAuthOptions);
     
     server.route([
+        {
+            method: "GET",
+            path: "/",
+            config: {
+                auth: 'github-oauth',
+                handler: handler.home
+            }
+        },
         {
             method: "GET",
             path: "/login",
@@ -70,7 +78,6 @@ server.register([require('inert'), require('bell'), require('hapi-auth-cookie')]
                 },
                 handler: handler.user
             }
-
         },
         {
             method: ["POST"],
@@ -113,14 +120,14 @@ server.register([require('inert'), require('bell'), require('hapi-auth-cookie')]
                     strategy: 'site-point-cookie',
                     mode: 'try'
                 },
-                handler: handler.datasets
+                handler: handler.home
             }
         }
     ]);
 });
 
 server.start(function(){
-    console.log('Server has started');
+    console.log('Server has started!!!!');
 });
 
 module.exports = {

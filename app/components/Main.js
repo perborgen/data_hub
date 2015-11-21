@@ -23,7 +23,7 @@ export default class Main extends React.Component {
 				if (err){
 					throw err;
 				}
-				console.log('res: ', res);
+				console.log('response from Main after /api/user: ', res);
 				if (res) {
 					this.setState({
 						userName: res.body.profile.displayName,
