@@ -5,7 +5,7 @@ var config = require('./config');
 var handler = require('./api/handler');
 
 server.connection({
-    port: process.env.PORT || 8000,
+    port: process.env.PORT || 8080,
     host: "0.0.0.0" || "localhost"
 });
 
@@ -34,14 +34,6 @@ server.register([require('inert'), require('bell'), require('hapi-auth-cookie')]
     server.auth.strategy('github-oauth', 'bell', bellAuthOptions);
     
     server.route([
-        {
-            method: "GET",
-            path: "/",
-            config: {
-                auth: 'github-oauth',
-                handler: handler.home
-            }
-        },
         {
             method: "GET",
             path: "/login",
@@ -78,6 +70,7 @@ server.register([require('inert'), require('bell'), require('hapi-auth-cookie')]
                 },
                 handler: handler.user
             }
+
         },
         {
             method: ["POST"],
@@ -120,61 +113,16 @@ server.register([require('inert'), require('bell'), require('hapi-auth-cookie')]
                     strategy: 'site-point-cookie',
                     mode: 'try'
                 },
-                handler: handler.home
+                handler: handler.datasets
             }
         }
     ]);
 });
 
-server.start(function(){
-    console.log('Server has started!!!!');
-});
 
+server.start(function(){
+    console.log('started');
+})
 module.exports = {
     server: server
 };
-
-
-/*var Hapi = require('hapi');
-var handler = require('./api/handler');
-var internals = {};
-
-
-var server = new Hapi.Server();
-server.connection({
-    port: process.env.PORT || 3000, 
-    host: '0.0.0.0' 
-});
-
-
-server.register([require('inert')], function(err) {
-
-    server.route([
-        { 
-            method: 'GET', 
-            path: '/', 
-            config: { 
-                handler: handler.home 
-            } 
-        },
-        {
-            method: "GET",
-            path: "/bundle.js",
-            config: {
-                auth: false,
-                handler: function(request, reply){
-                    reply.file("public/bundle.js");
-                }
-            }
-        }
-    ]);
-});
-
-
-server.start(function () {
-    console.log('Server started at [' + server.info.uri + ']');
-});
-
-module.exports = {
-    server: server
-};*/
