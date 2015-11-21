@@ -60,4 +60,4 @@ gulp.task('runServer', function(){
 });
 
 
-gulp.task('default', ['build', 'watch', 'runServer']);
+gulp.task('default', ['build', 'watch']);

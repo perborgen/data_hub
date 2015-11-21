@@ -119,10 +119,10 @@ server.register([require('inert'), require('bell'), require('hapi-auth-cookie')]
     ]);
 });
 
-/*server.start(function(){
+server.start(function(){
     console.log('started');
 });
-*/
+
 module.exports = {
     server: server
 };
