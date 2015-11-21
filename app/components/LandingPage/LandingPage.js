@@ -1,6 +1,6 @@
 import React from "react";
-import FeaturedContainer from "./FeaturedContainer";
 import Request from 'superagent';
+import FeaturedContainer from "./FeaturedContainer";
 
 export default class LandingPage extends React.Component {
 

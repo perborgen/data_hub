@@ -5,7 +5,7 @@ export default class DataDescription extends React.Component {
 		console.log('this: ', this);
 		let tags = this.props.data.tags.map( (tag,index) => {
 			return (
-				<li key={index} className="tag">
+				<li key={index} className="tag-item">
 					<span className="tag-text">
 						{tag}
 					</span>
@@ -14,7 +14,7 @@ export default class DataDescription extends React.Component {
 		});
 
 		let dataAttributes = this.props.data.dataAttributes.map( (attribute,index) =>{
-			return (<li key={index}>{attribute.name} : {attribute.value}</li>)
+			return (<li className="social-item" key={index}><span className="social-text">{attribute.name} : {attribute.value.length}</span></li>)
 		});
 		return (
 			<div>
@@ -40,15 +40,21 @@ export default class DataDescription extends React.Component {
 									col-sm-6 
 									col-md-6 
 									col-lg-6">
-						<ul>
-							{dataAttributes}
-						</ul>
+					<ul className="social-list"style={{listStyleType: 'none'}}>
+						{dataAttributes}
+					</ul>
+					<div>
+					<h3>Description</h3>
+					<p>{this.props.data.description}</p>
+					</div>
+					<div className="download-button-box">
 						<a href={this.props.data.url}>
 							<input 
 								type="submit" 
 								className="btn btn-success" 
 								value="Download dataset" />
 						</a>
+					</div>
 					</div>
 				</div>
 			</div>

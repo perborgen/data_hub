@@ -10,20 +10,12 @@ let STATE = {
 	tags: ["prices", "regression"],
 	dataAttributes: [
 	{
-		value: 0,
+		value: ['some_id', 'some_other', 'and_another','some_other', 'and_another','some_other', 'and_another'],
 		name: "Upvotes"
 	},
 	{
-		value: 0,
+		value: ['comment','comment 2', 'comment 3'],
 		name: "Comments"
-	},
-	{
-		value: 18,
-		name: "Features"
-	},
-	{
-		value: 4869,
-		name: "DataPoints"
 	}],
 	dataImage: "http://www.4land.com.au/wp-content/uploads/2013/04/new-affordable-housing-300x200.jpg",
 	profile: "Per Harald Borgen",

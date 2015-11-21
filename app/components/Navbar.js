@@ -6,7 +6,6 @@ export default class NavBar extends React.Component {
 		super(props);
 	}
 
-
 	render () {
 		let userName = this.props.user.userName || "Profile";
 		let rightNavbar;

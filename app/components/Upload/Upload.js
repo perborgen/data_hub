@@ -19,13 +19,15 @@ export default class Upload extends React.Component {
 		var datasetUrl = ReactDOM.findDOMNode(this.refs.datasetUrl).value;
 		var datasetImgUrl = ReactDOM.findDOMNode(this.refs.datasetImgUrl).value;
 		var datasetTags = ReactDOM.findDOMNode(this.refs.datasetTags).value.split(",");
-		
+		var description = ReactDOM.findDOMNode(this.refs.description).value;
+	
 		Request.post("/api/dataset/new")
 			.send({
 				title: datasetName,
 				url: datasetUrl,
 				img_url: datasetImgUrl,
-				tags: datasetTags
+				tags: datasetTags,
+				description: description
 			})
 			.end( (err, res) => {
 				if (err){
@@ -90,6 +92,14 @@ export default class Upload extends React.Component {
 							</td>
 							<td>
 								<input type="text" id="datasetTags" ref="datasetTags"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label htmlFor="description">Description</label>
+							</td>
+							<td>
+								<input type="text" id="description" ref="description"/>
 							</td>
 						</tr>
 						<tr>

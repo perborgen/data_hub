@@ -13,13 +13,12 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, Link, IndexRoute } from 'react-router'
-// Our first component!
 import Main from "./components/Main";
-import ContentContainer from "./components/ContentContainer";
-import LandingPage from "./components/LandingPage";
+import ContentContainer from "./components/Dataset/ContentContainer";
+import LandingPage from "./components/LandingPage/LandingPage";
 import createBrowserHistory from 'history/lib/createBrowserHistory';
-import Account from "./components/Account";
-import Upload from "./components/Upload";
+import Account from "./components/Account/Account";
+import Upload from "./components/Upload/Upload";
 // Renders to the 'root' div (see index.html)
 //        <Route path="dataset" component={ContentContainer} >
 
@@ -36,7 +35,3 @@ var routes = (
 );
 
 render(routes, document.getElementById('root'));
-
-
-
-//render(<Main />, document.getElementById('root'));

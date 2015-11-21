@@ -10,6 +10,7 @@ var userSchema = new Schema({
     email: String,
     username: String
 });
+
 var datasetSchema = new Schema({
 	title: String,
 	url: String,
@@ -19,20 +20,25 @@ var datasetSchema = new Schema({
 	datapoints: Number,
 	rating: Number,
 	comments: Array,
-	user: String
+	user: String,
+	description: String
 });
-
 
 var Dataset = mongoose.model('Dataset', datasetSchema);
 var User = mongoose.model('User', userSchema);
 
+const home = (request, reply) => {
+	console.log('HOME');
+	reply.file(index);
+}
 
 const login = (request, reply) => {
+	console.log('LOGIN HANDLER');
     if (request.auth.isAuthenticated) {
     	request.auth.session.set(request.auth.credentials);
     	return reply.redirect('/');
 	}
-	reply('Not logged in...').code(401);
+	return reply('Not logged in...').code(401);
 }
 
 const getDataset = (request, reply) => {
@@ -54,7 +60,6 @@ const getDataset = (request, reply) => {
 var featuredDatasets = (request, reply) => {
 	Dataset.find({}).sort({rating: -1}).limit(6).exec(
 		function(err,datasets){
-			console.log('datasets:', datasets);
 	    if (err){
 	        throw err;
 	       	reply.file(index);
@@ -69,7 +74,7 @@ var featuredDatasets = (request, reply) => {
 }
 
 
-var datasets = (request, reply) => {
+const success = (request, reply) => {
 	console.log('handler');
 	// Check if user is authenticated
 	if (request.auth.isAuthenticated){
@@ -79,12 +84,12 @@ var datasets = (request, reply) => {
         User.findOne({email: profile.email}, function(err,user){
 		    if (err){
 		        throw err;
-		       	reply.file(index);
+                reply(index);
 		    }
 
             // if the user exists, simply reply without doing anything
 		    if (user) {
-		       	reply.file(index);
+                reply(index);
 			} 
 
             // if the user doesn't exist
@@ -104,7 +109,7 @@ var datasets = (request, reply) => {
                         throw error;
                     }
                     console.log('registration successful');
-                    reply.file(index);
+                    reply(index);
                 });
 	    	
 	    	}
@@ -116,6 +121,10 @@ var datasets = (request, reply) => {
     	console.log('not logged in');
 		reply.file(index);
 	}
+}
+
+var datasets = (request, reply) => {
+	reply.file(index);
 }
 
 
@@ -154,6 +163,7 @@ const newDataset = (request, reply) => {
 		        new_dataset.img_url = d.img_url;
 		        new_dataset.tags = d.tags;
 		        new_dataset.user = d.displayName;
+		        new_dataset.description = d.description;
 		        new_dataset.save( function(err, res){
 			        if (err){
 			            console.log('error when saving new member');
@@ -175,7 +185,9 @@ const newDataset = (request, reply) => {
 
 module.exports = {
 	user: user,
+	success: success,
 	login: login,
+	home: home,
 	logout: logout,
 	datasets:datasets,
 	newDataset: newDataset,

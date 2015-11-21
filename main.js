@@ -36,6 +36,17 @@ server.register([require('inert'), require('bell'), require('hapi-auth-cookie')]
     server.route([
         {
             method: "GET",
+            path: "/",
+            config: {
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.home
+            }
+        },
+        {
+            method: "GET",
             path: "/login",
             config: {
                 auth: 'github-oauth',
@@ -119,10 +130,10 @@ server.register([require('inert'), require('bell'), require('hapi-auth-cookie')]
     ]);
 });
 
-
 server.start(function(){
     console.log('started');
-})
+});
+
 module.exports = {
     server: server
 };

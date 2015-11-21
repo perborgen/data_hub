@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "./Navbar";
-import ContentContainer from "./ContentContainer";
 import Request from 'superagent';
 export default class Main extends React.Component {
 
@@ -24,13 +23,14 @@ export default class Main extends React.Component {
 					throw err;
 				}
 				console.log('response from Main after /api/user: ', res);
-				if (res) {
+				if (res.body) {
 					this.setState({
 						userName: res.body.profile.displayName,
 						img: res.body.profile.raw.avatar_url,
 						logged_in: true
 					});
-
+				} else {
+					console.log('not logged in');
 				}
 
 			});
