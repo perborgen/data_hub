@@ -3,7 +3,6 @@ var babelify   = require('babelify');
 var browserify = require('browserify');
 var fs         = require('fs');
 var nodemon = require('gulp-nodemon');
-var server = require('./main').server;
 
 /*var build = function () {
   console.log("Build started...");
@@ -47,7 +46,7 @@ gulp.task('build', function() {
     .pipe(fs.createWriteStream("./public/bundle.js"));
 });
 
-gulp.task('runServer', function(){
+/*gulp.task('runServer', function(){
   console.log('runServer');
   server.start(function (err) {
     if (err) {
@@ -55,7 +54,7 @@ gulp.task('runServer', function(){
       }
     console.log('Server running');
   });
-});
+});*/
 
 
 gulp.task('default', ['build', 'watch']);
