@@ -4,7 +4,7 @@ var browserify = require('browserify');
 var fs         = require('fs');
 var nodemon = require('gulp-nodemon');
 
-/*var build = function () {
+var build = function () {
   console.log("Build started...");
   var timer_name = "Build complete";
   console.time(timer_name);
@@ -27,9 +27,9 @@ var nodemon = require('gulp-nodemon');
 gulp.task('build', function () {
   build();
 });
-*/
 
-gulp.task('watch', function(){
+
+/*gulp.task('watch', function(){
   console.log('starting watch');
   gulp.watch("./app/components/*.js",['build']);
 });
@@ -46,7 +46,7 @@ gulp.task('build', function() {
     .pipe(fs.createWriteStream("./public/bundle.js"));
 });
 
-/*gulp.task('runServer', function(){
+gulp.task('runServer', function(){
   console.log('runServer');
   server.start(function (err) {
     if (err) {
@@ -54,7 +54,7 @@ gulp.task('build', function() {
       }
     console.log('Server running');
   });
-});*/
+});
 
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build', 'watch']);*/
