@@ -4,8 +4,8 @@
   "description": "hapi example app running on heroku",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "postinstall": "gulp build"
+    "start": "gulp; node index.js",
+    "postinstall": "gulp"
   },
   "repository": {
     "type": "git",
