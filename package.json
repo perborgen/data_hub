@@ -8,7 +8,7 @@
     "url": "git://github.com/wpreul/hapi-heroku.git"
   },
     "engines": {
-    "node": ">=0.10.x"
+    "node": "4.2.2"
   },
   "author": "Wyatt Preul",
   "license": "MIT",
