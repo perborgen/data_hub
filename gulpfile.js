@@ -5,7 +5,7 @@ var fs         = require('fs');
 var nodemon = require('gulp-nodemon');
 var server = require('./main').server;
 
-/*
+
 var build = function () {
   console.log("Build started...");
   var timer_name = "Build complete";
@@ -29,9 +29,9 @@ var build = function () {
 gulp.task('build', function () {
   build();
 });
-*/
 
 
+/*
 gulp.task('watch', function(){
   console.log('starting watch');
 	gulp.watch("./app/components/*.js",['build']);
@@ -60,4 +60,4 @@ gulp.task('runServer', function(){
 });
 
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build', 'watch']);*/
