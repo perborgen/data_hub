@@ -8,30 +8,13 @@
     "url": "git://github.com/wpreul/hapi-heroku.git"
   },
     "engines": {
-    "node": "4.2.2",
-    "npm": "2.14.7"
+    "node": "4.2.2"
   },
   "author": "Wyatt Preul",
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
     "hapi": "^6.2.0",
-    "joi": "^4.6.1",
-    "babel": "^5.8.21",
-    "bell": "^6.0.0",
-    "hapi": "^11.1.1",
-    "hapi-auth-cookie": "^3.1.0",
-    "history": "^1.13.1",
-    "inert": "^3.2.0",
-    "mongoose": "^4.2.6",
-    "react": "^0.14.3",
-    "react-dom": "^0.14.3",
-    "react-router": "^1.0.0",
-    "superagent": "^1.4.0",
-    "gulp": "^3.9.0",
-    "babelify": "^6.1.3",
-    "browserify": "^11.0.1",
-    "gulp-nodemon": "^2.0.4",
-    "gulp-watch": "^4.3.5"
+    "joi": "^4.6.1"
   }
 }
