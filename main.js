@@ -6,7 +6,7 @@ var handler = require('./api/handler');
 
 server.connection({
     port: process.env.PORT || 8080,
-    host: process.env.HOSTNAME || "localhost"
+    host: "0.0.0.0" || "localhost"
 });
 
 server.register([require('inert'), require('bell'), require('hapi-auth-cookie')], function(err){
