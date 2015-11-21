@@ -15,6 +15,17 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "hapi": "^11.1.1",
-    "joi": "^4.6.1"
+    "joi": "^4.6.1",
+    "babel": "^5.8.21",
+    "bell": "^6.0.0",
+    "hapi": "^11.1.1",
+    "hapi-auth-cookie": "^3.1.0",
+    "history": "^1.13.1",
+    "inert": "^3.2.0",
+    "mongoose": "^4.2.6",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-router": "^1.0.0",
+    "superagent": "^1.4.0"
   }
 }
