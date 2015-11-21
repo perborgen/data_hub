@@ -21,7 +21,7 @@ internals.get = function (request, reply) {
 
 internals.output = function (request, reply) {
 
-    reply({ myOutput: request.query.input });
+    reply('Success!\n');
 };
 
 
@@ -33,20 +33,25 @@ internals.payload = function (request, reply) {
 
 internals.echo = function (request, reply) {
 
-    reply(request.payload);
+    reply('Success!\n');
 };
 
 internals.redirect = function (request, reply) {
 
-    reply.redirect('/error');
+    reply('Success!\n');
 };
 
 internals.error = function (request, reply) {
 
-    reply('This is my error');
+    reply('Success!\n');
 };
 
-var server = new Hapi.Server(~~process.env.PORT || 3000, '0.0.0.0');
+var server = new Hapi.Server();
+
+server.connection({
+    port: process.env.PORT || 3000, 
+    host: '0.0.0.0' 
+});
 
 server.route([
     { method: 'GET', path: '/', config: { handler: internals.get, validate: { query: { username: S() } } } },
