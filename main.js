@@ -5,8 +5,8 @@ var config = require('./config');
 var handler = require('./api/handler');
 
 server.connection({
-    port: process.env.PORT || 8080,
-    host: "0.0.0.0" || "localhost"
+    port: 8080,
+    host: 'herokuapp.com'
 });
 
 server.register([require('inert'), require('bell'), require('hapi-auth-cookie')], function(err){
@@ -28,7 +28,8 @@ server.register([require('inert'), require('bell'), require('hapi-auth-cookie')]
         password: process.env.GITHUB_PASSWORD || config.password, //Password used for encryption
         clientId: process.env.CLIENTID || config.clientId,//'YourAppId',
         clientSecret: process.env.CLIENTSECRET || config.clientSecret,//'YourAppSecret',
-        isSecure: false
+        isSecure: false,
+        location: 'https://frozen-ocean-7041.herokuapp.com'
     };
 
     server.auth.strategy('github-oauth', 'bell', bellAuthOptions);
