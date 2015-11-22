@@ -28,8 +28,8 @@ server.register([require('inert'), require('bell'), require('hapi-auth-cookie')]
         password: process.env.GITHUB_PASSWORD || config.password, //Password used for encryption
         clientId: process.env.CLIENTID || config.clientId,//'YourAppId',
         clientSecret: process.env.CLIENTSECRET || config.clientSecret,//'YourAppSecret',
-        isSecure: false
-       // location: 'https://frozen-ocean-7041.herokuapp.com'
+        isSecure: false,
+        location: 'https://frozen-ocean-7041.herokuapp.com'
     };
 
     server.auth.strategy('github-oauth', 'bell', bellAuthOptions);
