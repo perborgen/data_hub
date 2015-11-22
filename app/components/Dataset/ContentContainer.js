@@ -37,7 +37,7 @@ export default class ContentContainer extends React.Component {
 
   	componentDidMount(){
   		var path = this.props.params.datasetId;
-  		console.log('this: ', this);
+
   		Request.get("/api/dataset/" + path)
   			.end((err, res) => {
   				console.log('dataset: ', res);

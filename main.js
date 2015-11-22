@@ -45,10 +45,6 @@ server.register([inert, bell, hapiAC], function(err){
                  auth: {
                     mode: 'optional'
                  },
-       /*         auth: {
-                    strategy: 'site-point-cookie',
-                    mode: 'try'
-                },*/
                 handler: handler.home
             }
         },
@@ -121,6 +117,28 @@ server.register([inert, bell, hapiAC], function(err){
                     mode: 'try'
                 },
                 handler: handler.featuredDatasets
+            }
+        },
+        {
+            method: "GET",
+            path: "/api/tag/{param}",
+            config: {
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.getTags
+            }
+        },
+        {
+            method: "GET",
+            path: "/tag/t/{param}",
+             config: {
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.home
             }
         },
         {

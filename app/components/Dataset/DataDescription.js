@@ -2,13 +2,14 @@ import React from "react";
 
 export default class DataDescription extends React.Component {
 	render () {
-		console.log('this: ', this);
 		let tags = this.props.data.tags.map( (tag,index) => {
 			return (
 				<li key={index} className="tag-item">
-					<span className="tag-text">
-						{tag}
-					</span>
+					<a href={"/tag/t/" + tag}>
+						<span className="tag-text">
+							{tag}
+						</span>
+					</a>
 				</li>
 				);
 		});

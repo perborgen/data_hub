@@ -183,6 +183,15 @@ const newDataset = (request, reply) => {
 	}
 }
 
+const getTags = (request, reply) => {
+	const tagId = request.params.param;
+	console.log('tagId: ', tagId);
+	Dataset.find({tags: tagId}, function(err, res){
+		console.log('res: ', res);
+		reply(res);
+	});
+}
+
 
 module.exports = {
 	user: user,
@@ -190,6 +199,7 @@ module.exports = {
 	login: login,
 	home: home,
 	logout: logout,
+	getTags: getTags,
 	datasets:datasets,
 	newDataset: newDataset,
 	getDataset: getDataset,
