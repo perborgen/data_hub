@@ -2,7 +2,7 @@ var gulp       = require('gulp');
 var babelify   = require('babelify');
 var browserify = require('browserify');
 var fs         = require('fs');
-var nodemon = require('gulp-nodemon');
+var nodemon    = require('gulp-nodemon');
 
 var build = function () {
   console.log("Build started...");
@@ -28,6 +28,7 @@ gulp.task('build', function () {
   build();
 });
 
+gulp.task('default', ['build']);
 
 /*gulp.task('watch', function(){
   console.log('starting watch');

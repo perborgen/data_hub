@@ -1,11 +1,11 @@
 {
-  "name": "hapi-heroku",
+  "name": "data_hub",
   "version": "0.1.0",
-  "description": "hapi example app running on heroku",
+  "description": "a website for sharing machine learning datasets",
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "postinstall": "gulp build"
+    "postinstall": "gulp"
   },
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
   "engines": {
     "node": "4.2.2"
   },
-  "author": "Wyatt Preul",
+  "author": "Per Borgen",
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {

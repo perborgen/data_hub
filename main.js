@@ -1,15 +1,17 @@
-var Bell    = require('bell');
-var Hapi = require("hapi");
-var server = new Hapi.Server();
-var config = require('./config');
+var Hapi    = require("hapi");
+var server  = new Hapi.Server();
+var config  = require('./config');
 var handler = require('./api/handler');
+var inert   = require('inert');
+var bell    = require('bell');
+var hapiAC  = require('hapi-auth-cookie');
 
 server.connection({
     port: process.env.PORT || 8080,
     host: "0.0.0.0" || "localhost"  
 });
 
-server.register([require('inert'), require('bell'), require('hapi-auth-cookie')], function(err){
+server.register([inert, bell, hapiAC], function(err){
 
     if (err) {
         throw err;
