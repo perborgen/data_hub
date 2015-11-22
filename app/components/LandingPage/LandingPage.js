@@ -16,7 +16,7 @@ export default class LandingPage extends React.Component {
 										col-sm-12 
 										col-md-12 
 										col-lg-12">
-							<h1 style={{textAlign: 'center',marginTop: '0'}}>
+							<h1 className="landing-page-title">
 								Data Sets for Data Geeks
 							</h1>
 								<div className="row">
