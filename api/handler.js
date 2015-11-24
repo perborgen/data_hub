@@ -76,13 +76,14 @@ var featuredDatasets = (request, reply) => {
 
 
 const success = (request, reply) => {
-	console.log('handler');
+	console.log('success handler triggered');
 	// Check if user is authenticated
 	if (request.auth.isAuthenticated){
 		var profile = request.auth.credentials.profile;
 		
         // Query the db to check if the user exists there
         User.findOne({email: profile.email}, function(err,user){
+        	console.log('------------looking in mongo');
 		    if (err){
 		        throw err;
                 return reply.redirect('/');
@@ -94,6 +95,7 @@ const success = (request, reply) => {
 			} 
             // if the user doesn't exist
             else {
+            	console.log('creating new user');
 
                 //create new user object
                 var new_user = new User();
