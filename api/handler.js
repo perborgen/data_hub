@@ -73,7 +73,7 @@ var featuredDatasets = (request, reply) => {
 		}
 	});
 }
-/*
+
 
 const success = (request, reply) => {
 	console.log('handler');
@@ -122,7 +122,7 @@ const success = (request, reply) => {
         return reply.redirect('/');
 	}
 }
-*/
+
 var datasets = (request, reply) => {
 	reply.file(index);
 }
@@ -193,7 +193,7 @@ const getTags = (request, reply) => {
 
 module.exports = {
 	user: user,
-//	success: success,
+	success: success,
 	login: login,
 	home: home,
 	logout: logout,
