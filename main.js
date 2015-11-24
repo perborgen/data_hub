@@ -31,7 +31,7 @@ server.register([inert, bell, hapiAC], function(err){
         clientId: process.env.CLIENTID || config.clientId,//'YourAppId',
         clientSecret: process.env.CLIENTSECRET || config.clientSecret,//'YourAppSecret',
         isSecure: false,
-        location: 'https://frozen-ocean-7041.herokuapp.com'
+        location: 'https://frozen-ocean-7041.herokuapp.com/success'
     };
 
     server.auth.strategy('github-oauth', 'bell', bellAuthOptions);
@@ -56,14 +56,14 @@ server.register([inert, bell, hapiAC], function(err){
                 handler: handler.login
             }
         },
-/*        {
+        {
             method: "GET",
             path: "/success",
             config: {
                 auth: 'github-oauth',
                 handler: handler.success
             }
-        },*/
+        },
         {
             method: "GET",
             path: "/bundle.js",
