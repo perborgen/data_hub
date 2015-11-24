@@ -28,7 +28,7 @@ gulp.task('build', function () {
   build();
 });
 
-gulp.task('default', ['build']);
+//gulp.task('default', ['build']);
 
 /*gulp.task('watch', function(){
   console.log('starting watch');
