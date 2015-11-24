@@ -193,7 +193,7 @@ const getTags = (request, reply) => {
 
 module.exports = {
 	user: user,
-	success: success,
+//	success: success,
 	login: login,
 	home: home,
 	logout: logout,
