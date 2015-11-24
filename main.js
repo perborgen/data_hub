@@ -56,7 +56,7 @@ server.register([inert, bell, hapiAC], function(err){
                 handler: handler.login
             }
         },
-        {
+/*        {
             method: "GET",
             path: "/success",
             config: {
@@ -64,7 +64,7 @@ server.register([inert, bell, hapiAC], function(err){
                 mode: 'try'
             },
             handler: handler.success
-        },
+        },*/
         {
             method: "GET",
             path: "/bundle.js",
