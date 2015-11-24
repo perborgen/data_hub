@@ -187,11 +187,10 @@ const getTags = (request, reply) => {
 	const tagId = request.params.param;
 	console.log('tagId: ', tagId);
 	Dataset.find({tags: tagId}, function(err, res){
-		console.log('res: ', res);
+		var profile = request.auth.credentials.profile;
 		reply(res);
 	});
 }
-
 
 module.exports = {
 	user: user,
