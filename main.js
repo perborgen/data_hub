@@ -60,9 +60,11 @@ server.register([inert, bell, hapiAC], function(err){
             method: "GET",
             path: "/success",
             config: {
-                auth: 'github-oauth',
-                handler: handler.success
-            }
+                auth: 'site-point-cookie',
+                mode: 'try'
+            },
+            handler: handler.success
+
         },
         {
             method: "GET",
