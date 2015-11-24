@@ -85,14 +85,13 @@ const success = (request, reply) => {
         User.findOne({email: profile.email}, function(err,user){
 		    if (err){
 		        throw err;
-                reply(index);
+                return reply.redirect('/');
 		    }
 
             // if the user exists, simply reply without doing anything
 		    if (user) {
-                reply(index);
+                return reply.redirect('/');
 			} 
-
             // if the user doesn't exist
             else {
 
@@ -110,7 +109,7 @@ const success = (request, reply) => {
                         throw error;
                     }
                     console.log('registration successful');
-                    reply(index);
+                    return reply.redirect('/');
                 });
 	    	
 	    	}
@@ -120,7 +119,7 @@ const success = (request, reply) => {
     // if the user isn't authenticated
     else {
     	console.log('not logged in');
-		reply.file(index);
+        return reply.redirect('/');
 	}
 }
 
