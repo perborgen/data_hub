@@ -44,7 +44,7 @@ server.register([inert, bell, hapiAC], function(err){
             config: {
                  auth: {
                     mode: 'optional'
-                 },
+                },
                 handler: handler.home
             }
         },
@@ -60,10 +60,12 @@ server.register([inert, bell, hapiAC], function(err){
             method: "GET",
             path: "/success",
             config: {
-                auth: 'site-point-cookie',
-                mode: 'try'
-            },
-            handler: handler.success
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.success
+            }
         },
         {
             method: "GET",
