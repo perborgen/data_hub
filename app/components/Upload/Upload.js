@@ -1,19 +1,30 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 import Request from 'superagent';
+import update from 'react-addons-update';
 
 export default class Upload extends React.Component {
 	
 	constructor(props){
 		super(props);
-		this.onSubmit = this.onSubmit.bind(this);
+		this.preSubmit = this.preSubmit.bind(this);
+		this.submitDataset = this.submitDataset.bind(this);
+		this.addFeature = this.addFeature.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+
 		this.state = {
 			link: null,
-			uploaded: false
+			uploaded: false,
+			step: 0,
+			features: [{
+				name: "",
+				description: "",
+				example: ""
+			}]
 		}
 	}
 
-	onSubmit(ev) {
+	preSubmit(ev) {
 		ev.preventDefault();
 		var datasetName = ReactDOM.findDOMNode(this.refs.datasetName).value;
 		var datasetUrl = ReactDOM.findDOMNode(this.refs.datasetUrl).value;
@@ -21,13 +32,25 @@ export default class Upload extends React.Component {
 		var datasetTags = ReactDOM.findDOMNode(this.refs.datasetTags).value.split(",");
 		var description = ReactDOM.findDOMNode(this.refs.description).value;
 	
+		this.setState({
+			title: datasetName,
+			url: datasetUrl,
+			img_url: datasetImgUrl,
+			tags: datasetTags,
+			description: description,
+			step: 1
+		});
+	}
+
+	submitDataset(){
 		Request.post("/api/dataset/new")
 			.send({
-				title: datasetName,
-				url: datasetUrl,
-				img_url: datasetImgUrl,
-				tags: datasetTags,
-				description: description
+				title: this.state.title,
+				url: this.state.url,
+				img_url: this.state.img_url,
+				tags: this.state.tags,
+				description: this.state.description,
+				features: this.state.features
 			})
 			.end( (err, res) => {
 				if (err){
@@ -36,29 +59,64 @@ export default class Upload extends React.Component {
 				console.log('res: ', res);
 				this.setState({
 					link: res.body._id,
-					uploaded: true
+					uploaded: true,
+					step: 2
 				});
 			});
 
 	}
 
+	addFeature(){
+		let features = this.state.features;
+		let new_features = update(features, {$push: [{name: "", description: "", example: ""}]});
+		console.log('new_features: ',new_features);
+		this.setState({
+			features: new_features
+		});
+	}
+
+	handleChange(index, name, ev){
+		let value = ev.target.value;
+		let features = this.state.features.concat();
+		features[index][name] = value;
+		this.setState({
+			features: features
+		});
+
+		console.log('index: ',index);
+		console.log('value: ',value);
+		console.log('name: ', name);
+	}
+
 	render() {
 		let content;
+		console.log(this.state.features);
 
-		if(this.state.uploaded ){
-			content = (<div>
-							<h3 style={{textAlign: 'center'}}>Well done!</h3>
-							<p style={{textAlign: 'center'}}>You've uploaded your dataset.</p>
-							<a href={this.state.link}>
-								<input 
-									type="submit" 
-									className="btn-success"
-									style={{margin: '0 auto', display: 'block'}} 
-									value="Check it out" />
-							</a>
-						</div>);
-		} else {
-			content = (<form onSubmit={this.onSubmit}>
+		let featureboxes = this.state.features.map( (feature, index) => {
+			return (
+				<tr key={index} >
+				<td>
+				<input
+					type="text" 
+					onChange={this.handleChange.bind(this, index, "name")}/>
+				</td>
+				<td>
+				<input 
+					type="text" 
+					onChange={this.handleChange.bind(this, index, "description")}/>
+				</td>
+				<td>
+				<input 
+					type="text" 
+					onChange={this.handleChange.bind(this, index, "example")}/>
+				</td>	
+				</tr>
+			);
+		});
+
+		if (this.state.step === 0){
+			content = (
+				<form onSubmit={this.preSubmit}>
 						<h2 style={{textAlign: 'center'}}>Upload your dataset</h2>
 						<table className="uploadTable">
 						<tbody>
@@ -110,8 +168,49 @@ export default class Upload extends React.Component {
 						</tbody>
 						</table>
 					</form>)
+		} else if (this.state.step === 1){
+
+			content = (
+					<div>
+					<h5>Please describe the dataset's features</h5>
+					<table>
+					<thead>
+					<tr>
+					<th>
+					Feature
+					</th>
+					<th>
+					Description
+					</th>
+					<th>
+					Example
+					</th>
+					</tr>
+					{featureboxes}
+					</thead>
+					</table>
+					<button onClick={this.addFeature}>Add new feature</button>
+					<br/>
+					<button onClick={this.submitDataset}>Submit dataset</button>
+
+					</div>
+				);
 		}
 
+		else if (this.state.step === 2 ){
+			content = (<div>
+							<h3 style={{textAlign: 'center'}}>Well done!</h3>
+							<p style={{textAlign: 'center'}}>You've uploaded your dataset.</p>
+							<a href={this.state.link}>
+								<input 
+									type="submit" 
+									className="btn-success"
+									style={{margin: '0 auto', display: 'block'}} 
+									value="Check it out" />
+							</a>
+						</div>);	
+
+		} 
 		return (
 			<div>
 				<div className="col-md-8 col-md-offset-2 

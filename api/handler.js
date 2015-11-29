@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 console.log('config.mongoose: ', config.mongoose);
 var Schema = mongoose.Schema;
 
+
 mongoose.connect(process.env.MONGOOSE || config.mongoose);
 
 var userSchema = new Schema({
@@ -16,22 +17,21 @@ var datasetSchema = new Schema({
 	url: String,
 	img_url: String,
 	tags: Array,
-	features: Number,
 	datapoints: Number,
-	rating: Number,
+	upvotes: Array,
 	comments: Array,
 	user: String,
-	description: String
+	scripts: Array,
+	description: String,
+	features: Array
 });
 
 
+
+datasetSchema.index({ "$**": 'text'});
+
 var Dataset = mongoose.model('Dataset', datasetSchema);
 var User = mongoose.model('User', userSchema);
-
-const home = (request, reply) => {
-	console.log('HOME');
-	reply.file(index);
-}
 
 const login = (request, reply) => {
 	console.log('LOGIN HANDLER');
@@ -44,6 +44,7 @@ const login = (request, reply) => {
 
 const getDataset = (request, reply) => {
 	const dataset = request.params.datasetId;
+	console.log('looking for dataset');
 	Dataset.findById(dataset, function(err,dataset){
 	    if (err){
 	        throw err;
@@ -74,29 +75,35 @@ var featuredDatasets = (request, reply) => {
 	});
 }
 
+const search = (request, reply) => {
+	// CONTINUE HERE - FINISH SEARCH FEATURE
+	const searchQuery = request.params.searchQuery;
+	console.log('searchQuery: ',searchQuery);
+	Dataset.find({$text: {$search: searchQuery }})
+		.limit(10)
+		.exec( (err, res) => {
+			if (err) {
+				throw err;
+				reply(false);
+			}
+			reply(res);
+			console.log('res: ', res);
+		});
+}
 
-const success = (request, reply) => {
-	console.log('success handler triggered');
-	// Check if user is authenticated
+const home = (request, reply) => {
 	if (request.auth.isAuthenticated){
-		var profile = request.auth.credentials.profile;
-		
-        // Query the db to check if the user exists there
-        User.findOne({email: profile.email}, function(err,user){
-        	console.log('------------looking in mongo');
+		const profile = request.auth.credentials.profile;
+	        User.findOne({email: profile.email}, function(err, user){
 		    if (err){
 		        throw err;
-                return reply.redirect('/');
+                reply.file(index);
 		    }
-
-            // if the user exists, simply reply without doing anything
 		    if (user) {
-                return reply.redirect('/');
+                reply.file(index);
 			} 
-            // if the user doesn't exist
             else {
             	console.log('creating new user');
-
                 //create new user object
                 var new_user = new User();
                 new_user.email = profile.email;
@@ -111,7 +118,7 @@ const success = (request, reply) => {
                         throw error;
                     }
                     console.log('registration successful');
-                    return reply.redirect('/');
+                	reply.file(index);
                 });
 	    	
 	    	}
@@ -121,7 +128,7 @@ const success = (request, reply) => {
     // if the user isn't authenticated
     else {
     	console.log('not logged in');
-        return reply.redirect('/');
+        reply.file(index);
 	}
 }
 
@@ -166,6 +173,7 @@ const newDataset = (request, reply) => {
 		        new_dataset.tags = d.tags;
 		        new_dataset.user = d.displayName;
 		        new_dataset.description = d.description;
+		        new_dataset.features = d.features;
 		        new_dataset.save( function(err, res){
 			        if (err){
 			            console.log('error when saving new member');
@@ -179,8 +187,45 @@ const newDataset = (request, reply) => {
 	} 
 	// if the user isn't authenticated
 	else {
-		console.log('not logged in');
 		reply.file(index);
+	}
+}
+
+const upvote = (request, reply) => {
+	console.log('UPVOTE');
+	if (request.auth.isAuthenticated){
+		const userId = request.auth.credentials.profile.id;
+		const datasetId = request.payload.id;
+	    Dataset.findById(datasetId, function(err,dataset){
+		    console.log('looking for dataset');
+		    
+		    if (err){
+		    	console.log('err; ', err);
+		        throw err;
+		       	reply(false);
+		    }
+
+		    if (dataset) {
+		    	if (dataset.upvotes.indexOf(userId) === -1) {
+					dataset.upvotes.push(userId);
+			    	dataset.markModified("upvotes");
+			    	dataset.save( function(err){
+			    		reply({
+			    			upvotes: dataset.upvotes
+			    		});
+			    	});
+		    	} 
+		    	else {
+		    		reply(false);
+		    	}
+			} else {
+				reply(false);
+			}
+		});
+	} 
+	// if the user isn't authenticated
+	else {
+		reply(false);
 	}
 }
 
@@ -195,9 +240,10 @@ const getTags = (request, reply) => {
 
 module.exports = {
 	user: user,
-	success: success,
 	login: login,
+	search: search,
 	home: home,
+	upvote: upvote,
 	logout: logout,
 	getTags: getTags,
 	datasets:datasets,

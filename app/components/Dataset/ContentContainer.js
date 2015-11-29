@@ -6,20 +6,14 @@ import Request from 'superagent';
 //import PathStore from 'react-router/modules/stores/PathStore';
 
 let STATE = {
-	title: "Western Australia Rental Prices",
-	tags: ["prices", "regression"],
-	dataAttributes: [
-	{
-		value: ['some_id', 'some_other', 'and_another','some_other', 'and_another','some_other', 'and_another'],
-		name: "Upvotes"
-	},
-	{
-		value: ['comment','comment 2', 'comment 3'],
-		name: "Comments"
-	}],
-	dataImage: "http://www.4land.com.au/wp-content/uploads/2013/04/new-affordable-housing-300x200.jpg",
-	profile: "Per Harald Borgen",
-	profileImage: ""
+	title: "",
+	tags: [],
+	dataImage: "",
+	profile: "",
+	profileImage: "",
+	upvotes: [],
+	comments: [],
+	scripts: []
 }
 
 export default class ContentContainer extends React.Component {
@@ -29,6 +23,13 @@ export default class ContentContainer extends React.Component {
 		this.state = STATE;
 		this.render = this.render.bind(this);
 		this.componentDidMount = this.componentDidMount.bind(this);
+		this.updateUpvotes = this.updateUpvotes.bind(this);
+	}
+
+	updateUpvotes(upvotes){
+		this.setState({
+			upvotes: upvotes
+		});
 	}
 
 	contextTypes: {
@@ -37,7 +38,6 @@ export default class ContentContainer extends React.Component {
 
   	componentDidMount(){
   		var path = this.props.params.datasetId;
-
   		Request.get("/api/dataset/" + path)
   			.end((err, res) => {
   				console.log('dataset: ', res);
@@ -48,15 +48,15 @@ export default class ContentContainer extends React.Component {
 
 	render () {
 		return (
-			<div>
-				<div className="container-fluid">
-					<div className="row">
-						<div className="col-md-10 col-md-offset-1 
-										col-sm-10 col-sm-offset-1  
-										col-lg-10 col-lg-offset-1 
-										col-xs-10 col-xs-offset-1">
-							<MainBar data={this.state} />
-						</div>
+			<div className="container-fluid">
+				<div className="row">
+					<div className="col-md-10 col-md-offset-1 
+									col-sm-10 col-sm-offset-1  
+									col-lg-10 col-lg-offset-1 
+									col-xs-10 col-xs-offset-1">
+						<MainBar 
+							data={this.state} 
+							updateUpvotes={this.updateUpvotes} />
 					</div>
 				</div>
 			</div>

@@ -19,15 +19,6 @@ export default class LandingPage extends React.Component {
 							<h1 className="landing-page-title">
 								Data Sets for Data Geeks
 							</h1>
-								<div className="row">
-									<div>
-									<input
-										type="text" 
-										style={{width: '200px', margin: '0 auto'}}
-										className="form-control" 
-										placeholder="Search for dataset..." />
-									</div>
-								</div>
 							</div>
 						</div>
 					<FeaturedContainer/>

@@ -16,6 +16,16 @@ export default class Main extends React.Component {
 		};
 	}
 
+	onSearch(searchText){
+		Request.get("/api/search")
+			.end( (err, res) => {
+				if (err){
+					throw err;
+				}				
+			});
+		console.log('searchText: ', searchText);
+	}
+
 	componentWillMount(){
 		Request.get("/api/user")
 			.end( (err, res) => {
@@ -39,7 +49,7 @@ export default class Main extends React.Component {
 	render () {
 		return (
 		<div>
-			<Navbar user={this.state} />
+			<Navbar user={this.state} onSearch={this.onSearch} />
 			{this.props.children}
 		</div>
 		);

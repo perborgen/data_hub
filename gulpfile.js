@@ -30,9 +30,9 @@ gulp.task('build', function () {
 
 //gulp.task('default', ['build']);
 
-/*gulp.task('watch', function(){
+gulp.task('watch', function(){
   console.log('starting watch');
-  gulp.watch("./app/components/*.js",['build']);
+  gulp.watch("./app/components/*/*.js",['build']);
 });
 
 gulp.task('build', function() {
@@ -58,4 +58,4 @@ gulp.task('runServer', function(){
 });
 
 
-gulp.task('default', ['build', 'watch']);*/
+gulp.task('default', ['build', 'watch']);

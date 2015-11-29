@@ -8,7 +8,7 @@ var hapiAC  = require('hapi-auth-cookie');
 
 server.connection({
     port: process.env.PORT || 8080,
-    host: "0.0.0.0" || "localhost"  
+    host: "0.0.0.0" || "localhost"
 });
 
 server.register([inert, bell, hapiAC], function(err){
@@ -31,7 +31,7 @@ server.register([inert, bell, hapiAC], function(err){
         clientId: process.env.CLIENTID || config.clientId,//'YourAppId',
         clientSecret: process.env.CLIENTSECRET || config.clientSecret,//'YourAppSecret',
         isSecure: false,
-        location: 'https://frozen-ocean-7041.herokuapp.com/success'
+        location: 'http://localhost:8080'
     };
 
     server.auth.strategy('github-oauth', 'bell', bellAuthOptions);
@@ -42,7 +42,7 @@ server.register([inert, bell, hapiAC], function(err){
             method: "GET",
             path: "/",
             config: {
-                 auth: {
+                auth: {
                     mode: 'optional'
                 },
                 handler: handler.home
@@ -54,17 +54,6 @@ server.register([inert, bell, hapiAC], function(err){
             config: {
                 auth: 'github-oauth',
                 handler: handler.login
-            }
-        },
-        {
-            method: "GET",
-            path: "/success",
-            config: {
-                auth: {
-                    strategy: 'site-point-cookie',
-                    mode: 'try'
-                },
-                handler: handler.success
             }
         },
         {
@@ -96,6 +85,17 @@ server.register([inert, bell, hapiAC], function(err){
                 handler: handler.user
             }
 
+        },
+        {
+            method: "GET",
+            path: "/api/search/{searchQuery}",
+            config: {
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.search
+            }
         },
         {
             method: ["POST"],
@@ -131,6 +131,14 @@ server.register([inert, bell, hapiAC], function(err){
             }
         },
         {
+            method: "POST",
+            path: "/api/dataset/upvote",
+            config: {
+                handler: handler.upvote
+            }
+        },
+
+        {
             method: "GET",
             path: "/api/tag/{param}",
             config: {
@@ -154,13 +162,35 @@ server.register([inert, bell, hapiAC], function(err){
         },
         {
             method: "GET",
-            path: "/{param*}",
-            config: {
+            path: "/search/{param}",
+             config: {
                 auth: {
                     strategy: 'site-point-cookie',
                     mode: 'try'
                 },
-                handler: handler.datasets
+                handler: handler.home
+            }
+        },
+        {
+            method: "GET",
+            path: "/dataset/d/{param}",
+             config: {
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.home
+            }
+        },
+        {
+            method: "GET",
+            path: "/{param}",
+             config: {
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.home
             }
         }
     ]);

@@ -24,7 +24,7 @@ export default class FeaturedContainer extends React.Component {
 		let datasets = this.state.datasets.map( (dataset,index) => {
 			return (
 				<div key={index} className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<a href={dataset._id}>
+					<a href={"/dataset/d/" + dataset._id}>
 					<div className="featured-dataset">
 						<h5 style={{textAlign: 'center'}}>{dataset.title}</h5>
 						<img className="featuredImg" style={{maxWidth: '150px',maxHeight: '100px', margin: '0 auto', display:'block', overflow: 'hidden'}} src={dataset.img_url} />

@@ -8,8 +8,10 @@ export default class MainBar extends React.Component {
 			<div>
 				<div className="row"> 
 					<div className="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-						<DataDescription data={this.props.data} />
-						<DataTable />
+						<DataDescription 
+							data={this.props.data} 
+							updateUpvotes={this.props.updateUpvotes}/>
+						<DataTable features={this.props.data.features} />
 					</div>
 				</div>
 			</div>
