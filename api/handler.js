@@ -60,7 +60,7 @@ const getDataset = (request, reply) => {
 }
 
 var featuredDatasets = (request, reply) => {
-	Dataset.find({}).sort({rating: -1}).limit(6).exec(
+	Dataset.find({}).sort({rating: -1}).limit(9).exec(
 		function(err,datasets){
 	    if (err){
 	        throw err;

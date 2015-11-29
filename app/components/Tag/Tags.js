@@ -25,7 +25,7 @@ export default class Tags extends React.Component {
 
   	render() {
   		let datasets = this.state.datasets.map( (dataset, index) => {
-  			let link = "/dataset/d/" + dataset._id;
+  			let link = "/dataset/d/	" + dataset._id;
   			return (
 				<p  key={index}>
 					<a href={link}>{dataset.title}</a>

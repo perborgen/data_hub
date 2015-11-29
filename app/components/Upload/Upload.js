@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import ReactDOM from 'react-dom';
 import Request from 'superagent';
 import update from 'react-addons-update';
@@ -58,7 +58,7 @@ export default class Upload extends React.Component {
 				}
 				console.log('res: ', res);
 				this.setState({
-					link: res.body._id,
+					link: '/dataset/d/' + res.body._id,
 					uploaded: true,
 					step: 2
 				});
@@ -69,7 +69,6 @@ export default class Upload extends React.Component {
 	addFeature(){
 		let features = this.state.features;
 		let new_features = update(features, {$push: [{name: "", description: "", example: ""}]});
-		console.log('new_features: ',new_features);
 		this.setState({
 			features: new_features
 		});
@@ -82,10 +81,6 @@ export default class Upload extends React.Component {
 		this.setState({
 			features: features
 		});
-
-		console.log('index: ',index);
-		console.log('value: ',value);
-		console.log('name: ', name);
 	}
 
 	render() {
