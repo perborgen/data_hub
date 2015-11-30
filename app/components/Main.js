@@ -23,7 +23,6 @@ export default class Main extends React.Component {
 					throw err;
 				}				
 			});
-		console.log('searchText: ', searchText);
 	}
 
 	componentWillMount(){
@@ -32,7 +31,6 @@ export default class Main extends React.Component {
 				if (err){
 					throw err;
 				}
-				console.log('response from Main after /api/user: ', res);
 				if (res.body) {
 					this.setState({
 						userName: res.body.profile.displayName,
@@ -47,10 +45,17 @@ export default class Main extends React.Component {
 	}
 
 	render () {
+		let that = this;
+        let children = React.Children.map(this.props.children, (child) => {
+            return React.cloneElement(child, {
+				logged_in: that.state.logged_in	            
+			});
+        });
+
 		return (
 		<div>
 			<Navbar user={this.state} onSearch={this.onSearch} />
-			{this.props.children}
+			{children}
 		</div>
 		);
 	}

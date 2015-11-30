@@ -36,7 +36,7 @@ export default class FeaturedContainer extends React.Component {
 
 
 		return ( 
-			<div className="row" style={{margin: '20px 0px'}}>
+			<div className="row" style={{margin: '0px 0px'}}>
 				<div className="col-md-12 
 								col-sm-12 
 								col-lg-12 

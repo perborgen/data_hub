@@ -3,16 +3,18 @@ import Request from 'superagent';
 import DataTable from "./DataTable";
 
 export default class DataDescription extends React.Component {
-	
+
 	upvote(){
-		Request.post("/api/dataset/upvote")
-			.send({id: this.props.data._id})
-			.end((err, res)=>{
-				if(err) {
-					console.log('err',err);
-				}
-				this.props.updateUpvotes(res.body.upvotes);
+		if (this.props.logged_in) {
+			Request.post("/api/dataset/upvote")
+				.send({id: this.props.data._id})
+				.end((err, res)=>{
+					if(err) {
+						console.log('err',err);
+					}
+					this.props.updateUpvotes(res.body.upvotes);
 			});
+		}
 	}
 
 	comment(){
@@ -24,7 +26,6 @@ export default class DataDescription extends React.Component {
 	}
 
 	render () {
-		console.log('this: ', this);
 		let tags = this.props.data.tags.map( (tag,index) => {
 			return (
 				<li key={index} className="tag-item">
@@ -36,9 +37,7 @@ export default class DataDescription extends React.Component {
 				</li>
 				);
 		});
-
-
-
+		let clickable = this.props.logged_in ? "clickable": "";
 		return (
 			<div>
 				<h2 style={{marginTop: '0'}}>
@@ -62,16 +61,14 @@ export default class DataDescription extends React.Component {
 									col-md-6 
 									col-lg-6">
 						<ul className="social-list"style={{listStyleType: 'none'}}>
-							<li className="social-item" onClick={this.upvote.bind(this)}>
-								<span className="social-text"> Upvotes : {this.props.data.upvotes.length}</span>
+							<li className={"social-item " + clickable} onClick={this.upvote.bind(this)}>
+								<span className="social-text">
+									<span 
+										style={{top: '2px', right: '2px'}} 
+										className={"glyphicon glyphicon-triangle-top"}> </span>
+									Upvotes : {this.props.data.num_upvotes}
+								</span>
 							</li>
-							<li className="social-item" onClick={this.comment}>
-								<span className="social-text"> Comments : {this.props.data.comments.length}</span>
-							</li>
-							<li className="social-item" onClick={this.scripts}>
-								<span className="social-text"> Scripts : {this.props.data.scripts.length}</span>
-							</li>
-
 						</ul>
 						<div>
 							<h3>Description</h3>
@@ -91,3 +88,18 @@ export default class DataDescription extends React.Component {
 		);
 	}
 }
+
+DataDescription.defaultProps = {	
+	data: {
+			upvotes: []
+		}
+	};
+
+						/*	<li className="social-item" onClick={this.comment}>
+								<span className="social-text"> Comments : {this.props.data.comments.length}</span>
+							</li>
+							<li className="social-item" onClick={this.scripts}>
+								<span className="social-text"> Scripts : {this.props.data.scripts.length}</span>
+							</li>*/
+
+

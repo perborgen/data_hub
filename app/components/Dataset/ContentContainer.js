@@ -27,8 +27,9 @@ export default class ContentContainer extends React.Component {
 	}
 
 	updateUpvotes(upvotes){
+		let new_number = this.state.num_upvotes +=1;
 		this.setState({
-			upvotes: upvotes
+			num_upvotes: new_number
 		});
 	}
 
@@ -47,6 +48,7 @@ export default class ContentContainer extends React.Component {
 
 
 	render () {
+		console.log('CC: logged_in: ', this.props.logged_in);
 		return (
 			<div className="container-fluid">
 				<div className="row">
@@ -55,7 +57,8 @@ export default class ContentContainer extends React.Component {
 									col-lg-10 col-lg-offset-1 
 									col-xs-10 col-xs-offset-1">
 						<MainBar 
-							data={this.state} 
+							data={this.state}
+							logged_in = {this.props.logged_in}
 							updateUpvotes={this.updateUpvotes} />
 					</div>
 				</div>

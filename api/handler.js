@@ -23,7 +23,8 @@ var datasetSchema = new Schema({
 	user: String,
 	scripts: Array,
 	description: String,
-	features: Array
+	features: Array,
+	num_upvotes: Number
 });
 
 
@@ -60,7 +61,7 @@ const getDataset = (request, reply) => {
 }
 
 var featuredDatasets = (request, reply) => {
-	Dataset.find({}).sort({rating: -1}).limit(9).exec(
+	Dataset.find({}).sort({num_upvotes: -1}).exec(
 		function(err,datasets){
 	    if (err){
 	        throw err;
@@ -174,6 +175,7 @@ const newDataset = (request, reply) => {
 		        new_dataset.user = d.displayName;
 		        new_dataset.description = d.description;
 		        new_dataset.features = d.features;
+		        new_dataset.num_upvotes = 0;
 		        new_dataset.save( function(err, res){
 			        if (err){
 			            console.log('error when saving new member');
@@ -208,7 +210,9 @@ const upvote = (request, reply) => {
 		    if (dataset) {
 		    	if (dataset.upvotes.indexOf(userId) === -1) {
 					dataset.upvotes.push(userId);
+					dataset.num_upvotes += 1;
 			    	dataset.markModified("upvotes");
+			    	dataset.markModified("num_upvotes");
 			    	dataset.save( function(err){
 			    		reply({
 			    			upvotes: dataset.upvotes

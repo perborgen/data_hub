@@ -19,6 +19,7 @@ export default class LandingPage extends React.Component {
 							<h1 className="landing-page-title">
 								Data Sets for Data Geeks
 							</h1>
+							<p className="sub-title">Most upvotes data sets:</p>
 							</div>
 						</div>
 					<FeaturedContainer/>
