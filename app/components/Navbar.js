@@ -13,7 +13,6 @@ export default class NavBar extends React.Component {
 
 	onSearch(ev) {
 		//ev.preventDefault();
-		console.log('searched');
 		let searchText = ReactDOM.findDOMNode(this.refs.searchText).value;
 		this.props.onSearch(searchText);
 		this.setState({
@@ -78,3 +77,8 @@ export default class NavBar extends React.Component {
 		);
 	}
 }
+
+
+			     /* 	<ul className="nav navbar-nav">
+				    <li><a href="/request">REQUEST DATASET</a></li>
+					</ul>*/

@@ -169,20 +169,20 @@ export default class Upload extends React.Component {
 					<div>
 					<h5>Please describe the dataset's features</h5>
 					<table>
-					<thead>
-					<tr>
-					<th>
-					Feature
-					</th>
-					<th>
-					Description
-					</th>
-					<th>
-					Example
-					</th>
-					</tr>
-					{featureboxes}
-					</thead>
+						<thead>
+							<tr>
+								<th>
+								Feature
+								</th>
+								<th>
+								Description
+								</th>
+								<th>
+								Example
+								</th>
+							</tr>
+						{featureboxes}
+						</thead>
 					</table>
 					<button onClick={this.addFeature}>Add new feature</button>
 					<br/>

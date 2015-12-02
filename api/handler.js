@@ -93,6 +93,7 @@ const search = (request, reply) => {
 }
 
 const home = (request, reply) => {
+	console.log('HOMEEEEEE')
 	if (request.auth.isAuthenticated){
 		const profile = request.auth.credentials.profile;
 	        User.findOne({email: profile.email}, function(err, user){

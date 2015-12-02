@@ -45,10 +45,10 @@ export default class Main extends React.Component {
 	}
 
 	render () {
-		let that = this;
         let children = React.Children.map(this.props.children, (child) => {
             return React.cloneElement(child, {
-				logged_in: that.state.logged_in	            
+				logged_in: this.state.logged_in,
+				userName: this.state.userName
 			});
         });
 

@@ -32,7 +32,7 @@ gulp.task('build', function () {
 
 gulp.task('watch', function(){
   console.log('starting watch');
-  gulp.watch("./app/components/*/*.js",['build']);
+  gulp.watch(["./app/components/*/*.js", "./app/components/*.js"], ['build']);
 });
 
 gulp.task('build', function() {

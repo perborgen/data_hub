@@ -8,6 +8,7 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import Account from "./components/Account/Account";
 import Upload from "./components/Upload/Upload";
+import Request from "./components/Request/Request";
 import Tag from "./components/Tag/Tag";
 import Tags from "./components/Tag/Tags";
 import Search from "./components/Search/Search";
@@ -24,6 +25,7 @@ var routes = (
             	<Route path="t/:tagId" component={Tags} />
             </Route>
             <Route path="login" component={Main}/>
+            <Route path="request" component={Request}/>
             <Route path="dataset" component={Dataset}>
                 <Route path="d/:datasetId" component={ContentContainer} />
             </Route>

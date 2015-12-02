@@ -40,25 +40,33 @@ export default class DataDescription extends React.Component {
 		let clickable = this.props.logged_in ? "clickable": "";
 		return (
 			<div>
-				<h2 style={{marginTop: '0'}}>
-					{this.props.data.title}
-				</h2>
-				<ul className="tag-list">
-					{tags}
-				</ul>
 				<div className="row">
-					<div className="col-md-6 
-									col-sm-6 
-									col-lg-6 
-									col-xs-6">
+						<div className="col-xs-12
+										col-sm-10 col-sm-offset-1 
+										col-md-6 col-md-offset-0
+										col-lg-6">
+							<h2 style={{marginTop: '0'}}>
+							{this.props.data.title}
+							</h2>
+											<ul className="tag-list">
+												{tags}
+											</ul>
+						</div>
+				</div>
+				
+				<div className="row">
+					<div className="col-xs-12
+									col-sm-10 col-sm-offset-1 
+									col-md-6 col-md-offset-0
+									col-lg-6">
 						<img className="dataset-img" 
 							src={this.props.data.img_url} />
 					</div>
 
 
-					<div className="col-xs-6 
-									col-sm-6 
-									col-md-6 
+					<div className="col-xs-12
+									col-sm-10 col-sm-offset-1 
+									col-md-6 col-md-offset-0
 									col-lg-6">
 						<ul className="social-list"style={{listStyleType: 'none'}}>
 							<li className={"social-item " + clickable} onClick={this.upvote.bind(this)}>

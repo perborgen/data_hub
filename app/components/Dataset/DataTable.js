@@ -50,10 +50,10 @@ export default class DataTable extends React.Component {
 		return (
 			<div className="row" style={{marginTop: '30px', marginBottom: '30px'}}>
 				<div className="
-					col-md-12 
-					col-sm-12  
-					col-lg-12 
-					col-xs-12">
+					col-xs-12
+					col-sm-10 col-sm-offset-1 
+					col-md-6 col-md-offset-0
+					col-lg-6">
 					<div>
 
 						<table className="dataset-table">

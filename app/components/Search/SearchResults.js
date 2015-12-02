@@ -24,14 +24,31 @@ export default class SearchResults extends React.Component {
   	}
 
   	render() {
-  		let datasets = this.state.datasets.map( (dataset, index) => {
-  			let link = "/dataset/d/" + dataset._id;
-  			return (
-				<p  key={index}>
-					<a href={link}>{dataset.title}</a>
-				</p>  					
-  			);
-  		});
+  		let datasets;
+  		if (this.state.datasets.length > 0) {
+			datasets = this.state.datasets.map( (dataset, index) => {
+	  			let link = "/dataset/d/" + dataset._id;
+	  			return (
+					<div  key={index}>
+						<div className="col-xs-10 col-xs-offset-1 
+										col-sm-6 col-sm-offset-0
+										col-md-4 
+										col-lg-4">
+							<a href={"/dataset/d/" + dataset._id}>
+							<div className="featured-dataset">
+								<h5 style={{textAlign: 'center'}}>{dataset.title}</h5>
+								<img className="featuredImg" style={{maxWidth: '150px',maxHeight: '100px', margin: '0 auto', display:'block', overflow: 'hidden'}} src={dataset.img_url} />
+							</div>
+							</a>
+						</div>
+					</div>  					
+	  			);
+	  		});
+  		} 
+  		else {
+  			datasets = <p>No results :(</p>; 
+  		}
+  		
 		return (
 			<div className="container-fluid">
 				<div className="row">
@@ -39,7 +56,7 @@ export default class SearchResults extends React.Component {
 									col-sm-10 col-sm-offset-1  
 									col-lg-10 col-lg-offset-1 
 									col-xs-10 col-xs-offset-1">
-					{datasets}
+						{datasets}
 					</div>
 				</div>
 			</div>
