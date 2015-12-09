@@ -8,6 +8,7 @@ export default class Main extends React.Component {
     }
 
 	constructor(props){
+
 		super(props);
 		this.state = {
 			userName: null,
@@ -55,7 +56,11 @@ export default class Main extends React.Component {
 		return (
 		<div>
 			<Navbar user={this.state} onSearch={this.onSearch} />
-			{children}
+			<div className="container-fluid">
+				<div className="row">
+					{children}
+				</div>
+			</div>
 		</div>
 		);
 	}

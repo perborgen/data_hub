@@ -1,7 +1,6 @@
 var config = require('../config');
 var index = "./public/index.html";
 var mongoose = require('mongoose');
-console.log('config.mongoose: ', config.mongoose);
 var Schema = mongoose.Schema;
 
 
@@ -27,12 +26,24 @@ var datasetSchema = new Schema({
 	num_upvotes: Number
 });
 
+var requestSchema = new Schema({
+	title: String,
+	tags: Array,
+	upvotes: Array,
+	comments: Array,
+	user: String,
+	description: String,
+	features: Array,
+	num_upvotes: Number,
+	paymentAmount: Number
+});
 
 
 datasetSchema.index({ "$**": 'text'});
 
-var Dataset = mongoose.model('Dataset', datasetSchema);
-var User = mongoose.model('User', userSchema);
+const Request = mongoose.model('Request', requestSchema);
+const Dataset = mongoose.model('Dataset', datasetSchema);
+const User = mongoose.model('User', userSchema);
 
 const login = (request, reply) => {
 	console.log('LOGIN HANDLER');
@@ -45,7 +56,6 @@ const login = (request, reply) => {
 
 const getDataset = (request, reply) => {
 	const dataset = request.params.datasetId;
-	console.log('looking for dataset');
 	Dataset.findById(dataset, function(err,dataset){
 	    if (err){
 	        throw err;
@@ -54,13 +64,31 @@ const getDataset = (request, reply) => {
 
 	    if (dataset) {
 	       	reply(dataset);
-		} else {
+		} 
+		else {
 			reply(false);
 		}
 	});
 }
 
-var featuredDatasets = (request, reply) => {
+const getRequest = (request, reply) => {
+	const requestId = request.params.requestId;
+	Request.findById(requestId, (err, request) => {
+	    if (err){
+	        throw err;
+	       	reply.file(index);
+	    }
+
+	    if (request) {
+	    	reply(request);
+	    }
+	    else {
+	    	reply(false);
+	    }
+	});
+}
+
+const featuredDatasets = (request, reply) => {
 	Dataset.find({}).sort({num_upvotes: -1}).exec(
 		function(err,datasets){
 	    if (err){
@@ -76,10 +104,27 @@ var featuredDatasets = (request, reply) => {
 	});
 }
 
+const featuredRequests = (request, reply) => {
+	Request.find({}).sort({num_upvotes: -1})
+		.limit(3)
+		.exec(
+		function(err,datasets){
+	    if (err){
+	        throw err;
+	       	reply.file(index);
+	    }
+
+	    if (datasets) {
+	       	reply(datasets);
+		} else {
+			reply(false);
+		}
+	});
+}
+
+
 const search = (request, reply) => {
-	// CONTINUE HERE - FINISH SEARCH FEATURE
 	const searchQuery = request.params.searchQuery;
-	console.log('searchQuery: ',searchQuery);
 	Dataset.find({$text: {$search: searchQuery }})
 		.limit(10)
 		.exec( (err, res) => {
@@ -93,7 +138,7 @@ const search = (request, reply) => {
 }
 
 const home = (request, reply) => {
-	console.log('HOMEEEEEE')
+	console.log('HOMEEEEEE');
 	if (request.auth.isAuthenticated){
 		const profile = request.auth.credentials.profile;
 	        User.findOne({email: profile.email}, function(err, user){
@@ -107,7 +152,7 @@ const home = (request, reply) => {
             else {
             	console.log('creating new user');
                 //create new user object
-                var new_user = new User();
+                let new_user = new User();
                 new_user.email = profile.email;
                 new_user.username = profile.username;
                 new_user.name = profile.displayName;
@@ -178,12 +223,12 @@ const newDataset = (request, reply) => {
 		        new_dataset.features = d.features;
 		        new_dataset.num_upvotes = 0;
 		        new_dataset.save( function(err, res){
-			        if (err){
-			            console.log('error when saving new member');
-			            throw error;
-			        }
-			        console.log('registration successful, dataset: ',res);
-			        reply(res);
+		        if (err){
+		            console.log('error when saving new member');
+		            throw error;
+		        }
+		        console.log('registration successful, dataset: ',res);
+		        reply(res);
 		        });
 			}
 		});
@@ -194,7 +239,80 @@ const newDataset = (request, reply) => {
 	}
 }
 
-const upvote = (request, reply) => {
+const newRequest = (request, reply) => {
+	console.log('newRequest')
+	if (request.auth.isAuthenticated){
+		const d = request.payload;
+	    let new_request = new Request();
+        new_request.title = d.title;
+        new_request.url = d.url;
+        new_request.tags = d.tags;
+        new_request.user = d.displayName;
+        new_request.description = d.description;
+        new_request.features = d.features;
+        new_request.num_upvotes = 0;
+        new_request.paymentAmount = d.paymentAmount;
+        new_request.save( function(err, res){
+	        if (err){
+	            console.log('ERROR')
+	            throw error;
+	        }
+	        console.log('registration successful, rewuest: ',res);
+	        reply(res);
+        });
+	} 
+	// if the user isn't authenticated
+	else {
+		reply.file(index);
+	}
+}
+
+
+const upvoteRequest = (request, reply) => {
+	console.log(' REQUEST');
+	if (request.auth.isAuthenticated){
+		const userId = request.auth.credentials.profile.id;
+		const requestId = request.payload.id;
+	    Request.findById(requestId, function(err, request){
+		    console.log('looking for request');
+		    
+		    if (err){
+		    	console.log('err; ', err);
+		        throw err;
+		       	reply(false);
+		    }
+
+		    if (request) {
+		    	console.log('found request');
+		    	if (request.upvotes.indexOf(userId) === -1) {
+					request.upvotes.push(userId);
+					request.num_upvotes += 1;
+			    	request.markModified("upvotes");
+			    	request.markModified("num_upvotes");
+			    	request.save( function(err){
+			    		console.log('saved')
+			    		reply({
+			    			upvotes: request.upvotes
+			    		});
+
+			    	});
+		    	}
+		    	else {
+		    		reply(false);
+		    	}
+			} else {
+				reply(false);
+			}
+		});
+	} 
+	// if the user isn't authenticated
+	else {
+		reply(false);
+	}
+}
+
+
+const upvoteDataset = (request, reply) => {
 	console.log('UPVOTE');
 	if (request.auth.isAuthenticated){
 		const userId = request.auth.credentials.profile.id;
@@ -248,11 +366,15 @@ module.exports = {
 	login: login,
 	search: search,
 	home: home,
-	upvote: upvote,
+	upvoteDataset: upvoteDataset,
+	upvoteRequest: upvoteRequest,
 	logout: logout,
 	getTags: getTags,
+	newRequest: newRequest,
+	getRequest: getRequest,
 	datasets:datasets,
 	newDataset: newDataset,
 	getDataset: getDataset,
+	featuredRequests: featuredRequests,
 	featuredDatasets:featuredDatasets
 }

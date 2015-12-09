@@ -99,6 +99,28 @@ server.register([inert, bell, hapiAC], function(err){
         },
         {
             method: ["POST"],
+            path: "/api/request/new",
+            config: {
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.newRequest
+            }
+        },
+        {
+            method: "GET",
+            path: "/api/request/{requestId}",
+            config: {
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.getRequest
+            }
+        },       
+        {
+            method: ["POST"],
             path: "/api/dataset/new",
             config: {
                 auth: {
@@ -131,13 +153,30 @@ server.register([inert, bell, hapiAC], function(err){
             }
         },
         {
+            method: "GET",
+            path: "/api/requests/featured",
+            config: {
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.featuredRequests
+            }
+        },
+        {
+            method: "POST",
+            path: "/api/request/upvote",
+            config: {
+                handler: handler.upvoteRequest
+            }
+        },
+        {
             method: "POST",
             path: "/api/dataset/upvote",
             config: {
-                handler: handler.upvote
+                handler: handler.upvoteDataset
             }
         },
-
         {
             method: "GET",
             path: "/api/tag/{param}",
@@ -174,6 +213,17 @@ server.register([inert, bell, hapiAC], function(err){
         {
             method: "GET",
             path: "/dataset/d/{param}",
+             config: {
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.home
+            }
+        },
+        {
+            method: "GET",
+            path: "/request/{param}",
              config: {
                 auth: {
                     strategy: 'site-point-cookie',

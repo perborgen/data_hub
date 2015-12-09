@@ -11,7 +11,6 @@ export default class Request extends React.Component {
 		this.submitDetails = this.submitDetails.bind(this);
 		this.submitDescription = this.submitDescription.bind(this);
 		this.submitWouldPay = this.submitWouldPay.bind(this);
-		this.submitPayAmount = this.submitPayAmount.bind(this);
 		this.submitFinal = this.submitFinal.bind(this);
 
 		this.state = {
@@ -20,7 +19,6 @@ export default class Request extends React.Component {
 			amount: 0,
 			step: 0,
 			title: "",
-			img_url: "",
 			tags: "",
 			description: "",
 			datasetFeatures: "",
@@ -29,7 +27,6 @@ export default class Request extends React.Component {
 	}
 
 	submitDetails(ev){
-		console.log('PRESUBMIT')
 		ev.preventDefault();
 		let datasetName = ReactDOM.findDOMNode(this.refs.datasetName).value;
 		let datasetTags = ReactDOM.findDOMNode(this.refs.datasetTags).value.split(",");
@@ -52,22 +49,24 @@ export default class Request extends React.Component {
 	}
 
 	submitWouldPay(willingToPay, ev){
-		let next_step = willingToPay === true ? 3 : 4;
-		console.log('next_step: ', next_step);
-		this.setState({
-			step: next_step
-		});
+		if (willingToPay) {
+			this.setState({
+				next_step: 3
+			})
+		}
+		else {
+			this.submitFinal(willingToPay);
+		}
 	}
 
-	submitPayAmount(amount, ev){
-		this.setState({
-			amount: amount,
-			step: 4
-		});
-	}
-
-	submitFinal() {
-		let paymentAmount = ReactDOM.findDOMNode(this.paymentAmount).value;
+	submitFinal(willingToPay) {
+		let paymentAmount;
+		if (willingToPay) {
+			paymentAmount = ReactDOM.findDOMNode(this.refs.paymentAmount).value;
+		}
+		else {
+			paymentAmount = 0;
+		}
 		SuperRequest.post("/api/request/new")
 			.send({
 				title: this.state.title,
@@ -82,10 +81,9 @@ export default class Request extends React.Component {
 				if (err){
 					throw err;
 				}
-				console.log('res: ', res);
 				this.setState({
-					link: '/request/id/' + res.body._id,
-					finished: true,
+					link: '/request/' + res.body._id,
+					step: 4,
 				});
 			});
 	}
@@ -169,13 +167,13 @@ export default class Request extends React.Component {
 					<p>How much?</p>
 					<input 
 						className="btn btn-default" 
-						type="text"
+						type="number"
 						ref="paymentAmount" />
 					<input
 						type="submit"
 						className="btn btn-default"
 						value="Submit request"
-						onClick={this.submitPayAmount} />
+						onClick={this.submitFinal.bind(this, true)} />
 				</div>
 			);
 		}

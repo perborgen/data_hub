@@ -67,6 +67,9 @@ export default class NavBar extends React.Component {
 			        		placeholder="Search" />
 			        	<button type="submit" className="btn btn-default">Search</button>
 			      	</form>
+				    <ul className="nav navbar-nav">
+				    	<li><a href="/request">Request dataset</a></li>
+					</ul>
 				    <ul className="nav navbar-nav navbar-right">
 				      	{rightNavbar}
 				    </ul>
@@ -77,8 +80,3 @@ export default class NavBar extends React.Component {
 		);
 	}
 }
-
-
-			     /* 	<ul className="nav navbar-nav">
-				    <li><a href="/request">REQUEST DATASET</a></li>
-					</ul>*/
