@@ -27,7 +27,7 @@ export default class Request extends React.Component {
 	updateUpvotes (upvotes) {
 		this.setState({
 			upvotes: upvotes,
-			num_upvotes: upvotes.length		
+			num_upvotes: upvotes.length	
 		});
 	}
 

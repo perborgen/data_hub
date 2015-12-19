@@ -26,6 +26,16 @@ export default class DataDescription extends React.Component {
 	}
 
 	render () {
+		let articles;
+		console.log('this.props: ', this.props);
+		if (this.props.data.articles) {
+			articles = this.props.data.articles.map( (article, index) => {
+				return (
+					<p key={index}><a href={article.link}>{article.title}</a></p>
+				);
+			});
+		}
+
 		let tags = this.props.data.tags.map( (tag,index) => {
 			return (
 				<li key={index} className="tag-item">
@@ -48,12 +58,11 @@ export default class DataDescription extends React.Component {
 							<h2 style={{marginTop: '0'}}>
 							{this.props.data.title}
 							</h2>
-											<ul className="tag-list">
-												{tags}
-											</ul>
+							<ul className="tag-list">
+								{tags}
+							</ul>
 						</div>
-				</div>
-				
+					</div>
 				<div className="row">
 					<div className="col-xs-12
 									col-sm-10 col-sm-offset-1 
@@ -61,9 +70,9 @@ export default class DataDescription extends React.Component {
 									col-lg-6">
 						<img className="dataset-img" 
 							src={this.props.data.img_url} />
+						<DataTable features={this.props.data.features} />
+
 					</div>
-
-
 					<div className="col-xs-12
 									col-sm-10 col-sm-offset-1 
 									col-md-6 col-md-offset-0
@@ -84,15 +93,21 @@ export default class DataDescription extends React.Component {
 						</div>
 						<div className="download-button-box">
 							<a href={this.props.data.url}>
-								<input 
+								<button 
 									type="submit" 
-									className="btn btn-success" 
-									value="Download dataset" />
+									className="btn btn-success" >
+								<span className="glyphicon glyphicon-link"></span>
+								<span> Go to dataset</span>
+								</button>
 							</a>
+						</div>
+							<div>
+								<h3>{this.props.data.articles ? 'Articles' : ""}</h3>
+								{articles}
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 		);
 	}
 }
@@ -102,12 +117,4 @@ DataDescription.defaultProps = {
 			upvotes: []
 		}
 	};
-
-						/*	<li className="social-item" onClick={this.comment}>
-								<span className="social-text"> Comments : {this.props.data.comments.length}</span>
-							</li>
-							<li className="social-item" onClick={this.scripts}>
-								<span className="social-text"> Scripts : {this.props.data.scripts.length}</span>
-							</li>*/
-
 

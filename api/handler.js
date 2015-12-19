@@ -8,7 +8,9 @@ mongoose.connect(process.env.MONGOOSE || config.mongoose);
 
 var userSchema = new Schema({
     email: String,
-    username: String
+    username: String,
+    img: String,
+    displayName: String
 });
 
 var datasetSchema = new Schema({
@@ -23,7 +25,9 @@ var datasetSchema = new Schema({
 	scripts: Array,
 	description: String,
 	features: Array,
-	num_upvotes: Number
+	num_upvotes: Number,
+	articles: Array,
+	papers: Array
 });
 
 var requestSchema = new Schema({
@@ -44,6 +48,46 @@ datasetSchema.index({ "$**": 'text'});
 const Request = mongoose.model('Request', requestSchema);
 const Dataset = mongoose.model('Dataset', datasetSchema);
 const User = mongoose.model('User', userSchema);
+
+
+const home = (request, reply) => {
+	if (request.auth.isAuthenticated){
+		const profile = request.auth.credentials.profile;
+	        User.findOne({email: profile.email}, function(err, user){
+		    if (err){
+		        throw err;
+                reply.file(index);
+		    }
+		    if (user) {
+                reply.file(index);
+			} 
+            else {
+            	console.log('creating new user');
+                //create new user object
+                let new_user = new User();
+                new_user.email = profile.email;
+                new_user.username = profile.username;
+                new_user.name = profile.displayName;
+                new_user.img = profile.raw.avatar_url;
+
+                // save the user to the db
+                new_user.save( function(err){
+                    if (err){
+                        throw error;
+                    }
+                	reply.file(index);
+                });
+	    	
+	    	}
+		});
+	} 
+
+    // if the user isn't authenticated
+    else {
+    	console.log('not logged in');
+        reply.file(index);
+	}
+}
 
 const login = (request, reply) => {
 	console.log('LOGIN HANDLER');
@@ -137,48 +181,6 @@ const search = (request, reply) => {
 		});
 }
 
-const home = (request, reply) => {
-	console.log('HOMEEEEEE');
-	if (request.auth.isAuthenticated){
-		const profile = request.auth.credentials.profile;
-	        User.findOne({email: profile.email}, function(err, user){
-		    if (err){
-		        throw err;
-                reply.file(index);
-		    }
-		    if (user) {
-                reply.file(index);
-			} 
-            else {
-            	console.log('creating new user');
-                //create new user object
-                let new_user = new User();
-                new_user.email = profile.email;
-                new_user.username = profile.username;
-                new_user.name = profile.displayName;
-                new_user.img = profile.raw.avatar_url;
-
-                // save the user to the db
-                new_user.save( function(err){
-                    if (err){
-                        console.log('error when saving new member');
-                        throw error;
-                    }
-                    console.log('registration successful');
-                	reply.file(index);
-                });
-	    	
-	    	}
-		});
-	} 
-
-    // if the user isn't authenticated
-    else {
-    	console.log('not logged in');
-        reply.file(index);
-	}
-}
-
 var datasets = (request, reply) => {
 	reply.file(index);
 }
@@ -202,14 +204,15 @@ const logout = (request, reply) => {
 const newDataset = (request, reply) => {
 	if (request.auth.isAuthenticated){
 		const d = request.payload;
-	    Dataset.findOne({url: d.url}, function(err,dataset){
-		    
+		console.log('d: ', d);
+	    Dataset.findOne({url: d.url}, function(err, dataset){
 		    if (err){
 		        throw err;
 		       	reply.file(index);
 		    }
 
 		    if (dataset) {
+		    	console.log('found dataset')
 		       	reply(dataset);
 			}
 		    else {
@@ -222,9 +225,11 @@ const newDataset = (request, reply) => {
 		        new_dataset.description = d.description;
 		        new_dataset.features = d.features;
 		        new_dataset.num_upvotes = 0;
+		        new_dataset.articles = d.articles;
+		        console.log('------d.articles: ', d.articles)
 		        new_dataset.save( function(err, res){
 		        if (err){
-		            console.log('error when saving new member');
+		            console.log('error when saving new dataset');
 		            throw error;
 		        }
 		        console.log('registration successful, dataset: ',res);
@@ -242,12 +247,13 @@ const newDataset = (request, reply) => {
 const newRequest = (request, reply) => {
 	console.log('newRequest')
 	if (request.auth.isAuthenticated){
+		console.log('d: ', d);
 		const d = request.payload;
 	    let new_request = new Request();
         new_request.title = d.title;
         new_request.url = d.url;
         new_request.tags = d.tags;
-        new_request.user = d.displayName;
+        new_request.user = d.user;
         new_request.description = d.description;
         new_request.features = d.features;
         new_request.num_upvotes = 0;
@@ -270,7 +276,6 @@ const newRequest = (request, reply) => {
 
 const upvoteRequest = (request, reply) => {
 	console.log(' REQUEST');
-	if (request.auth.isAuthenticated){
 		const userId = request.auth.credentials.profile.id;
 		const requestId = request.payload.id;
 	    Request.findById(requestId, function(err, request){
@@ -304,11 +309,6 @@ const upvoteRequest = (request, reply) => {
 				reply(false);
 			}
 		});
-	} 
-	// if the user isn't authenticated
-	else {
-		reply(false);
-	}
 }
 
 

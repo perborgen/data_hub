@@ -19,6 +19,7 @@ export default class RequestDescription extends React.Component {
 				);
 		});
 		let clickable = this.props.logged_in ? "clickable": "";
+		let user = this.props.data.user !==  undefined ? this.props.data.user : "Anonymous";
 
 		return(
 			<div>
@@ -30,6 +31,7 @@ export default class RequestDescription extends React.Component {
 							<h2 style={{marginTop: '0'}}>
 							{this.props.data.title}
 							</h2>
+							<p>Uploaded by: {user}</p>
 							<ul className="tag-list">
 								{tags}
 							</ul>

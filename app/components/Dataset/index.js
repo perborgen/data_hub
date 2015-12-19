@@ -7,7 +7,6 @@ export default class Dataset extends React.Component {
 	}
 
 	render () {
-		console.log('this: ', this);
         let children = React.Children.map(this.props.children, (child) => {
         return React.cloneElement(child, {
 				logged_in: this.props.logged_in

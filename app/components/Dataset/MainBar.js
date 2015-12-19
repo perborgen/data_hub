@@ -12,7 +12,6 @@ export default class MainBar extends React.Component {
 							logged_in={this.props.logged_in}
 							data={this.props.data} 
 							updateUpvotes={this.props.updateUpvotes}/>
-						<DataTable features={this.props.data.features} />
 					</div>
 				</div>
 			</div>

@@ -17,12 +17,10 @@ export default class LandingPage extends React.Component {
 										col-md-12 
 										col-lg-12">
 							<h1 className="landing-page-title">
-								Data Sets for Data Geeks
+								Datasets for Data Geeks
 							</h1>
 							</div>
 						</div>
-					<FeaturedRequests />
-					<br/>
 					<FeaturedDatasets />
 				</div>
 			</div>

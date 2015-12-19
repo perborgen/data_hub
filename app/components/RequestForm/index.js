@@ -7,7 +7,7 @@ export default class Request extends React.Component {
 	
 	constructor(props){
 		super(props);
-
+		console.log('this: ', this);
 		this.submitDetails = this.submitDetails.bind(this);
 		this.submitDescription = this.submitDescription.bind(this);
 		this.submitWouldPay = this.submitWouldPay.bind(this);
@@ -51,7 +51,7 @@ export default class Request extends React.Component {
 	submitWouldPay(willingToPay, ev){
 		if (willingToPay) {
 			this.setState({
-				next_step: 3
+				step: 3
 			})
 		}
 		else {
@@ -75,7 +75,8 @@ export default class Request extends React.Component {
 				tags: this.state.tags,
 				description: this.state.description,
 				user: 'test',
-				paymentAmount: paymentAmount
+				paymentAmount: paymentAmount,
+				user: this.props.userName
 			})
 			.end( (err, res) => {
 				if (err){

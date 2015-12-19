@@ -33,6 +33,7 @@ export default class Main extends React.Component {
 					throw err;
 				}
 				if (res.body) {
+					console.log('res.body: ', res.body);
 					this.setState({
 						userName: res.body.profile.displayName,
 						img: res.body.profile.raw.avatar_url,
@@ -49,7 +50,7 @@ export default class Main extends React.Component {
         let children = React.Children.map(this.props.children, (child) => {
             return React.cloneElement(child, {
 				logged_in: this.state.logged_in,
-				userName: this.state.userName
+				userName: this.state.userName,
 			});
         });
 
