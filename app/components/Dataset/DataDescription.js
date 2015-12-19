@@ -26,8 +26,13 @@ export default class DataDescription extends React.Component {
 	}
 
 	render () {
+		let articlesTitle = "";
+		if (this.props.data.articles[0].link.length > 0) {
+			articlesTitle = "Articles";
+		}
+
 		let articles;
-		console.log('this.props: ', this.props);
+		console.log('this.props.data: ,', this.props.data)
 		if (this.props.data.articles) {
 			articles = this.props.data.articles.map( (article, index) => {
 				return (
@@ -101,8 +106,8 @@ export default class DataDescription extends React.Component {
 								</button>
 							</a>
 						</div>
+							<h3>{articlesTitle}</h3>
 							<div>
-								<h3>{this.props.data.articles ? 'Articles' : ""}</h3>
 								{articles}
 							</div>
 						</div>

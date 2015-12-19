@@ -295,7 +295,6 @@ const upvoteRequest = (request, reply) => {
 			    	request.markModified("upvotes");
 			    	request.markModified("num_upvotes");
 			    	request.save( function(err){
-			    		console.log('saved')
 			    		reply({
 			    			upvotes: request.upvotes
 			    		});

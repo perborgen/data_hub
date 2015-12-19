@@ -89,8 +89,3 @@ export default class NavBar extends React.Component {
 		);
 	}
 }
-
-/*
-				    <ul className="nav navbar-nav">
-				    	<li><a href="/request">Request dataset</a></li>
-					</ul>*/

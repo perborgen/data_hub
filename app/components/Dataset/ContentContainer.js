@@ -13,7 +13,11 @@ let STATE = {
 	profileImage: "",
 	upvotes: [],
 	comments: [],
-	scripts: []
+	scripts: [],
+	articles: [{
+		link: "",
+		title: ""
+	}]
 }
 
 export default class ContentContainer extends React.Component {
