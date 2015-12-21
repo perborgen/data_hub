@@ -11,9 +11,7 @@ export default class Main extends React.Component {
 
 		super(props);
 		this.state = {
-			userName: null,
-			img: null,
-			logged_in: false
+			username: null
 		};
 	}
 
@@ -34,29 +32,19 @@ export default class Main extends React.Component {
 				}
 				if (res.body) {
 					console.log('res.body: ', res.body);
-					this.setState({
-						userName: res.body.profile.displayName,
-						img: res.body.profile.raw.avatar_url,
-						logged_in: true
-					});
-				} else {
-					console.log('not logged in');
-				}
-
-			});
+					this.setState(res.body);
+				} 
+		});
 	}
 
 	render () {
         let children = React.Children.map(this.props.children, (child) => {
-            return React.cloneElement(child, {
-				logged_in: this.state.logged_in,
-				userName: this.state.userName,
-			});
+            return React.cloneElement(child, this.state);
         });
 
 		return (
 		<div>
-			<Navbar user={this.state} onSearch={this.onSearch} />
+			<Navbar {...this.state} onSearch={this.onSearch} />
 			<div className="container-fluid">
 				<div className="row">
 					{children}

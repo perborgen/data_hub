@@ -21,9 +21,10 @@ export default class NavBar extends React.Component {
 	}
 
 	render () {
-		let userName = this.props.user.userName || "Profile";
+		console.log('this: ', this);
+		let userName = this.props.username || "Profile";
 		let rightNavbar;
-		if (this.props.user.logged_in) {
+		if (this.props.username) {
 			 rightNavbar = (				        
 				<li className="dropdown">
 		          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{userName} <span className="caret"></span></a>
@@ -36,7 +37,15 @@ export default class NavBar extends React.Component {
 		    );
 		}
 		else {
-			rightNavbar = (<li><a href="/login">Github Login</a></li>);
+			rightNavbar = (
+				<li className="login">
+						<a href="/login">
+						<img 
+							style={{width: '16px'}} 
+							src="http://stylus-lang.com/img/octocat.svg"/>
+							GitHub Login
+					</a>
+				</li>);
 		}
 		let searchLink = "/search/" + this.state.searchText;
 

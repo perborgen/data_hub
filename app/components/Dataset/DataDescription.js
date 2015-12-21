@@ -87,8 +87,8 @@ export default class DataDescription extends React.Component {
 								<span className="social-text">
 									<span 
 										style={{top: '2px', right: '2px'}} 
-										className={"glyphicon glyphicon-triangle-top"}> </span>
-									Upvotes : {this.props.data.num_upvotes}
+										className={"glyphicon glyphicon-star"}> </span>
+									Favourite : {this.props.data.num_upvotes}
 								</span>
 							</li>
 						</ul>

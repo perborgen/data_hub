@@ -10,7 +10,10 @@ var userSchema = new Schema({
     email: String,
     username: String,
     img: String,
-    displayName: String
+    displayName: String,
+    raw: Object,
+    token: String,
+    upvotes: Array
 });
 
 var datasetSchema = new Schema({
@@ -69,7 +72,7 @@ const home = (request, reply) => {
                 new_user.username = profile.username;
                 new_user.name = profile.displayName;
                 new_user.img = profile.raw.avatar_url;
-
+                new_user.raw = profile.raw;
                 // save the user to the db
                 new_user.save( function(err){
                     if (err){
@@ -92,6 +95,7 @@ const home = (request, reply) => {
 const login = (request, reply) => {
 	console.log('LOGIN HANDLER');
     if (request.auth.isAuthenticated) {
+    	console.log('----------about to set!!!!!')
     	request.auth.session.set(request.auth.credentials);
     	return reply.redirect('/');
 	}
@@ -189,7 +193,11 @@ var datasets = (request, reply) => {
 const user = (request, reply) => {
 	if (request.auth.isAuthenticated){
 		console.log('is authenticated--------: ', request.auth.credentials);
-		reply(request.auth.credentials);
+		let username = request.auth.credentials.profile.username;	
+		User.findOne({username: username}, (err, user) => {
+			reply(user);
+		});
+
 	}else {
 		reply(false);
 	}

@@ -42,7 +42,7 @@ export default class FeaturedDatasets extends React.Component {
 								col-sm-12 
 								col-lg-12 
 								col-xs-12">
-				<p className="sub-title">Most upvoted data sets:</p>
+				<p className="sub-title">Most starred datasets:</p>
 				{datasets}
 				</div>
 			</div>
