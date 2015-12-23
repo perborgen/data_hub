@@ -21,7 +21,6 @@ export default class NavBar extends React.Component {
 	}
 
 	render () {
-		console.log('this: ', this);
 		let userName = this.props.username || "Profile";
 		let rightNavbar;
 		if (this.props.username) {

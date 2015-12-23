@@ -13,7 +13,8 @@ var userSchema = new Schema({
     displayName: String,
     raw: Object,
     token: String,
-    upvotes: Array
+    upvotes: Array,
+    github_id: Number
 });
 
 var datasetSchema = new Schema({
@@ -73,6 +74,7 @@ const home = (request, reply) => {
                 new_user.name = profile.displayName;
                 new_user.img = profile.raw.avatar_url;
                 new_user.raw = profile.raw;
+                new_user.github_id = profile.id;
                 // save the user to the db
                 new_user.save( function(err){
                     if (err){
@@ -126,7 +128,6 @@ const getRequest = (request, reply) => {
 	        throw err;
 	       	reply.file(index);
 	    }
-
 	    if (request) {
 	    	reply(request);
 	    }
@@ -192,12 +193,10 @@ var datasets = (request, reply) => {
 
 const user = (request, reply) => {
 	if (request.auth.isAuthenticated){
-		console.log('is authenticated--------: ', request.auth.credentials);
-		let username = request.auth.credentials.profile.username;	
-		User.findOne({username: username}, (err, user) => {
+		let github_id = request.auth.credentials.profile.id;	
+		User.findOne({github_id: github_id}, (err, user) => {
 			reply(user);
 		});
-
 	}else {
 		reply(false);
 	}
@@ -212,7 +211,6 @@ const logout = (request, reply) => {
 const newDataset = (request, reply) => {
 	if (request.auth.isAuthenticated){
 		const d = request.payload;
-		console.log('d: ', d);
 	    Dataset.findOne({url: d.url}, function(err, dataset){
 		    if (err){
 		        throw err;
@@ -234,10 +232,8 @@ const newDataset = (request, reply) => {
 		        new_dataset.features = d.features;
 		        new_dataset.num_upvotes = 0;
 		        new_dataset.articles = d.articles;
-		        console.log('------d.articles: ', d.articles)
 		        new_dataset.save( function(err, res){
 		        if (err){
-		            console.log('error when saving new dataset');
 		            throw error;
 		        }
 		        console.log('registration successful, dataset: ',res);
@@ -253,7 +249,6 @@ const newDataset = (request, reply) => {
 }
 
 const newRequest = (request, reply) => {
-	console.log('newRequest')
 	if (request.auth.isAuthenticated){
 		console.log('d: ', d);
 		const d = request.payload;
@@ -283,7 +278,6 @@ const newRequest = (request, reply) => {
 
 
 const upvoteRequest = (request, reply) => {
-	console.log(' REQUEST');
 		const userId = request.auth.credentials.profile.id;
 		const requestId = request.payload.id;
 	    Request.findById(requestId, function(err, request){
@@ -359,6 +353,44 @@ const upvoteDataset = (request, reply) => {
 	}
 }
 
+const commentDataset = (request, reply) => {
+	if (request.auth.isAuthenticated){
+		const github_id = request.auth.credentials.profile.id;
+		const dataset_id = request.payload.dataset_id;
+		const comment = request.payload.comment;
+	    Dataset.findById(dataset_id, function(err,dataset){
+	    	console.log('dataset: ', dataset);	    
+		    if (err){
+		    	console.log('err; ', err);
+		        throw err;
+		       	reply(false);
+		    }
+
+		    if (dataset) {
+				dataset.comments.push({
+					text: comment,
+					github_id: github_id
+				});
+		    	dataset.markModified("comments");
+		    	dataset.save( function(err){
+		    		reply({
+		    			comments: dataset.comments
+		    		});
+		    	});
+		    }
+			else {
+				reply(false);
+			}
+		});
+	} 
+	// if the user isn't authenticated
+	else {
+		reply(false);
+	}
+}
+
+
+
 const getTags = (request, reply) => {
 	const tagId = request.params.param;
 	console.log('tagId: ', tagId);
@@ -375,6 +407,7 @@ module.exports = {
 	home: home,
 	upvoteDataset: upvoteDataset,
 	upvoteRequest: upvoteRequest,
+	commentDataset: commentDataset,
 	logout: logout,
 	getTags: getTags,
 	newRequest: newRequest,

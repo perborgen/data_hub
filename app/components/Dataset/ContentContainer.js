@@ -13,6 +13,7 @@ let STATE = {
 	profileImage: "",
 	upvotes: [],
 	comments: [],
+	comment: "",
 	scripts: [],
 	articles: [{
 		link: "",
@@ -28,12 +29,40 @@ export default class ContentContainer extends React.Component {
 		this.render = this.render.bind(this);
 		this.componentDidMount = this.componentDidMount.bind(this);
 		this.updateUpvotes = this.updateUpvotes.bind(this);
+		this.onCommentFormChange = this.onCommentFormChange.bind(this);
+		this.addComment = this.addComment.bind(this);
+
 	}
 
 	updateUpvotes(upvotes){
 		let new_number = this.state.num_upvotes +=1;
 		this.setState({
 			num_upvotes: new_number
+		});
+	}
+
+	onCommentFormChange(ev){
+		this.setState({
+			comment: ev.target.value
+		});
+	}
+
+	addComment(){
+		Request.post("/api/dataset/comment")
+			.send({
+				comment: this.state.comment,
+				id: this.props._id,
+				dataset_id: this.props.params.datasetId
+			})
+			.end( (err, response) => {
+				if (err){
+					throw err;
+				}
+				console.log('re')
+				this.setState({
+					comments: response.body.comments,
+					comment: ""
+				});
 		});
 	}
 
@@ -45,19 +74,21 @@ export default class ContentContainer extends React.Component {
   		var path = this.props.params.datasetId;
   		Request.get("/api/dataset/" + path)
   			.end((err, res) => {
-  				console.log('dataset: ', res);
   				this.setState(res.body);
   			});
   	}
 
 
 	render () {
-		console.log('CC: logged_in: ', this.props.logged_in);
+		console.log('CC: ', this);
 		return (
-			<MainBar 
-				data={this.state}
+			<MainBar
+				{...this.props}
+				{...this.state}
 				logged_in = {this.props.logged_in}
-				updateUpvotes={this.updateUpvotes} />
+				updateUpvotes={this.updateUpvotes}
+				addComment={this.addComment}
+				onCommentFormChange={this.onCommentFormChange} />
 		);
 	}
 }

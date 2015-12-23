@@ -1,6 +1,8 @@
 import React from "react";
 import Navbar from "./Navbar";
 import Request from 'superagent';
+import DisqusThread from 'react-disqus-thread';
+
 export default class Main extends React.Component {
 
     contextTypes: {
@@ -11,7 +13,7 @@ export default class Main extends React.Component {
 
 		super(props);
 		this.state = {
-			username: null
+			username: ""
 		};
 	}
 
@@ -36,6 +38,9 @@ export default class Main extends React.Component {
 				} 
 		});
 	}
+	handleNewComment(){
+		console.log('handleNewComment: ', handleNewComment);
+	}
 
 	render () {
         let children = React.Children.map(this.props.children, (child) => {
@@ -48,7 +53,7 @@ export default class Main extends React.Component {
 			<div className="container-fluid">
 				<div className="row">
 					{children}
-				</div>
+				</div>	
 			</div>
 		</div>
 		);

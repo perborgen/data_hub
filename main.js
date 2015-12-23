@@ -178,6 +178,13 @@ server.register([inert, bell, hapiAC], function(err){
             }
         },
         {
+            method: "POST",
+            path: "/api/dataset/comment",
+            config: {
+                handler: handler.commentDataset
+            }
+        },
+        {
             method: "GET",
             path: "/api/tag/{param}",
             config: {

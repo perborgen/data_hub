@@ -7,7 +7,7 @@ export default class DataDescription extends React.Component {
 	upvote(){
 		if (this.props.logged_in) {
 			Request.post("/api/dataset/upvote")
-				.send({id: this.props.data._id})
+				.send({id: this.props._id})
 				.end((err, res)=>{
 					if(err) {
 						console.log('err',err);
@@ -27,21 +27,21 @@ export default class DataDescription extends React.Component {
 
 	render () {
 		let articlesTitle = "";
-		if (this.props.data.articles[0].link.length > 0) {
+		if (this.props.articles[0].link.length > 0) {
 			articlesTitle = "Articles";
 		}
 
 		let articles;
 		console.log('this.props.data: ,', this.props.data)
-		if (this.props.data.articles) {
-			articles = this.props.data.articles.map( (article, index) => {
+		if (this.props.articles) {
+			articles = this.props.articles.map( (article, index) => {
 				return (
 					<p key={index}><a href={article.link}>{article.title}</a></p>
 				);
 			});
 		}
 
-		let tags = this.props.data.tags.map( (tag,index) => {
+		let tags = this.props.tags.map( (tag,index) => {
 			return (
 				<li key={index} className="tag-item">
 					<a href={"/tag/t/" + tag}>
@@ -61,7 +61,7 @@ export default class DataDescription extends React.Component {
 										col-md-6 col-md-offset-0
 										col-lg-6">
 							<h2 style={{marginTop: '0'}}>
-							{this.props.data.title}
+							{this.props.title}
 							</h2>
 							<ul className="tag-list">
 								{tags}
@@ -74,8 +74,8 @@ export default class DataDescription extends React.Component {
 									col-md-6 col-md-offset-0
 									col-lg-6">
 						<img className="dataset-img" 
-							src={this.props.data.img_url} />
-						<DataTable features={this.props.data.features} />
+							src={this.props.img_url} />
+						<DataTable features={this.props.features} />
 
 					</div>
 					<div className="col-xs-12
@@ -88,16 +88,16 @@ export default class DataDescription extends React.Component {
 									<span 
 										style={{top: '2px', right: '2px'}} 
 										className={"glyphicon glyphicon-star"}> </span>
-									Favourite : {this.props.data.num_upvotes}
+									Favourite : {this.props.num_upvotes}
 								</span>
 							</li>
 						</ul>
 						<div>
 							<h3>Description</h3>
-							<p>{this.props.data.description}</p>
+							<p>{this.props.description}</p>
 						</div>
 						<div className="download-button-box">
-							<a href={this.props.data.url}>
+							<a href={this.props.url}>
 								<button 
 									type="submit" 
 									className="btn btn-success" >
@@ -117,9 +117,4 @@ export default class DataDescription extends React.Component {
 	}
 }
 
-DataDescription.defaultProps = {	
-	data: {
-			upvotes: []
-		}
-	};
 
