@@ -241,7 +241,7 @@ export default class Upload extends React.Component {
 						<button
 							style={{marginTop: '30px'}} 
 							onClick={this.submitDataset} 
-							className="btn btn-success btn submit-dataset-button">
+							className="btn btn-success submit-dataset-button">
 							Submit dataset
 						</button>
 					</div>
@@ -254,11 +254,12 @@ export default class Upload extends React.Component {
 					<h3 style={{textAlign: 'center'}}>Well done!</h3>
 					<p style={{textAlign: 'center'}}>You've uploaded your dataset.</p>
 					<a href={this.state.link}>
-						<input 
+						<button 
 							type="submit" 
-							className="btn-success"
+							className="btn btn-success"
 							style={{margin: '0 auto', display: 'block'}} 
-							value="Check it out" />
+							value="Check it out">
+						</button>
 					</a>
 				</div>
 			);

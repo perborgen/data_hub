@@ -240,8 +240,6 @@ const newDataset = (request, reply) => {
 		        });
 			}
 		});
-	} 
-
 }
 
 const newRequest = (request, reply) => {
