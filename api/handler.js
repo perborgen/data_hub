@@ -209,7 +209,6 @@ const logout = (request, reply) => {
 
 
 const newDataset = (request, reply) => {
-	if (request.auth.isAuthenticated){
 		const d = request.payload;
 	    Dataset.findOne({url: d.url}, function(err, dataset){
 		    if (err){
@@ -242,10 +241,7 @@ const newDataset = (request, reply) => {
 			}
 		});
 	} 
-	// if the user isn't authenticated
-	else {
-		reply.file(index);
-	}
+
 }
 
 const newRequest = (request, reply) => {
