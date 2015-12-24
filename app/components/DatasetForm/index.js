@@ -49,7 +49,7 @@ export default class Upload extends React.Component {
 				}
 				console.log('res: ', res);
 				this.setState({
-					link: '/dataset/d/' + res.body._id,
+					link: '/dataset/' + res.body._id,
 					uploaded: true,
 					step: 2
 				});

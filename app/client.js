@@ -23,12 +23,12 @@ var routes = (
             <Route path="account" component={Account}/>
             <Route path="upload" component={DatasetForm}/>
             <Route path="tag" component={Tag}>
-            	<Route path="t/:tagId" component={Tags} />
+            	<Route path=":tagId" component={Tags} />
             </Route>
             <Route path="login" component={Main}/>
             <Route path="request" component={RequestForm}/>
             <Route path="dataset" component={Dataset}>
-                <Route path="d/:datasetId" component={ContentContainer} />
+                <Route path=":datasetId" component={ContentContainer} />
             </Route>
             <Route path="request" component={Request}>
                 <Route path=":requestId" component={RequestDescription} />

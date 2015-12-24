@@ -197,7 +197,7 @@ server.register([inert, bell, hapiAC], function(err){
         },
         {
             method: "GET",
-            path: "/tag/t/{param}",
+            path: "/tag/{param}",
              config: {
                 auth: {
                     strategy: 'site-point-cookie',
@@ -219,7 +219,7 @@ server.register([inert, bell, hapiAC], function(err){
         },
         {
             method: "GET",
-            path: "/dataset/d/{param}",
+            path: "/dataset/{param}",
              config: {
                 auth: {
                     strategy: 'site-point-cookie',

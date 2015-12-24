@@ -44,7 +44,7 @@ export default class DataDescription extends React.Component {
 		let tags = this.props.tags.map( (tag,index) => {
 			return (
 				<li key={index} className="tag-item">
-					<a href={"/tag/t/" + tag}>
+					<a href={"/tag/" + tag}>
 						<span className="tag-text">
 							{tag}
 						</span>

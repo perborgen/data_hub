@@ -10,7 +10,7 @@ export default class RequestDescription extends React.Component {
 		let tags = this.props.data.tags.map( (tag,index) => {
 			return (
 				<li key={index} className="tag-item">
-					<a href={"/tag/t/" + tag}>
+					<a href={"/tag/" + tag}>
 						<span className="tag-text">
 							{tag}
 						</span>

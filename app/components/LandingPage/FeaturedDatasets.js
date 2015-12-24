@@ -25,7 +25,7 @@ export default class FeaturedDatasets extends React.Component {
 				<div key={index} className="col-xs-10 col-xs-offset-1 
 											col-sm-6 col-sm-offset-0
 											col-md-4 col-lg-4">
-					<a href={"/dataset/d/" + dataset._id}>
+					<a href={"/dataset/" + dataset._id}>
 					<div className="featured-dataset">
 						<h5 style={{textAlign: 'center'}}>{dataset.title}</h5>
 						<img className="featuredImg" style={{maxWidth: '150px',maxHeight: '100px', margin: '0 auto', display:'block', overflow: 'hidden'}} src={dataset.img_url} />

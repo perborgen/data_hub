@@ -55,6 +55,7 @@ const User = mongoose.model('User', userSchema);
 
 
 const home = (request, reply) => {
+	console.log('HOME');
 	if (request.auth.isAuthenticated){
 		const profile = request.auth.credentials.profile;
 	        User.findOne({email: profile.email}, function(err, user){
