@@ -23,7 +23,7 @@ export default class Dataset extends React.Component {
 								col-xs-10 col-xs-offset-1">
 				{children}
 				<DisqusThread
-					shortname="Datasets.co"
+					shortname="datasetsco"
 					identifier={identifier}
 					title="Datasets Comments"
 					url={url}
