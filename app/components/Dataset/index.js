@@ -10,7 +10,9 @@ export default class Dataset extends React.Component {
 
 	render () {
 		let identifier = this.props.params.datasetId;
-		let base = "http://www.datasets.co/dataset/d/" + identifier;
+		let url = "http://www.datasets.co/dataset/d/" + identifier;
+        console.log('identifier: ', identifier);
+        console.log('url: ', url);
         let children = React.Children.map(this.props.children, (child) => {
         return React.cloneElement(child, this.props );
         });
@@ -23,9 +25,9 @@ export default class Dataset extends React.Component {
 				{children}
 				<DisqusThread
 					shortname="datasets"
-					identifier={this.props.params.datasetId}
-					title="React Disqus thread component"
-					url="http://www.datasets.co/"
+					identifier={identifier}
+					title="Datasets Comments"
+					url={url}
 			        />		
 			</div>
 		);
