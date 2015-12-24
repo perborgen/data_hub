@@ -102,6 +102,19 @@ export default class Upload extends React.Component {
 
 	render() {
 		let content;
+		let tags;
+		if (this.state.datasetTags.length > 0) {
+			tags = this.state.datasetTags.split(',').map((tag, index) => {
+				return (
+					<li key={index} className="tag-item">
+							<span className="tag-text">
+								{tag}
+							</span>
+					</li>
+				);
+			});
+		}
+		 
 
 		let datasetArticles = this.state.datasetArticles.map((dataset, index) => {
 			return (
@@ -190,7 +203,7 @@ export default class Upload extends React.Component {
 								ref="datasetImgUrl"/>
 						</div>
 					  	<div className="form-group">
-							<label htmlFor="datasetTags">Tags</label>
+							<label htmlFor="datasetTags">Tags (separate with commas)</label>
 							<input
 								className="form-control"
 								value={this.state.datasetTags} 
@@ -198,10 +211,13 @@ export default class Upload extends React.Component {
 								type="text" 
 								id="datasetTags" 
 								ref="datasetTags"/>
+							<ul className="tag-list">
+								{tags}
+							</ul>
 						</div>
 					  	<div className="form-group">
 							<label htmlFor="description">Description</label>
-							<input
+							<textarea
 								className="form-control"
 								value={this.state.description} 
 								onChange={this.onChange.bind(this, "description")}  
@@ -252,13 +268,13 @@ export default class Upload extends React.Component {
 			content = (
 				<div>
 					<h3 style={{textAlign: 'center'}}>Well done!</h3>
-					<p style={{textAlign: 'center'}}>You've uploaded your dataset.</p>
+					<p style={{textAlign: 'center'}}>You've created your dataset.</p>
 					<a href={this.state.link}>
 						<button 
 							type="submit" 
 							className="btn btn-success"
-							style={{margin: '0 auto', display: 'block'}} 
-							value="Check it out">
+							style={{margin: '0 auto', display: 'block'}} >
+							Check it out
 						</button>
 					</a>
 				</div>

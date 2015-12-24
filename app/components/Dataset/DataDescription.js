@@ -32,7 +32,6 @@ export default class DataDescription extends React.Component {
 		}
 
 		let articles;
-		console.log('this.props.data: ,', this.props.data)
 		if (this.props.articles) {
 			articles = this.props.articles.map( (article, index) => {
 				return (
