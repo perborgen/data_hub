@@ -16,7 +16,6 @@ export default class Dataset extends React.Component {
         let children = React.Children.map(this.props.children, (child) => {
         return React.cloneElement(child, this.props );
         });
-        console.log('this: ', this);
 		return (
 			<div className="col-md-10 col-md-offset-1 
 								col-sm-10 col-sm-offset-1  
@@ -24,7 +23,7 @@ export default class Dataset extends React.Component {
 								col-xs-10 col-xs-offset-1">
 				{children}
 				<DisqusThread
-					shortname="datasets"
+					shortname="Datasets.co"
 					identifier={identifier}
 					title="Datasets Comments"
 					url={url}
