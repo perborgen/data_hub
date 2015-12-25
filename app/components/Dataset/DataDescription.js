@@ -26,6 +26,7 @@ export default class DataDescription extends React.Component {
 	}
 
 	render () {
+		console.log('this: ', this);
 		let articlesTitle = "";
 		if (this.props.articles[0].link.length > 0) {
 			articlesTitle = "Articles";
@@ -73,7 +74,7 @@ export default class DataDescription extends React.Component {
 									col-md-6 col-md-offset-0
 									col-lg-6">
 						<img className="dataset-img" 
-							src={this.props.img_url} />
+							src={this.props.img_url.length > 0 ? this.props.img_url : this.props.s3_img_url} />
 						<DataTable features={this.props.features} />
 
 					</div>

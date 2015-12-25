@@ -8,9 +8,11 @@ import Request from 'superagent';
 let STATE = {
 	title: "",
 	tags: [],
-	dataImage: "",
 	profile: "",
-	profileImage: "",
+	img_url: "",
+	s3_img_url: "",
+	s3_url: "",
+	url: "",
 	upvotes: [],
 	comments: [],
 	comment: "",

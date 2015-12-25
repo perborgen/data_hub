@@ -58,6 +58,14 @@ server.register([inert, bell, hapiAC], function(err){
         },
         {
             method: "GET",
+            path: "/api/signedurl",
+            config: {
+                auth: false,
+                handler: handler.signedurl
+            }
+        },
+        {
+            method: "GET",
             path: "/bundle.js",
             config: {
                 auth: false,
@@ -128,6 +136,17 @@ server.register([inert, bell, hapiAC], function(err){
                     mode: 'try'
                 },
                 handler: handler.newDataset
+            }
+        },
+        {
+            method: ["POST"],
+            path: "/api/testupload/",
+            config: {
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.testupload
             }
         },
         {

@@ -2,6 +2,9 @@ var config = require('../config');
 var index = "./public/index.html";
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var multer = require('multer');//for handling multipart/form-data
+var fs = require('fs');
+var AWS = require('aws-sdk');
 
 
 mongoose.connect(process.env.MONGOOSE || config.mongoose);
@@ -19,8 +22,10 @@ var userSchema = new Schema({
 
 var datasetSchema = new Schema({
 	title: String,
+	s3_url: String,
 	url: String,
 	img_url: String,
+	s3_img_url: String, 
 	tags: Array,
 	datapoints: Number,
 	upvotes: Array,
@@ -46,16 +51,59 @@ var requestSchema = new Schema({
 	paymentAmount: Number
 });
 
-
 datasetSchema.index({ "$**": 'text'});
 
 const Request = mongoose.model('Request', requestSchema);
 const Dataset = mongoose.model('Dataset', datasetSchema);
 const User = mongoose.model('User', userSchema);
 
+var AWS = require('aws-sdk');
+AWS.config.region = 'eu-central-1';
+
+
+
+const signedurl = (request, reply) => {
+    console.log('request.query: ', request.query);
+	AWS.config.update({
+		accessKeyId: 'AKIAI7M7Z2YHRS53PKUQ', 
+		secretAccessKey: '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'
+	});
+
+    let s3 = new AWS.S3(),
+	params = {
+		Bucket: request.query.bucket,
+		Key: request.query.file_name,
+		Expires: 60,
+        ContentType: request.query.file_type,
+        ACL: 'public-read'
+	};
+
+	console.log('s3');
+	s3.getSignedUrl('putObject', params, (err, data) => {
+		console.log('data: ' + data);
+		if (err) {
+			console.log('-------err: ', err);
+		}
+		else {
+			console.log('no err data: ', data);
+			reply({
+				signed_request: data,
+				url: 'https://datasetfiles.s3.amazonaws.com/'+request.query.file_name
+			});
+
+		}
+	});
+
+}
+
+const testupload = (request, reply) => {
+	console.log('TESTUPLOAD');
+	var file = request.files.file;
+	console.log(file);
+	reply('hello');
+}
 
 const home = (request, reply) => {
-	console.log('HOME');
 	if (request.auth.isAuthenticated){
 		const profile = request.auth.credentials.profile;
 	        User.findOne({email: profile.email}, function(err, user){
@@ -226,12 +274,14 @@ const newDataset = (request, reply) => {
 		        new_dataset.title = d.title;
 		        new_dataset.url = d.url;
 		        new_dataset.img_url = d.img_url;
-		        new_dataset.tags = d.tags;
+		        new_dataset.tags = d.tags.split(',');
 		        new_dataset.user = d.displayName;
 		        new_dataset.description = d.description;
 		        new_dataset.features = d.features;
 		        new_dataset.num_upvotes = 0;
 		        new_dataset.articles = d.articles;
+		        new_dataset.s3_url = d.s3DatasetUrl;
+		        new_dataset.s3_img_url = d.s3DatasetImgUrl;
 		        new_dataset.save( function(err, res){
 		        if (err){
 		            throw error;
@@ -396,6 +446,8 @@ const getTags = (request, reply) => {
 }
 
 module.exports = {
+	signedurl: signedurl,
+	testupload: testupload,
 	user: user,
 	login: login,
 	search: search,

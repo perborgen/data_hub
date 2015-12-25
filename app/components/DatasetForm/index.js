@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Request from 'superagent';
 import update from 'react-addons-update';
+import Dropzone from 'react-dropzone';
 
 export default class Upload extends React.Component {
 	
@@ -11,13 +12,22 @@ export default class Upload extends React.Component {
 		this.addFeatures = this.addFeatures.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.addArticle = this.addArticle.bind(this);
+		this.toggleForm = this.toggleForm.bind(this);
+		this.uploadFile = this.uploadFile.bind(this);
+		this.onDrop = this.onDrop.bind(this);
+		this.onChangeTags = this.onChangeTags.bind(this);
+		this.onDropDataset = this.onDropDataset.bind(this);
 
 		this.state = {
 			link: null,
 			datasetName: '',
 			datasetUrl: '',
+			s3DatasetUrl: '',
 			datasetTags: '',
 			datasetImgUrl: '',
+			s3DatasetImgUrl: '',
+			useDragImgForm: false,
+			hasUploadedImage: false,
 			uploaded: false,
 			step: 0,
 			features: [{
@@ -65,6 +75,15 @@ export default class Upload extends React.Component {
 		});
 	}
 
+	onChangeTags(inputField, ev) {
+		let tags = ev.target.value.split(',');
+		this.setState({
+			datasetTags: tags
+		});
+
+
+	}
+
 	onChange(inputField, ev){
 		let new_state = {};
 		new_state[inputField] = ev.target.value;
@@ -100,9 +119,129 @@ export default class Upload extends React.Component {
 		});
 	}
 
+	uploadFile(data){
+		console.log('data: ', data);
+		Request.put(data.signed_request)
+			.set('x-amz-acl', 'public-read')
+			.send(data.file)
+			.end((err, response) => {
+				if (err) {
+					console.log(err);
+				}
+				else {
+					if (data.bucket === 'datasetimages2') {
+						this.setState({
+							s3DatasetImgUrl: data.url
+						});
+					}
+					else if (data.bucket === 'datasetfiles') {
+						this.setState({
+							s3DatasetUrl: data.url
+						});
+				}
+
+				}
+			})
+	}
+
+	toggleForm(useDragForm, imageOrDataset){
+		if (imageOrDataset === 'image') {
+			this.setState({
+				useDragImgForm: useDragForm
+			});
+		}
+		else if (imageOrDataset === 'dataset') {
+			this.setState({
+				useDragDatasetForm: useDragForm
+			});
+		}
+	
+	}
+
+	onDrop(files) {
+	    var file = files[0];
+	    console.log('file: ', file);
+	    var url = '/api/signedurl?file_name="' + file.name + 
+	    '"&file_type="' + file.type + "&bucket=datasetimages2";
+	    Request.get(url, (err, response) => {
+	    	console.log('response: ', response);
+	    	this.uploadFile({
+	    		file: file,
+	    		bucket: 'datasetimages2',
+	    		signed_request: response.body.signed_request, 
+	    		url: response.body.url
+	    	});
+	    });
+    }
+
+	onDropDataset(files) {
+	    var file = files[0];
+	    console.log('file: ', file);
+	    var url = '/api/signedurl?file_name="' + file.name + 
+	    '"&file_type="' + file.type + "&bucket=datasetfiles";
+	    Request.get(url, (err, response) => {
+	    	console.log('response: ', response);
+	    	this.uploadFile({
+	    		file: file,
+	    		bucket: 'datasetfiles',
+	    		signed_request: response.body.signed_request, 
+	    		url: response.body.url
+	    	});
+	    });
+    }
+
 	render() {
 		let content;
 		let tags;
+		let imgInput;
+		let datasetInput;
+
+		if (this.state.useDragImgForm === true) {
+			if (this.state.s3DatasetImgUrl.length > 0)  {
+				imgInput = <p>Your image has been saved</p>;
+			} 
+			else {
+				imgInput = (
+					<div>
+						<p>Drag and drop your image</p>
+						<Dropzone onDrop={this.onDrop} />
+					</div>
+				);
+			}
+			
+		} 
+		else {
+			imgInput = (
+				<input
+					className="form-control"
+					value={this.state.datasetImgUrl} 
+					onChange={this.onChange.bind(this, "datasetImgUrl")} 
+					type="text" 
+					id="datasetImgUrl" 
+					ref="datasetImgUrl"/>
+			);
+		}
+
+		if (this.state.useDragDatasetForm === true) {
+			if (this.state.s3DatasetUrl.length > 0) {
+				datasetInput = <p>Your dataset has been saved</p>;
+			} else {
+				datasetInput = (<Dropzone onDrop={this.onDropDataset} />);
+			}
+		} 
+		else {
+			datasetInput = (
+				<input
+					className="form-control"
+					value={this.state.datasetUrl} 
+					onChange={this.onChange.bind(this, "datasetUrl")}
+					type="text" 
+					id="datasetUrl" 
+					ref="datasetUrl"/>
+			);
+		}
+
+
 		if (this.state.datasetTags.length > 0) {
 			tags = this.state.datasetTags.split(',').map((tag, index) => {
 				return (
@@ -114,6 +253,8 @@ export default class Upload extends React.Component {
 				);
 			});
 		}
+
+
 		 
 
 		let datasetArticles = this.state.datasetArticles.map((dataset, index) => {
@@ -183,31 +324,29 @@ export default class Upload extends React.Component {
 							ref="datasetName"/>
 						</div>
 					  	<div className="form-group">
-							<label htmlFor="datasetUrl">Url</label>
-							<input
-								className="form-control"
-								value={this.state.datasetUrl} 
-								onChange={this.onChange.bind(this, "datasetUrl")}
-								type="text" 
-								id="datasetUrl" 
-								ref="datasetUrl"/>
+							<label htmlFor="datasetUrl">Dataset</label>
+						<br/>
+						<div className="btn-group upload-img-control" role="group" aria-label="...">
+							<button onClick={this.toggleForm.bind(null, false, 'dataset')} type="button" className="btn btn-default">Enter dataset URL</button>
+							<button onClick={this.toggleForm.bind(null, true, 'dataset')} type="button" className="btn btn-default">Upload dataset</button>
+						</div>
+							{datasetInput}
 						</div>
 					  	<div className="form-group">
-							<label htmlFor="datasetImgUrl">Image URL</label>
-							<input
-								className="form-control"
-								value={this.state.datasetImgUrl} 
-								onChange={this.onChange.bind(this, "datasetImgUrl")} 
-								type="text" 
-								id="datasetImgUrl" 
-								ref="datasetImgUrl"/>
+						<label htmlFor="datasetImgUrl">Image</label>
+						<br/>
+						<div className="btn-group upload-img-control" role="group" aria-label="...">
+							<button onClick={this.toggleForm.bind(null, false, 'image')} type="button" className="btn btn-default">Enter image URL</button>
+							<button onClick={this.toggleForm.bind(null, true, 'image')} type="button" className="btn btn-default">Upload image</button>
+						</div>
+							{imgInput}
 						</div>
 					  	<div className="form-group">
 							<label htmlFor="datasetTags">Tags (separate with commas)</label>
 							<input
 								className="form-control"
 								value={this.state.datasetTags} 
-								onChange={this.onChange.bind(this, "datasetTags")}  
+								onChange={this.onChangeTags.bind(this, "datasetTags")}  
 								type="text" 
 								id="datasetTags" 
 								ref="datasetTags"/>

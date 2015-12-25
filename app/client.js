@@ -15,6 +15,7 @@ import Tag from "./components/Tag/Tag";
 import Tags from "./components/Tag/Tags";
 import Search from "./components/Search/Search";
 import SearchResults from "./components/Search/SearchResults";
+import TestUpload from './components/TestUpload';
 
 var routes = (
 	<Router history={createBrowserHistory()}>
@@ -36,6 +37,8 @@ var routes = (
             <Route path="search" component={Search}>
                 <Route path=":searchQuery" component={SearchResults} />
             </Route>
+            <Route path="testupload" component={TestUpload}/>
+
         </Route>
     </Router>
 );
