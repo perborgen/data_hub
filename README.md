@@ -1,17 +1,19 @@
-DataHub 
+Datasets.co 
 ===========
 
-Data sets for data geeks
+Datasets for data geeks
 
-Problem: 
+Why are we building Datasets.co?
 
-- It is hard to find the right dataset for your machine learning project.
-- The datasets online aren't easily available enough.
-- There aren't any easy ways to share your dataset
+First off, because it's often tedious to find the right dataset for your machine learning project and hard to know if it's of high or low quality.
 
-Questions to ask beta testers:
+Datasets.co aims at solving these two problems by gathering as many as possible datasets on a single platform.
 
-1. Do you experience this problem?
-2. How painful is this problem for you? (a tier 1 problem)
-3. How do you solve it today?
-4. Would you pay for a solution to the problem?
+**Tech stack:**
+
+* React.js
+* Node.js
+* Hapi.js
+* MongoDB
+* Heroku 
+* AWS S3
