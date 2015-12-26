@@ -37,7 +37,10 @@ export default class SearchResults extends React.Component {
 							<a href={"/dataset/" + dataset._id}>
 							<div className="featured-dataset">
 								<h5 style={{textAlign: 'center'}}>{dataset.title}</h5>
-								<img className="featuredImg" style={{maxWidth: '150px',maxHeight: '100px', margin: '0 auto', display:'block', overflow: 'hidden'}} src={dataset.img_url} />
+								<img 
+									className="featuredImg" 
+									style={{maxWidth: '150px',maxHeight: '100px', margin: '0 auto', display:'block', overflow: 'hidden'}} 
+									src={dataset.img_url.length > 0 ? dataset.img_url : dataset.s3_img_url} />
 							</div>
 							</a>
 						</div>
@@ -56,6 +59,7 @@ export default class SearchResults extends React.Component {
 									col-sm-10 col-sm-offset-1  
 									col-lg-10 col-lg-offset-1 
 									col-xs-10 col-xs-offset-1">
+					{this.props.params.searchQuery}
 						{datasets}
 					</div>
 				</div>

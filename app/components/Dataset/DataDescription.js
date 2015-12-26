@@ -5,15 +5,13 @@ import DataTable from "./DataTable";
 export default class DataDescription extends React.Component {
 
 	upvote(){
-		console.log('upvote');
 		if (this.props.username.length > 0) {
 			Request.post("/api/dataset/upvote")
 				.send({id: this.props._id})
 				.end((err, res)=>{
 					if(err) {
-						console.log('err',err);
+						throw err;
 					}
-					console.log('res: ',res);
 					this.props.updateUpvotes(res.body.upvotes);
 			});
 		}
@@ -99,12 +97,12 @@ export default class DataDescription extends React.Component {
 							<p>{this.props.description}</p>
 						</div>
 						<div className="download-button-box">
-							<a href={this.props.url}>
+							<a href={this.props.url.length > 0 ? this.props.url : this.props.s3_url}>
 								<button 
 									type="submit" 
 									className="btn btn-success" >
 								<span className="glyphicon glyphicon-link"></span>
-								<span> Go to dataset</span>
+								<span>Go to dataset</span>
 								</button>
 							</a>
 						</div>

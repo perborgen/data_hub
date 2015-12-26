@@ -1,6 +1,5 @@
 import React from "react";
 import Request from 'superagent';
-import CommentForm from './CommentForm';
 
 export default class CommentSection extends React.Component {
 
