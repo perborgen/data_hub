@@ -15,7 +15,6 @@ export default class Upload extends React.Component {
 		this.toggleForm = this.toggleForm.bind(this);
 		this.uploadFile = this.uploadFile.bind(this);
 		this.onDrop = this.onDrop.bind(this);
-		this.onChangeTags = this.onChangeTags.bind(this);
 		this.onDropDataset = this.onDropDataset.bind(this);
 
 		this.state = {
@@ -73,15 +72,6 @@ export default class Upload extends React.Component {
 		this.setState({
 			features: new_features
 		});
-	}
-
-	onChangeTags(inputField, ev) {
-		let tags = ev.target.value.split(',');
-		this.setState({
-			datasetTags: tags
-		});
-
-
 	}
 
 	onChange(inputField, ev){
@@ -160,11 +150,9 @@ export default class Upload extends React.Component {
 
 	onDrop(files) {
 	    var file = files[0];
-	    console.log('file: ', file);
 	    var url = '/api/signedurl?file_name="' + file.name + 
 	    '"&file_type="' + file.type + "&bucket=datasetimages2";
 	    Request.get(url, (err, response) => {
-	    	console.log('response: ', response);
 	    	this.uploadFile({
 	    		file: file,
 	    		bucket: 'datasetimages2',
@@ -176,11 +164,9 @@ export default class Upload extends React.Component {
 
 	onDropDataset(files) {
 	    var file = files[0];
-	    console.log('file: ', file);
 	    var url = '/api/signedurl?file_name="' + file.name + 
 	    '"&file_type="' + file.type + "&bucket=datasetfiles";
 	    Request.get(url, (err, response) => {
-	    	console.log('response: ', response);
 	    	this.uploadFile({
 	    		file: file,
 	    		bucket: 'datasetfiles',
@@ -346,7 +332,7 @@ export default class Upload extends React.Component {
 							<input
 								className="form-control"
 								value={this.state.datasetTags} 
-								onChange={this.onChangeTags.bind(this, "datasetTags")}  
+								onChange={this.onChange.bind(this, "datasetTags")}  
 								type="text" 
 								id="datasetTags" 
 								ref="datasetTags"/>
