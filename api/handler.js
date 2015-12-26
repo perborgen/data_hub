@@ -78,14 +78,13 @@ const signedurl = (request, reply) => {
         ACL: 'public-read'
 	};
 
-	console.log('s3');
 	s3.getSignedUrl('putObject', params, (err, data) => {
 		console.log('data: ' + data);
 		if (err) {
-			console.log('-------err: ', err);
+			throw err;
+			reply(false);
 		}
 		else {
-			console.log('no err data: ', data);
 			reply({
 				signed_request: data,
 				url: 'https://datasetfiles.s3.amazonaws.com/'+request.query.file_name
@@ -115,7 +114,6 @@ const home = (request, reply) => {
                 reply.file(index);
 			} 
             else {
-            	console.log('creating new user');
                 //create new user object
                 let new_user = new User();
                 new_user.email = profile.email;
@@ -144,9 +142,7 @@ const home = (request, reply) => {
 }
 
 const login = (request, reply) => {
-	console.log('LOGIN HANDLER');
     if (request.auth.isAuthenticated) {
-    	console.log('----------about to set!!!!!')
     	request.auth.session.set(request.auth.credentials);
     	return reply.redirect('/');
 	}
@@ -187,7 +183,9 @@ const getRequest = (request, reply) => {
 }
 
 const featuredDatasets = (request, reply) => {
-	Dataset.find({}).sort({num_upvotes: -1}).exec(
+	Dataset.find({}).sort({num_upvotes: -1})
+		.limit(12)
+		.exec(
 		function(err,datasets){
 	    if (err){
 	        throw err;

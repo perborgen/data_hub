@@ -2,11 +2,24 @@ import React from "react";
 import Request from 'superagent';
 import FeaturedDatasets from "./FeaturedDatasets";
 import FeaturedRequests from "./FeaturedRequests";
-export default class LandingPage extends React.Component {
 
+export default class LandingPage extends React.Component {
 	constructor(props){
 		super(props);
+		this.state = {
+			datasets: []
+		}
 	}
+
+	componentDidMount(){
+		Request.get("/api/datasets/featured")
+			.end((err, res) => {
+				this.setState({
+					datasets: res.body
+				});
+			});
+	}
+
 	render() {
 		return (
 			<div>
@@ -21,7 +34,7 @@ export default class LandingPage extends React.Component {
 							</h1>
 							</div>
 						</div>
-					<FeaturedDatasets />
+					<FeaturedDatasets datasets={this.state.datasets} />
 				</div>
 			</div>
 		);

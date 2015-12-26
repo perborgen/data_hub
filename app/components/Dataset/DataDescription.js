@@ -5,13 +5,15 @@ import DataTable from "./DataTable";
 export default class DataDescription extends React.Component {
 
 	upvote(){
-		if (this.props.logged_in) {
+		console.log('upvote');
+		if (this.props.username.length > 0) {
 			Request.post("/api/dataset/upvote")
 				.send({id: this.props._id})
 				.end((err, res)=>{
 					if(err) {
 						console.log('err',err);
 					}
+					console.log('res: ',res);
 					this.props.updateUpvotes(res.body.upvotes);
 			});
 		}
@@ -86,7 +88,7 @@ export default class DataDescription extends React.Component {
 							<li className={"social-item " + clickable} onClick={this.upvote.bind(this)}>
 								<span className="social-text">
 									<span 
-										style={{top: '2px', right: '2px'}} 
+										style={{top: '2px', right: '2px', cursor: 'pointer'}} 
 										className={"glyphicon glyphicon-star"}> </span>
 									Favourite : {this.props.num_upvotes}
 								</span>

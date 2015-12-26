@@ -4,23 +4,12 @@ import Request from 'superagent';
 export default class FeaturedDatasets extends React.Component {
 	
 	constructor(props){
-		super(props);
-		this.state = {
-			datasets: []
-		}; 
+		super(props); 
 	}
 
-	componentDidMount(){
-		Request.get("/api/datasets/featured")
-			.end( (err, res) =>{
-				this.setState({
-					datasets: res.body
-				});
-			});
-	}
 
 	render() {
-		let datasets = this.state.datasets.map( (dataset,index) => {
+		let datasets = this.props.datasets.map( (dataset,index) => {
 			return (
 				<div key={index} className="col-xs-10 col-xs-offset-1 
 											col-sm-6 col-sm-offset-0
