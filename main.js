@@ -27,9 +27,12 @@ server.register([inert, bell, hapiAC], function(err){
 
     var bellAuthOptions = {
         provider: 'github',
-        password: process.env.GITHUB_PASSWORD || config.password, //Password used for encryption
-        clientId: process.env.CLIENTID || config.clientId, //'YourAppId',
-        clientSecret: process.env.CLIENTSECRET || config.clientSecret,//'YourAppSecret',
+        //password: process.env.GITHUB_PASSWORD || config.password, //Password used for encryption
+        password: 'github-encryption-password'
+        clientId: 'de093188762870bce624',
+        clientSecret: 'f16759c338298e4443274b3d3b7497dc701cc5e6'
+        //clientId: process.env.CLIENTID || config.clientId, //'YourAppId',
+        //clientSecret: process.env.CLIENTSECRET || config.clientSecret,//'YourAppSecret',
         isSecure: false,
         location: process.env.LOCATION || 'http://localhost:8080'
     };

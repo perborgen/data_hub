@@ -64,8 +64,10 @@ AWS.config.region = 'eu-central-1';
 
 const signedurl = (request, reply) => {
 	AWS.config.update({
-		accessKeyId: process.env.AWS_ACCESS_KEY || config.AWS.accessKeyId, 
-		secretAccessKey: process.env.AWS_SECRET_KEY || config.AWS.secretAccessKey
+		accessKeyId: 'AKIAI7M7Z2YHRS53PKUQ', 
+		secretAccessKey: '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'
+		//accessKeyId: process.env.AWS_ACCESS_KEY || config.AWS.accessKeyId, 
+		//secretAccessKey: process.env.AWS_SECRET_KEY || config.AWS.secretAccessKey
 	});
 
     let s3 = new AWS.S3(),
