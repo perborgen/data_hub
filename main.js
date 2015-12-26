@@ -18,7 +18,7 @@ server.register([inert, bell, hapiAC], function(err){
     }
 
     var authCookieOptions = {
-        password: config.password || process.env.PASSWORD, //Password used for encryption
+        password: process.env.PASSWORD || config.password, //Password used for encryption
         cookie: 'auth', // Name of cookie to set
         isSecure: false
     };
