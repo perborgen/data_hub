@@ -18,8 +18,8 @@ server.register([inert, bell, hapiAC], function(err){
     }
 
     var authCookieOptions = {
-        password: 'cookie-encryption-password', //Password used for encryption
-        cookie: 'sitepoint-auth', // Name of cookie to set
+        password: config.password || process.env.PASSWORD, //Password used for encryption
+        cookie: 'auth', // Name of cookie to set
         isSecure: false
     };
 
@@ -27,8 +27,8 @@ server.register([inert, bell, hapiAC], function(err){
 
     var bellAuthOptions = {
         provider: 'github',
-        password: process.env.GITHUB_PASSWORD || config.password, //Password used for encryption
-        clientId: process.env.CLIENTID || config.clientId,//'YourAppId',
+        password: process.env.PASSWORD || config.password, //Password used for encryption
+        clientId: process.env.CLIENTID || config.clientId, //'YourAppId',
         clientSecret: process.env.CLIENTSECRET || config.clientSecret,//'YourAppSecret',
         isSecure: false,
         location: process.env.LOCATION || 'http://localhost:8080'
