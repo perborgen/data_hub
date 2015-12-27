@@ -1,10 +1,13 @@
 var Hapi    = require("hapi");
 var server  = new Hapi.Server();
-var config  = require('./config');
+if (process.env.ISPRODUCTION === undefined) {
+    var config  = require('./config');
+}
 var handler = require('./api/handler');
 var inert   = require('inert');
 var bell    = require('bell');
 var hapiAC  = require('hapi-auth-cookie');
+
 
 server.connection({
     port: process.env.PORT || 8080,

@@ -1,5 +1,6 @@
-var config = require('../config');
-var index = "./public/index.html";
+if (process.env.ISPRODUCTION === undefined) {
+    var config  = require('./config');
+}var index = "./public/index.html";
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var multer = require('multer');//for handling multipart/form-data
