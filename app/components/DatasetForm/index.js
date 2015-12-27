@@ -21,10 +21,10 @@ export default class Upload extends React.Component {
 			link: null,
 			datasetName: '',
 			datasetUrl: '',
-			s3DatasetUrl: '',
 			datasetTags: '',
 			datasetImgUrl: '',
-			s3DatasetImgUrl: '',
+			s3_img_url: '',
+			s3_dataset_url: '',
 			useDragImgForm: false,
 			hasUploadedImage: false,
 			uploaded: false,
@@ -48,6 +48,7 @@ export default class Upload extends React.Component {
 				url: this.state.datasetUrl,
 				img_url: this.state.datasetImgUrl,
 				tags: this.state.datasetTags,
+				s3_img_url: this.state.s3_img_url,
 				description: this.state.description,
 				features: this.state.features,
 				articles: this.state.datasetArticles
@@ -121,12 +122,12 @@ export default class Upload extends React.Component {
 				else {
 					if (data.bucket === 'datasetimages2') {
 						this.setState({
-							s3DatasetImgUrl: data.url
+							s3_img_url: data.url
 						});
 					}
 					else if (data.bucket === 'datasetfiles') {
 						this.setState({
-							s3DatasetUrl: data.url
+							d3_dataset_url: data.url
 						});
 				}
 
@@ -153,6 +154,7 @@ export default class Upload extends React.Component {
 	    var url = '/api/signedurl?file_name="' + file.name + 
 	    '"&file_type="' + file.type + "&bucket=datasetimages2";
 	    Request.get(url, (err, response) => {
+	    	console.log('response: ',response)
 	    	this.uploadFile({
 	    		file: file,
 	    		bucket: 'datasetimages2',
@@ -171,7 +173,7 @@ export default class Upload extends React.Component {
 	    		file: file,
 	    		bucket: 'datasetfiles',
 	    		signed_request: response.body.signed_request, 
-	    		url: response.body.url
+	    		s3_dataset_url: response.body.url
 	    	});
 	    });
     }
@@ -182,8 +184,10 @@ export default class Upload extends React.Component {
 		let imgInput;
 		let datasetInput;
 
+		console.log('this.state: ',this.state);
+
 		if (this.state.useDragImgForm === true) {
-			if (this.state.s3DatasetImgUrl.length > 0)  {
+			if (this.state.s3_img_url.length > 0)  {
 				imgInput = <p>Your image has been saved</p>;
 			} 
 			else {
@@ -209,7 +213,7 @@ export default class Upload extends React.Component {
 		}
 
 		if (this.state.useDragDatasetForm === true) {
-			if (this.state.s3DatasetUrl.length > 0) {
+			if (this.state.s3_dataset_url.length > 0) {
 				datasetInput = <p>Your dataset has been saved</p>;
 			} else {
 				datasetInput = (<Dropzone onDrop={this.onDropDataset} />);

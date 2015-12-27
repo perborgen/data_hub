@@ -273,8 +273,8 @@ const newDataset = (request, reply) => {
 		        new_dataset.features = d.features;
 		        new_dataset.num_upvotes = 0;
 		        new_dataset.articles = d.articles;
-		        new_dataset.s3_url = d.s3DatasetUrl;
-		        new_dataset.s3_img_url = d.s3DatasetImgUrl;
+		        new_dataset.s3_url = d.s3_dataset_url;
+		        new_dataset.s3_img_url = d.s3_img_url;
 		        new_dataset.save( function(err, res){
 		        if (err){
 		            throw error;
