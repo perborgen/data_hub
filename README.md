@@ -7,7 +7,7 @@ Why are we building Datasets.co?
 
 First off, because it's often tedious to find the right dataset for your machine learning project and hard to know if it's of high or low quality.
 
-Datasets.co aims at solving these two problems by gathering as many as possible datasets on a single platform.
+Datasets.co aims at solving these two problems by gathering as many as possible datasets on a single platform and crowd sourcing the quality assurance by enabling users to provide context and comments on the datasets.
 
 **Tech stack:**
 

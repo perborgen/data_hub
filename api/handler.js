@@ -6,7 +6,7 @@ var fs = require('fs');
 var AWS = require('aws-sdk');
 
 if (process.env.ISPRODUCTION === undefined) {
-    var config  = require('./config');
+    var config  = require('../config');
 }
 
 mongoose.connect(process.env.MONGOOSE || config.mongoose);
