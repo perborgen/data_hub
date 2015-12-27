@@ -24,7 +24,7 @@ export default class Tags extends React.Component {
 
   	render() {
   		let tag = this.props.params.tagId;
-  		let datasets = this.state.datasets.map( (dataset, index) => {
+  		let datasets = this.state.datasets.map((dataset, index) => {
   			let link = "/dataset/" + dataset._id;
   			return (
   				<div  key={index}>
