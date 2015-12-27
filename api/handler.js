@@ -433,7 +433,6 @@ const getTags = (request, reply) => {
 	const tagId = request.params.param;
 	console.log('tagId: ', tagId);
 	Dataset.find({tags: tagId}, function(err, res){
-		var profile = request.auth.credentials.profile;
 		reply(res);
 	});
 }
