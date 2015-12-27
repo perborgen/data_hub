@@ -87,19 +87,12 @@ const signedurl = (request, reply) => {
 		else {
 			reply({
 				signed_request: data,
-				url: 'https://datasetfiles.s3.amazonaws.com/' + request.query.file_name
+				url: 'https://' + request.query.bucket + '.s3.amazonaws.com/' + request.query.file_name
 			});
 
 		}
 	});
 
-}
-
-const testupload = (request, reply) => {
-	console.log('TESTUPLOAD');
-	var file = request.files.file;
-	console.log(file);
-	reply('hello');
 }
 
 const home = (request, reply) => {
@@ -445,7 +438,6 @@ const getTags = (request, reply) => {
 
 module.exports = {
 	signedurl: signedurl,
-	testupload: testupload,
 	user: user,
 	login: login,
 	search: search,
