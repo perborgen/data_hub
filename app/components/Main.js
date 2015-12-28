@@ -29,6 +29,7 @@ export default class Main extends React.Component {
 	componentWillMount(){
 		Request.get("/api/user")
 			.end( (err, res) => {
+				console.log('res: ', res);
 				if (err){
 					throw err;
 				}

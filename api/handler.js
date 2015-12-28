@@ -66,8 +66,6 @@ AWS.config.region = 'eu-central-1';
 
 const signedurl = (request, reply) => {
 	AWS.config.update({
-		//accessKeyId: 'AKIAI7M7Z2YHRS53PKUQ', 
-		//secretAccessKey: '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'
 		accessKeyId: process.env.AWS_ACCESS_KEY || config.AWS.accessKeyId, 
 		secretAccessKey: process.env.AWS_SECRET_KEY || config.AWS.secretAccessKey
 	});
@@ -137,7 +135,10 @@ const home = (request, reply) => {
 }
 
 const login = (request, reply) => {
+	console.log('login');
+	console.log('request.auth.credentials:', request.auth.credentials);
     if (request.auth.isAuthenticated) {
+    	console.log('is authenticated');
     	request.auth.session.set(request.auth.credentials);
     	return reply.redirect('/');
 	}
