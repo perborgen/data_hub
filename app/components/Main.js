@@ -29,12 +29,10 @@ export default class Main extends React.Component {
 	componentWillMount(){
 		Request.get("/api/user")
 			.end( (err, res) => {
-				console.log('res: ', res);
 				if (err){
 					throw err;
 				}
 				if (res.body) {
-					console.log('res.body: ', res.body);
 					this.setState(res.body);
 				} 
 		});
