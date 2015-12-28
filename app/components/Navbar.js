@@ -44,7 +44,8 @@ export default class NavBar extends React.Component {
 							src="http://stylus-lang.com/img/octocat.svg"/>
 							GitHub Login
 					</a>
-				</li>);
+				</li>
+				);
 		}
 		let searchLink = "/search/" + this.state.searchText;
 
@@ -88,6 +89,11 @@ export default class NavBar extends React.Component {
 			      	 <li><a href="/upload" style={{fontSize: '15px'}}>Upload dataset</a></li>
 				   </ul>
 				    <ul className="nav navbar-nav navbar-right">
+				    	<li>
+							<a href="/about">
+							About
+							</a>
+						</li>
 				      	{rightNavbar}
 				    </ul>
 				    </div>
