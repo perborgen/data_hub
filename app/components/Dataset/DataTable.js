@@ -2,34 +2,54 @@ import React from "react";
 
 let DATAFEATURES = [
 	{
-		name: "age",
-		description: "The patients age",
-		example: 46
-	},
-	{
-		name: "blood_p",
-		description: "The patients bloood pressure",
-		example: "90/120"
-	},
-	{
-		name: "smoker",
-		description: "Does the patient smoke. 0 or 1",
-		example: 1
+		name: "",
+		description: "",
+		example: ""
 	}
 ]
 
 export default class DataTable extends React.Component {
-	render () {
 
+	constructor(props){
+		super(props);
+		this.state = {
+			limit: 6
+		}
+		this.toggleLimit = this.toggleLimit.bind(this);
+	}
+
+	toggleLimit() {
+		let new_limit;
+		if (this.state.limit === 6) {
+			new_limit = Infinity;
+		} else if (this.state.limit === Infinity) {
+			new_limit = 6;
+		}
+		this.setState({
+			limit: new_limit
+		});
+	}
+
+	render () {
 		if (this.props.features) {
 			DATAFEATURES = this.props.features;
 		}
 
-		let features = DATAFEATURES.map( (feature, index) => {
+		let features = DATAFEATURES.map( (feature, index, array) => {
+
+			if (index >= this.state.limit) {
+				return null;
+			}
+
 
 			let rowColor = "";
 			if (index % 2 !== 0) {
 				rowColor = "dataset-tr-color"
+			}
+
+		
+			if (index > 9 && this.state.expanded === false) {
+				return null;
 			}
 
 			return (
@@ -71,7 +91,19 @@ export default class DataTable extends React.Component {
 							</thead>
 							<tbody>
 								{features}
+							<tr>
+							<td className="dataset-td dataset-actual-value">
+							<button onClick={this.toggleLimit}>
+							{this.state.limit === 6 ? "View entire table": "View less"}
+							</button>
+							</td>
+							<td className="dataset-td dataset-actual-value">
+							</td>
+							<td className="dataset-td dataset-actual-value">
+							</td>
+							</tr>
 							</tbody>
+
 						</table>
 					</div>
 				</div>
