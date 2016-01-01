@@ -86,6 +86,17 @@ server.register([inert, bell, hapiAC], function(err){
             }
         },
         {
+            method: "POST",
+            path: "/api/feedback",
+            config: {
+                auth: {
+                    strategy: 'site-point-cookie',
+                    mode: 'try'
+                },
+                handler: handler.postFeedback
+            }
+        },
+        {
             method: "GET",
             path: "/api/user",
             config: {

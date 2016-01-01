@@ -90,6 +90,11 @@ export default class NavBar extends React.Component {
 				   </ul>
 				    <ul className="nav navbar-nav navbar-right">
 				    	<li>
+							<a href="/feedback">
+							Give feedback
+							</a>
+						</li>
+				    	<li>
 							<a href="/about">
 							About
 							</a>

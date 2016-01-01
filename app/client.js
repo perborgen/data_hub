@@ -17,6 +17,7 @@ import Search from "./components/Search/Search";
 import SearchResults from "./components/Search/SearchResults";
 import TestUpload from './components/TestUpload';
 import About from './components/About';
+import Feedback from './components/Feedback';
 
 var routes = (
 	<Router history={createBrowserHistory()}>
@@ -40,6 +41,7 @@ var routes = (
             </Route>
             <Route path="testupload" component={TestUpload}/>
             <Route path="about" component={About}/>
+            <Route path="feedback" component={Feedback}/>
         </Route>
     </Router>
 );

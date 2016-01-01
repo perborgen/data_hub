@@ -53,11 +53,16 @@ var requestSchema = new Schema({
 	paymentAmount: Number
 });
 
+var feedbackSchema = new Schema({
+	text: String
+})
+
 datasetSchema.index({ "$**": 'text'});
 
 const Request = mongoose.model('Request', requestSchema);
 const Dataset = mongoose.model('Dataset', datasetSchema);
 const User = mongoose.model('User', userSchema);
+const Feedback = mongoose.model('Feedback', feedbackSchema);
 
 var AWS = require('aws-sdk');
 AWS.config.region = 'eu-central-1';
@@ -178,9 +183,22 @@ const getRequest = (request, reply) => {
 	});
 }
 
+const postFeedback = (request, reply) => {
+	console.log('postFeedback');
+	let userFeedback = request.payload.text;
+	let new_feedback = new Feedback();
+	new_feedback.text = userFeedback;
+	new_feedback.save( function(err){
+	    if (err){
+	        throw error;
+	        reply(false);
+	    }
+		reply(true);
+	});
+}
+
 const featuredDatasets = (request, reply) => {
 	Dataset.find({}).sort({num_upvotes: -1})
-		.limit(12)
 		.exec(
 		function(err,datasets){
 	    if (err){
@@ -398,9 +416,7 @@ const commentDataset = (request, reply) => {
 		const dataset_id = request.payload.dataset_id;
 		const comment = request.payload.comment;
 	    Dataset.findById(dataset_id, function(err,dataset){
-	    	console.log('dataset: ', dataset);	    
 		    if (err){
-		    	console.log('err; ', err);
 		        throw err;
 		       	reply(false);
 		    }
@@ -440,6 +456,7 @@ const getTags = (request, reply) => {
 
 module.exports = {
 	signedurl: signedurl,
+	postFeedback: postFeedback,
 	user: user,
 	login: login,
 	search: search,

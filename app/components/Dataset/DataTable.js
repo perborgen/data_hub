@@ -18,6 +18,10 @@ export default class DataTable extends React.Component {
 		this.toggleLimit = this.toggleLimit.bind(this);
 	}
 
+	getDefaultsProps() {
+
+	}
+
 	toggleLimit() {
 		let new_limit;
 		if (this.state.limit === 6) {
@@ -35,6 +39,24 @@ export default class DataTable extends React.Component {
 			DATAFEATURES = this.props.features;
 		}
 
+		let expandButton;
+		if (this.props.features && this.props.features.length > 6) {
+			console.log('this.props.features.length: ', this.props.features.length);
+			expandButton = (
+				<tr>
+					<td className="dataset-td dataset-actual-value">
+					<button onClick={this.toggleLimit}>
+						{this.state.limit === 6 ? "View entire table": "View less"}
+					</button>
+					</td>
+					<td className="dataset-td dataset-actual-value">
+					</td>
+					<td className="dataset-td dataset-actual-value">
+					</td>
+				</tr>
+			);
+		}
+
 		let features = DATAFEATURES.map( (feature, index, array) => {
 
 			if (index >= this.state.limit) {
@@ -47,10 +69,6 @@ export default class DataTable extends React.Component {
 				rowColor = "dataset-tr-color"
 			}
 
-		
-			if (index > 9 && this.state.expanded === false) {
-				return null;
-			}
 
 			return (
 				<tr key={index} className={"dataset-tr " + rowColor}>
@@ -91,17 +109,7 @@ export default class DataTable extends React.Component {
 							</thead>
 							<tbody>
 								{features}
-							<tr>
-							<td className="dataset-td dataset-actual-value">
-							<button onClick={this.toggleLimit}>
-							{this.state.limit === 6 ? "View entire table": "View less"}
-							</button>
-							</td>
-							<td className="dataset-td dataset-actual-value">
-							</td>
-							<td className="dataset-td dataset-actual-value">
-							</td>
-							</tr>
+							{expandButton}
 							</tbody>
 
 						</table>
@@ -110,4 +118,8 @@ export default class DataTable extends React.Component {
 			</div>
 		);
 	}
+}
+
+DataTable.defaulProps = {
+	features: []
 }
