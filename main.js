@@ -14,6 +14,7 @@ server.connection({
     host: "0.0.0.0" || "localhost"
 });
 
+
 server.register([inert, bell, hapiAC], function(err){
 
     if (err) {
