@@ -7,6 +7,14 @@ var AWS = require('aws-sdk');
 
 if (process.env.ISPRODUCTION === undefined) {
     var config  = require('../config');
+} else {
+	var config = {
+		mongoose: '',
+		AWS: {
+			accessKeyId: '',
+			secretAccessKey: ''
+		}
+	}
 }
 
 mongoose.connect(process.env.MONGOOSE || config.mongoose);
