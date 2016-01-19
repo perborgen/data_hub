@@ -5,9 +5,9 @@ var fs         = require('fs');
 var nodemon    = require('gulp-nodemon');
 
 var build = function () {
-  console.log("Build started...");
+//  console.log("Build started...");
   var timer_name = "Build complete";
-  console.time(timer_name);
+//  console.time(timer_name);
 
   // from babel's example setup.
   // see https://babeljs.io/docs/setup/#browserify
@@ -16,10 +16,10 @@ var build = function () {
     .require("./app/client.js", { entry: true })
     .bundle()
     .on("error", function (err) {
-      console.log("error: " + err.message);
+  //    console.log("error: " + err.message);
     })
     .on('end', function() {
-      console.timeEnd(timer_name);
+  //    console.timeEnd(timer_name);
     })
     .pipe(fs.createWriteStream("./public/bundle.js"))
 };
@@ -31,12 +31,12 @@ gulp.task('build', function () {
 //gulp.task('default', ['build']);
 
 gulp.task('watch', function(){
-  console.log('starting watch');
+ // console.log('starting watch');
   gulp.watch(["./app/components/*/*.js", "./app/components/*.js"], ['build']);
 });
 
 gulp.task('build', function() {
-  console.log('running build task');
+ // console.log('running build task');
   // From Babel's example setup.
   // See https://babeljs.io/docs/setup/#browserify
   browserify({ debug: true })

@@ -277,7 +277,7 @@ server.register([inert, bell, hapiAC], function(err){
 });
 
 server.start(function(){
-    console.log('started');
+    //console.log('started');
 });
 
 module.exports = {
