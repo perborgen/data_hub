@@ -7,19 +7,9 @@ var AWS = require('aws-sdk');
 
 if (process.env.ISPRODUCTION === undefined) {
     var config  = require('../config');
-} else {
-	var config = {
-		mongoose: '',
-		AWS: {
-			accessKeyId: '',
-			secretAccessKey: ''
-		}
-	}
 }
 
-mongoose.connect(process.env.MONGOOSE || config.mongoose);
-
-console.log('mongoose: ', mongoose);
+mongoose.connect(process.env.MONGOLAB || config.mongolab);
 
 var userSchema = new Schema({
     email: String,
