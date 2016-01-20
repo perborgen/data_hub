@@ -19,6 +19,8 @@ if (process.env.ISPRODUCTION === undefined) {
 
 mongoose.connect(process.env.MONGOOSE || config.mongoose);
 
+console.log('mongoose: ', mongoose);
+
 var userSchema = new Schema({
     email: String,
     username: String,

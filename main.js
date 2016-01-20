@@ -11,7 +11,7 @@ var hapiAC  = require('hapi-auth-cookie');
 
 server.connection({
     port: process.env.PORT || 8080,
-    host: "0.0.0.0" || "localhost"
+    host: process.env.HOSTNAME|| "localhost"
 });
 
 
