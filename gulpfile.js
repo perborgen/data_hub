@@ -3,9 +3,9 @@ var babelify   = require('babelify');
 var browserify = require('browserify');
 var fs         = require('fs');
 var nodemon    = require('gulp-nodemon');
-
+/*
 var build = function () {
-//  console.log("Build started...");
+  console.log("Build started... USING FIRST BUILD TASK");
   var timer_name = "Build complete";
 //  console.time(timer_name);
 
@@ -27,6 +27,7 @@ var build = function () {
 gulp.task('build', function () {
   build();
 });
+*/
 
 //gulp.task('default', ['build']);
 
@@ -36,7 +37,6 @@ gulp.task('watch', function(){
 });
 
 gulp.task('build', function() {
- // console.log('running build task');
   // From Babel's example setup.
   // See https://babeljs.io/docs/setup/#browserify
   browserify({ debug: true })
@@ -47,7 +47,7 @@ gulp.task('build', function() {
     .pipe(fs.createWriteStream("./public/bundle.js"));
 });
 
-gulp.task('runServer', function(){
+/*gulp.task('runServer', function(){
   console.log('runServer');
   server.start(function (err) {
     if (err) {
@@ -56,6 +56,6 @@ gulp.task('runServer', function(){
     console.log('Server running');
   });
 });
-
+*/
 
 gulp.task('default', ['build', 'watch']);

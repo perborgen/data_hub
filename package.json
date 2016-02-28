@@ -12,7 +12,8 @@
     "url": "git://github.com/wpreul/hapi-heroku.git"
   },
   "engines": {
-    "node": "4.2.2"
+    "node": "4.2.2",
+    "npm": "3.6.0"
   },
   "author": "Per Borgen",
   "license": "MIT",
