@@ -36,6 +36,10 @@ gulp.task('watch', function(){
   gulp.watch(["./app/components/*/*.js", "./app/components/*.js"], ['build']);
 });
 
+gulp.task("heroku:production", function(){
+    console.log('hello'); // the task does not need to do anything.
+});
+
 gulp.task('build', function() {
   // From Babel's example setup.
   // See https://babeljs.io/docs/setup/#browserify
@@ -58,4 +62,4 @@ gulp.task('build', function() {
 });
 */
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build']);

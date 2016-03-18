@@ -10,8 +10,8 @@ var hapiAC  = require('hapi-auth-cookie');
 
 
 server.connection({
-    port: process.env.PORT || 8080,
-    HOSTNAME: process.env.HOSTNAME || "localhost"
+    port: process.env.PORT || 8080
+//    HOSTNAME: process.env.HOSTNAME || "localhost"
 });
 
 
@@ -40,7 +40,7 @@ server.register([inert, bell, hapiAC], function(err){
 
     server.auth.strategy('github-oauth', 'bell', bellAuthOptions);
     server.auth.default('site-point-cookie');
-
+    
     server.route([
         {
             method: "GET",
@@ -265,7 +265,7 @@ server.register([inert, bell, hapiAC], function(err){
         {
             method: "GET",
             path: "/{param}",
-             config: {
+            config: {
                 auth: {
                     strategy: 'site-point-cookie',
                     mode: 'try'
@@ -277,7 +277,7 @@ server.register([inert, bell, hapiAC], function(err){
 });
 
 server.start(function(){
-    //console.log('started');
+    console.log('started');
 });
 
 module.exports = {
