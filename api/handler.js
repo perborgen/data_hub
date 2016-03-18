@@ -75,7 +75,7 @@ const signedurl = (request, reply) => {
 		secretAccessKey: process.env.AWS_SECRET_KEY || config.AWS.secretAccessKey
 	});
 
-    let s3 = new AWS.S3(),
+    var s3 = new AWS.S3(),
 	params = {
 		Bucket: request.query.bucket,
 		Key: request.query.file_name,
@@ -113,7 +113,7 @@ const home = (request, reply) => {
 			} 
             else {
                 //create new user object
-                let new_user = new User();
+                var new_user = new User();
                 new_user.email = profile.email;
                 new_user.username = profile.username;
                 new_user.name = profile.displayName;
@@ -185,8 +185,8 @@ const getRequest = (request, reply) => {
 
 const postFeedback = (request, reply) => {
 	console.log('postFeedback');
-	let userFeedback = request.payload.text;
-	let new_feedback = new Feedback();
+	var userFeedback = request.payload.text;
+	var new_feedback = new Feedback();
 	new_feedback.text = userFeedback;
 	new_feedback.save( function(err){
 	    if (err){
@@ -254,7 +254,7 @@ var datasets = (request, reply) => {
 
 const user = (request, reply) => {
 	if (request.auth.isAuthenticated){
-		let github_id = request.auth.credentials.profile.id;	
+		var github_id = request.auth.credentials.profile.id;	
 		User.findOne({github_id: github_id}, (err, user) => {
 			reply(user);
 		});
@@ -309,7 +309,7 @@ const newRequest = (request, reply) => {
 	if (request.auth.isAuthenticated){
 		console.log('d: ', d);
 		const d = request.payload;
-	    let new_request = new Request();
+	    var new_request = new Request();
         new_request.title = d.title;
         new_request.url = d.url;
         new_request.tags = d.tags;
