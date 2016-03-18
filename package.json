@@ -4,7 +4,7 @@
   "description": "a website for sharing machine learning datasets",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
+    "start": "node main",
     "postinstall": "gulp default"
   },
   "repository": {
@@ -20,14 +20,18 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "aws-sdk": "^2.2.26",
-    "babel": "^5.8.21",
-    "babelify": "^6.1.3",
+    "babel": "^6.5.2",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babelify": "^7.2.0",
     "bell": "^6.0.0",
-    "browserify": "^11.0.1",
-    "gulp": "^3.9.0",
+    "browserify": "^13.0.0",
+    "express": "^4.13.4",
+    "gulp": "^3.9.1",
     "gulp-nodemon": "^2.0.4",
     "gulp-watch": "^4.3.5",
-    "hapi": "^11.1.1",
+    "hapi": "^13.0.0",
     "hapi-auth-cookie": "^3.1.0",
     "hapi-auth-github": "^1.0.4",
     "history": "^1.13.1",
@@ -36,7 +40,7 @@
     "mongoose": "^4.2.6",
     "mongoose-search-plugin": "^0.1.2",
     "multer": "^1.1.0",
-    "react": "^0.14.3",
+    "react": "^0.14.7",
     "react-addons-update": "^0.14.3",
     "react-disqus-thread": "^0.3.1",
     "react-dom": "^0.14.3",
@@ -45,5 +49,8 @@
     "react-s3-uploader": "^1.2.2",
     "superagent": "^1.4.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0"
+  }
 }
