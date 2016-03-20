@@ -184,9 +184,27 @@ export default class Upload extends React.Component {
 		let imgInput;
 		let datasetInput;
 
-		console.log('this.state: ',this.state);
+		imgInput = (
+			<input
+				className="form-control"
+				value={this.state.datasetImgUrl} 
+				onChange={this.onChange.bind(this, "datasetImgUrl")} 
+				type="text" 
+				id="datasetImgUrl" 
+				ref="datasetImgUrl"/>
+		);
 
-		if (this.state.useDragImgForm === true) {
+		datasetInput = (
+				<input
+					className="form-control"
+					value={this.state.datasetUrl} 
+					onChange={this.onChange.bind(this, "datasetUrl")}
+					type="text" 
+					id="datasetUrl" 
+					ref="datasetUrl"/>
+			);
+
+/*		if (this.state.useDragImgForm === true) {
 			if (this.state.s3_img_url.length > 0)  {
 				imgInput = <p>Your image has been saved</p>;
 			} 
@@ -230,6 +248,7 @@ export default class Upload extends React.Component {
 					ref="datasetUrl"/>
 			);
 		}
+		*/
 
 
 		if (this.state.datasetTags.length > 0) {
@@ -280,13 +299,13 @@ export default class Upload extends React.Component {
 					<td>
 						<input
 							className="feature-form-input form-control"
-							type="text" 
+							type="text"
 							onChange={this.handleChange.bind(this, index, "name")}/>
 					</td>
 					<td>
 						<input
 							className="feature-form-input form-control" 
-							type="text" 
+							type="text"
 							onChange={this.handleChange.bind(this, index, "description")}/>
 						</td>
 					<td>
@@ -314,20 +333,18 @@ export default class Upload extends React.Component {
 							ref="datasetName"/>
 						</div>
 					  	<div className="form-group">
-							<label htmlFor="datasetUrl">Dataset</label>
-						<br/>
+							<label htmlFor="datasetUrl">Dataset URL</label>
 						<div className="btn-group upload-img-control" role="group" aria-label="...">
-							<button onClick={this.toggleForm.bind(null, false, 'dataset')} type="button" className="btn btn-default">Enter dataset URL</button>
-							<button onClick={this.toggleForm.bind(null, true, 'dataset')} type="button" className="btn btn-default">Upload dataset</button>
+							{/*<button onClick={this.toggleForm.bind(null, false, 'dataset')} type="button" className="btn btn-default">Enter dataset URL</button>
+							<button onClick={this.toggleForm.bind(null, true, 'dataset')} type="button" className="btn btn-default">Upload dataset</button>*/}
 						</div>
 							{datasetInput}
 						</div>
 					  	<div className="form-group">
-						<label htmlFor="datasetImgUrl">Image</label>
-						<br/>
+						<label htmlFor="datasetImgUrl">Image URL</label>
 						<div className="btn-group upload-img-control" role="group" aria-label="...">
-							<button onClick={this.toggleForm.bind(null, false, 'image')} type="button" className="btn btn-default">Enter image URL</button>
-							<button onClick={this.toggleForm.bind(null, true, 'image')} type="button" className="btn btn-default">Upload image</button>
+							{/*<button onClick={this.toggleForm.bind(null, false, 'image')} type="button" className="btn btn-default">Enter image URL</button>
+							<button onClick={this.toggleForm.bind(null, true, 'image')} type="button" className="btn btn-default">Upload image</button>*/}
 						</div>
 							{imgInput}
 						</div>
