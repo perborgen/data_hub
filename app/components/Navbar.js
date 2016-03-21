@@ -56,7 +56,7 @@ export default class NavBar extends React.Component {
 				    <div className="navbar-header">
 				      	<button 
 				      		type="button" 
-				      		className="navbar-toggle collapsed" 
+				      		className="navbar-toggle collapsed hamburger-button" 
 				      		data-toggle="collapse" 
 				      		data-target="#bs-example-navbar-collapse-1" 
 				      		aria-expanded="false">
@@ -84,7 +84,7 @@ export default class NavBar extends React.Component {
 				        		ref="searchText"
 				        		className="form-control" 
 				        		placeholder="Search" />
-				        	<button style={{marginLeft: '5px'}}type="submit" className="btn btn-default">Search</button>
+				        	<button type="submit" className="btn search-button btn-default">Search</button>
 			      	</form>
 			      	 <li><a href="/upload" style={{fontSize: '15px'}}>Upload dataset</a></li>
 				   </ul>
@@ -92,11 +92,6 @@ export default class NavBar extends React.Component {
 				    	<li>
 							<a href="/feedback">
 							Give feedback
-							</a>
-						</li>
-				    	<li>
-							<a href="/about">
-							About
 							</a>
 						</li>
 				      	{rightNavbar}

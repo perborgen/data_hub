@@ -17,22 +17,21 @@ export default class DataDescription extends React.Component {
 		}
 	}
 
-	comment(){
-
-	}
-
-	scripts(){
-
-	}
-
 	render () {
-		console.log('this: ', this);
-		let articlesTitle = "";
+		let dataTable,
+			articles,
+			articlesTitle = '';
+
+		if (this.props.features) {
+			if (this.props.features[0].name.length > 0) {
+				dataTable = <DataTable features={this.props.features} />;
+			}
+		};
+
 		if (this.props.articles[0].link.length > 0) {
 			articlesTitle = "Articles";
 		}
 
-		let articles;
 		if (this.props.articles) {
 			articles = this.props.articles.map( (article, index) => {
 				return (
@@ -75,8 +74,7 @@ export default class DataDescription extends React.Component {
 									col-lg-6">
 						<img className="dataset-img" 
 							src={this.props.img_url.length > 0 ? this.props.img_url : this.props.s3_img_url} />
-						<DataTable features={this.props.features} />
-
+						{dataTable}
 					</div>
 					<div className="col-xs-12
 									col-sm-10 col-sm-offset-1 

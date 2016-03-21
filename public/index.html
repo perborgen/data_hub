@@ -105,6 +105,13 @@
         text-align: center;
     }
 
+    .landing-page-description {
+        text-align: center;
+        font-size: 18px;
+        width: 350px;
+        margin: 0 auto 35px;
+    }
+
 
     .login {
         background-color: white;
@@ -125,7 +132,6 @@
     }
 
 
-
     .navbar {
         background-color: #5BC0DE;
     }
@@ -134,8 +140,43 @@
         color: white;
     }
 
+    .navbar-default .navbar-toggle .icon-bar {
+        background-color: white;
+    }
     .navbar-default .navbar-nav>li>a {
-    color: white;
+        color: white;
+    }
+
+    .navbar-default .navbar-toggle {
+        border: 0px !important:
+
+    }
+
+    .navbar .hamburger-button {
+        border: none;
+        outline: none;
+    }
+
+    .navbar .hamburger-button:focus,
+    .navbar .hamburger-button:hover {
+        border: none;
+        outline: none;
+        background-color: transparent;
+        color: black;
+    }
+
+    .navbar .hamburger-button:focus span,
+    .navbar .hamburger-button:hover span {
+        color: black;
+    }
+
+    .form-control {
+        margin-right: 2px;
+    }
+
+    .footer {
+        margin:50px 0 20px;
+        text-align: center;
     }
 
     .profile-img{
@@ -220,6 +261,30 @@
         margin-top: 30px;
         margin-bottom: 30px;
     }
+
+
+@media (max-width: 768px) {
+    
+    .navbar-form .form-control {
+        width: 95%;
+        margin-left:13px;
+        margin-bottom: 7px;
+    }
+    
+    .navbar-form .search-button {
+        margin-left: 13px;
+    }
+
+    .navbar-form {
+        margin-top: 0px;
+        border: none;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+
+}
+
+
 
 
     </style>

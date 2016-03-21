@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./Navbar";
 import Request from 'superagent';
 import DisqusThread from 'react-disqus-thread';
+const Link = require('react-router').Link
 
 export default class Main extends React.Component {
 
@@ -54,6 +55,10 @@ export default class Main extends React.Component {
 					{children}
 				</div>	
 			</div>
+			<div className="footer">
+                <a href="mailto:perhborgen@gmail.com"> Email us</a> · 
+			    <Link to="/about"> About</Link>
+            </div>
 		</div>
 		);
 	}

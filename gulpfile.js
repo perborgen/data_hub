@@ -65,27 +65,7 @@ gulp.task('watch', function(){
 });
 
 
-/*
-gulp.task('build', function() {
-  // From Babel's example setup.
-  // See https://babeljs.io/docs/setup/#browserify
-  browserify({ debug: true })
-    .transform(babelify,  {presets: ["es2015", "react"]})
-    .require("./app/client.js", { entry: true })
-    .bundle()
-    .on("error", function (err) { console.log("Error: " + err.message); })
-    .pipe(fs.createWriteStream("./public/bundle.js"));
-});*/
 
-/*gulp.task('runServer', function(){
-  console.log('runServer');
-  server.start(function (err) {
-    if (err) {
-          throw err;
-      }
-    console.log('Server running');
-  });
-});
-*/
+gulp.task('dev', ['build', 'watch']);
 
 gulp.task('default', ['build']);

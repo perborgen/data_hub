@@ -32,6 +32,8 @@ export default class LandingPage extends React.Component {
 							<h1 className="landing-page-title">
 								Datasets for Data Geeks
 							</h1>
+							<p className="landing-page-description">The easiest way to share and discover new machine learning datasets</p>
+							
 							</div>
 						</div>
 					<FeaturedDatasets datasets={this.state.datasets} />
