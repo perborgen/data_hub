@@ -101,17 +101,37 @@ const signedurl = (request, reply) => {
 }
 
 const home = (request, reply) => {
+	console.log('HOME')
 	if (request.auth.isAuthenticated){
+		console.log('IS AUTHENTICATED');
+	    reply.file(index);
+	} 
+
+    // if the user isn't authenticated
+    else {
+    	console.log('NOT AUTHENTICATED');
+        reply.file(index);
+	}
+}
+
+const login = (request, reply) => {
+	console.log('login');
+	console.log('request.auth.credentials:', request.auth.credentials);
+    if (request.auth.isAuthenticated) {
 		const profile = request.auth.credentials.profile;
-	        User.findOne({email: profile.email}, function(err, user){
+    	User.findOne({username: profile.username}, function(err, user){
+		    
 		    if (err){
 		        throw err;
                 reply.file(index);
 		    }
+		    
 		    if (user) {
                 reply.file(index);
 			} 
+            
             else {
+                
                 //create new user object
                 var new_user = new User();
                 new_user.email = profile.email;
@@ -121,33 +141,20 @@ const home = (request, reply) => {
                 new_user.raw = profile.raw;
                 new_user.github_id = profile.id;
                 // save the user to the db
+
                 new_user.save( function(err){
                     if (err){
                         throw error;
                     }
+                    request.auth.session.set(new_user);
                 	reply.file(index);
                 });
 	    	
 	    	}
 		});
-	} 
-
-    // if the user isn't authenticated
-    else {
-    	console.log('not logged in');
-        reply.file(index);
+	} else {
+		return reply('Not logged in...').code(401);
 	}
-}
-
-const login = (request, reply) => {
-	console.log('login');
-	console.log('request.auth.credentials:', request.auth.credentials);
-    if (request.auth.isAuthenticated) {
-    	console.log('is authenticated');
-    	request.auth.session.set(request.auth.credentials);
-    	return reply.redirect('/');
-	}
-	return reply('Not logged in...').code(401);
 }
 
 const getDataset = (request, reply) => {
