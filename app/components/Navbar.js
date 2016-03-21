@@ -86,15 +86,21 @@ export default class NavBar extends React.Component {
 				        		placeholder="Search" />
 				        	<button type="submit" className="btn search-button btn-default">Search</button>
 			      	</form>
-			      	 <li><a href="/upload" style={{fontSize: '15px'}}>Upload dataset</a></li>
+			      	 <li><a href="/upload" style={{fontSize: '15px'}}>Register new dataset</a></li>
 				   </ul>
 				    <ul className="nav navbar-nav navbar-right">
 				    	<li>
+							<a href="/about">
+							About
+							</a>
+						</li>
+						<li>
 							<a href="/feedback">
 							Give feedback
 							</a>
 						</li>
-				      	{rightNavbar}
+
+				      	{/* rightNavbar*/}
 				    </ul>
 				    </div>
 				  </div>

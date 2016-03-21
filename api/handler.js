@@ -261,6 +261,7 @@ var datasets = (request, reply) => {
 
 const user = (request, reply) => {
 	if (request.auth.isAuthenticated){
+		console.log('request.auth.credentials: ', request.auth.credentials);
 		var github_id = request.auth.credentials.profile.id;	
 		User.findOne({github_id: github_id}, (err, user) => {
 			reply(user);
