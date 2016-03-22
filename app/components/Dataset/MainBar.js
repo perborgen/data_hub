@@ -1,6 +1,5 @@
 import React from "react";
 import DataDescription from "./DataDescription";
-import DataTable from "./DataTable";
 
 export default class MainBar extends React.Component {
 	render () {

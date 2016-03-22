@@ -20,7 +20,17 @@ export default class DataDescription extends React.Component {
 	render () {
 		let dataTable,
 			articles,
+			dataShape,
 			articlesTitle = '';
+
+		if (this.props.num_features) {
+			dataShape = 
+				<div>
+					{this.props.num_instances > 0 ? <span className="dataset-shape">Features: {this.props.num_features}</span> : null }
+					{this.props.num_instances > 0 ? <span className="dataset-shape">Instances: {this.props.num_instances}</span> : null }
+				</div>;
+		}
+		
 
 		if (this.props.features) {
 			if (this.props.features[0].name.length > 0) {
@@ -74,6 +84,7 @@ export default class DataDescription extends React.Component {
 									col-lg-6">
 						<img className="dataset-img" 
 							src={this.props.img_url.length > 0 ? this.props.img_url : this.props.s3_img_url} />
+						{dataShape}
 						{dataTable}
 					</div>
 					<div className="col-xs-12

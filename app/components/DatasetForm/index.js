@@ -28,6 +28,8 @@ export default class Upload extends React.Component {
 			useDragImgForm: false,
 			hasUploadedImage: false,
 			uploaded: false,
+			num_features: 0,
+			num_instances: 0,
 			step: 0,
 			features: [{
 				name: "",
@@ -51,7 +53,9 @@ export default class Upload extends React.Component {
 				s3_img_url: this.state.s3_img_url,
 				description: this.state.description,
 				features: this.state.features,
-				articles: this.state.datasetArticles
+				articles: this.state.datasetArticles,
+				num_features: this.state.num_features,
+				num_instances: this.state.num_instances				
 			})
 			.end( (err, res) => {
 				if (err){
@@ -76,6 +80,13 @@ export default class Upload extends React.Component {
 	}
 
 	onChange(inputField, ev){
+		if (inputField === 'num_instances' || inputField === 'num_features') {
+			if (isNaN(ev.target.value)) {
+				console.log('not number')
+				return false;
+			}
+		}
+
 		let new_state = {};
 		new_state[inputField] = ev.target.value;
 		this.setState(new_state);
@@ -179,10 +190,10 @@ export default class Upload extends React.Component {
     }
 
 	render() {
-		let content;
-		let tags;
-		let imgInput;
-		let datasetInput;
+		let content,
+			tags,
+			imgInput,
+			datasetInput;
 
 		imgInput = (
 			<input
@@ -204,53 +215,6 @@ export default class Upload extends React.Component {
 					ref="datasetUrl"/>
 			);
 
-/*		if (this.state.useDragImgForm === true) {
-			if (this.state.s3_img_url.length > 0)  {
-				imgInput = <p>Your image has been saved</p>;
-			} 
-			else {
-				imgInput = (
-					<div>
-						<p>Drag and drop your image</p>
-						<Dropzone onDrop={this.onDrop} />
-					</div>
-				);
-			}
-			
-		} 
-		else {
-			imgInput = (
-				<input
-					className="form-control"
-					value={this.state.datasetImgUrl} 
-					onChange={this.onChange.bind(this, "datasetImgUrl")} 
-					type="text" 
-					id="datasetImgUrl" 
-					ref="datasetImgUrl"/>
-			);
-		}
-
-		if (this.state.useDragDatasetForm === true) {
-			if (this.state.s3_dataset_url.length > 0) {
-				datasetInput = <p>Your dataset has been saved</p>;
-			} else {
-				datasetInput = (<Dropzone onDrop={this.onDropDataset} />);
-			}
-		} 
-		else {
-			datasetInput = (
-				<input
-					className="form-control"
-					value={this.state.datasetUrl} 
-					onChange={this.onChange.bind(this, "datasetUrl")}
-					type="text" 
-					id="datasetUrl" 
-					ref="datasetUrl"/>
-			);
-		}
-		*/
-
-
 		if (this.state.datasetTags.length > 0) {
 			tags = this.state.datasetTags.split(',').map((tag, index) => {
 				return (
@@ -262,9 +226,6 @@ export default class Upload extends React.Component {
 				);
 			});
 		}
-
-
-		 
 
 		let datasetArticles = this.state.datasetArticles.map((dataset, index) => {
 			return (
@@ -371,24 +332,44 @@ export default class Upload extends React.Component {
 								id="description" 
 								ref="description"/>
 						</div>
-					<div className="feature-form-container">
-						<h3 style={{textAlign: 'center'}}>Please describe the dataset's features</h3>
-						<table className="feature-form">
-							<thead>
-								<tr>
-									<th>Feature</th>
-									<th>Description</th>
-									<th>Example</th>
-								</tr>
-							{featureboxes}
-							</thead>
-						</table>
-					<button onClick={this.addFeatures} className="btn btn-default btn-sm">
-						<span className="glyphicon glyphicon-plus"></span>
-						Add new feature
-					</button>
-					<br/>
-					</div>
+						<div className="form-group">
+							<label htmlFor="num_features">Total number of features (leave empty if unknown or irrelevant)</label>
+							<input
+								className="form-control"
+								value={this.state.num_features} 
+								onChange={this.onChange.bind(this, "num_features")} 
+								type="text" 
+								id="num_features" 
+								ref="num_features"/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="num_instances">Total number of instances (leave empty if unknown or irrelevant)</label>
+							<input
+								className="form-control"
+								value={this.state.num_instances} 
+								onChange={this.onChange.bind(this, "num_instances")} 
+								type="text" 
+								id="num_instances" 
+								ref="num_instances"/>
+						</div>
+						<div className="feature-form-container">
+							<h3 style={{textAlign: 'center'}}>Please describe the dataset's features</h3>
+							<table className="feature-form">
+								<thead>
+									<tr>
+										<th>Feature</th>
+										<th>Description</th>
+										<th>Example</th>
+									</tr>
+								{featureboxes}
+								</thead>
+							</table>
+							<button onClick={this.addFeatures} className="btn btn-default btn-sm">
+								<span className="glyphicon glyphicon-plus"></span>
+								Add new feature
+							</button>
+							<br/>
+						</div>
 						<div>
 							<h3 style={{textAlign: 'center'}}>Add any relevant links about the dataset</h3>
 							{datasetArticles}

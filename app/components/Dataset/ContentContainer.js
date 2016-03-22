@@ -1,6 +1,5 @@
 import React from "react";
 import MainBar from "./MainBar";
-import SideBar from "./SideBar";
 import Request from 'superagent';
 
 //import PathStore from 'react-router/modules/stores/PathStore';
@@ -79,7 +78,6 @@ export default class ContentContainer extends React.Component {
   				this.setState(res.body);
   			});
   	}
-
 
 	render () {
 		return (

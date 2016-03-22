@@ -37,6 +37,8 @@ var datasetSchema = new Schema({
 	scripts: Array,
 	description: String,
 	features: Array,
+	num_features: Number,
+	num_instances: Number,
 	num_upvotes: Number,
 	articles: Array,
 	papers: Array
@@ -290,7 +292,6 @@ const newDataset = (request, reply) => {
 		    }
 
 		    if (dataset) {
-		    	console.log('found dataset')
 		       	reply(dataset);
 			}
 		    else {
@@ -306,6 +307,9 @@ const newDataset = (request, reply) => {
 		        new_dataset.articles = d.articles;
 		        new_dataset.s3_url = d.s3_dataset_url;
 		        new_dataset.s3_img_url = d.s3_img_url;
+		        new_dataset.num_instances = d.num_instances;
+		        new_dataset.num_features = d.num_features;
+		        console.log('new_dataset: ', new_dataset);		        
 		        new_dataset.save( function(err, res){
 		        if (err){
 		            throw error;
