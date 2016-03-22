@@ -12,7 +12,7 @@ export default class Dataset extends React.Component {
 		let identifier = this.props.params.datasetId;
 		let url = "http://www.datasets.co/dataset/" + identifier;
         let children = React.Children.map(this.props.children, (child) => {
-        return React.cloneElement(child, this.props );
+        	return React.cloneElement(child, this.props );
         });
 		return (
 			<div className="col-md-10 col-md-offset-1 

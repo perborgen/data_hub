@@ -1,9 +1,10 @@
- var index = "./public/index.html";
+var index = "./public/index.html";
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var multer = require('multer');//for handling multipart/form-data
 var fs = require('fs');
 var AWS = require('aws-sdk');
+var models = require('./models');
 
 if (process.env.ISPRODUCTION === undefined) {
     var config  = require('../config');
@@ -23,7 +24,7 @@ var userSchema = new Schema({
 });
 
 var datasetSchema = new Schema({
-	title: String,
+	title: { type: String, index: { unique: true }},
 	s3_url: String,
 	url: String,
 	img_url: String,
@@ -158,18 +159,21 @@ const login = (request, reply) => {
 }
 
 const getDataset = (request, reply) => {
-	const dataset = request.params.datasetId;
-	Dataset.findById(dataset, function(err,dataset){
+	const title = request.params.datasetTitle.split('-').join(' ');
+	Dataset.findOne({title: title}, function(err, dataset){
+	    
 	    if (err){
 	        throw err;
-	       	reply.file(index);
+	       	reply(false);
 	    }
 
 	    if (dataset) {
 	       	reply(dataset);
 		} 
 		else {
-			reply(false);
+			models.getDatasetById(Dataset, title, function(dataset){
+				reply(dataset);
+			});
 		}
 	});
 }
@@ -480,5 +484,6 @@ module.exports = {
 	newDataset: newDataset,
 	getDataset: getDataset,
 	featuredRequests: featuredRequests,
-	featuredDatasets:featuredDatasets
+	featuredDatasets:featuredDatasets,
+	Dataset: Dataset
 }

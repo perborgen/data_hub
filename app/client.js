@@ -31,7 +31,7 @@ var routes = (
             <Route path="login" component={Main}/>
             <Route path="request" component={RequestForm}/>
             <Route path="dataset" component={Dataset}>
-                <Route path=":datasetId" component={ContentContainer} />
+                <Route path=":datasetTitle" component={ContentContainer} />
             </Route>
             <Route path="request" component={Request}>
                 <Route path=":requestId" component={RequestDescription} />

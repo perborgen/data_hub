@@ -155,7 +155,7 @@ server.register([inert, bell, hapiAC], function(err){
         },
         {
             method: "GET",
-            path: "/api/dataset/{datasetId}",
+            path: "/api/dataset/{datasetTitle}",
             config: {
                 auth: {
                     strategy: 'site-point-cookie',
