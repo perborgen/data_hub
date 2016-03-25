@@ -292,87 +292,87 @@ export default class Upload extends React.Component {
 							type="text" 
 							id="datasetName" 
 							ref="datasetName"/>
-						</div>
-					  	<div className="form-group">
-							<label htmlFor="datasetUrl">Dataset URL</label>
-						<div className="btn-group upload-img-control" role="group" aria-label="...">
-							{/*<button onClick={this.toggleForm.bind(null, false, 'dataset')} type="button" className="btn btn-default">Enter dataset URL</button>
-							<button onClick={this.toggleForm.bind(null, true, 'dataset')} type="button" className="btn btn-default">Upload dataset</button>*/}
-						</div>
-							{datasetInput}
-						</div>
-					  	<div className="form-group">
-						<label htmlFor="datasetImgUrl">Image URL</label>
-						<div className="btn-group upload-img-control" role="group" aria-label="...">
-							{/*<button onClick={this.toggleForm.bind(null, false, 'image')} type="button" className="btn btn-default">Enter image URL</button>
-							<button onClick={this.toggleForm.bind(null, true, 'image')} type="button" className="btn btn-default">Upload image</button>*/}
-						</div>
-							{imgInput}
-						</div>
-					  	<div className="form-group">
-							<label htmlFor="datasetTags">Tags (separate with commas)</label>
-							<input
-								className="form-control"
-								value={this.state.datasetTags} 
-								onChange={this.onChange.bind(this, "datasetTags")}  
-								type="text" 
-								id="datasetTags" 
-								ref="datasetTags"/>
-							<ul className="tag-list">
-								{tags}
-							</ul>
-						</div>
-					  	<div className="form-group">
-							<label htmlFor="description">Description</label>
-							<textarea
-								className="form-control"
-								value={this.state.description} 
-								onChange={this.onChange.bind(this, "description")}  
-								type="text" 
-								id="description" 
-								ref="description"/>
-						</div>
-						<div className="form-group">
-							<label htmlFor="num_features">Total number of features (leave empty if unknown or irrelevant)</label>
-							<input
-								className="form-control"
-								value={this.state.num_features} 
-								onChange={this.onChange.bind(this, "num_features")} 
-								type="text" 
-								id="num_features" 
-								ref="num_features"/>
-						</div>
-						<div className="form-group">
-							<label htmlFor="num_instances">Total number of instances (leave empty if unknown or irrelevant)</label>
-							<input
-								className="form-control"
-								value={this.state.num_instances} 
-								onChange={this.onChange.bind(this, "num_instances")} 
-								type="text" 
-								id="num_instances" 
-								ref="num_instances"/>
-						</div>
-						<div className="feature-form-container">
-							<h3 style={{textAlign: 'center'}}>Please describe the dataset's features</h3>
-							<table className="feature-form">
-								<thead>
-									<tr>
-										<th>Feature</th>
-										<th>Description</th>
-										<th>Example</th>
-									</tr>
-								{featureboxes}
-								</thead>
-							</table>
-							<button onClick={this.addFeatures} className="btn btn-default btn-sm">
-								<span className="glyphicon glyphicon-plus"></span>
-								Add new feature
-							</button>
-							<br/>
-						</div>
-						<div>
-							<h3 style={{textAlign: 'center'}}>Add any relevant links about the dataset</h3>
-							{datasetArticles}
+					</div>
+				  	<div className="form-group">
+						<label htmlFor="datasetUrl">Dataset URL</label>
+					<div className="btn-group upload-img-control" role="group" aria-label="...">
+						{/*<button onClick={this.toggleForm.bind(null, false, 'dataset')} type="button" className="btn btn-default">Enter dataset URL</button>
+						<button onClick={this.toggleForm.bind(null, true, 'dataset')} type="button" className="btn btn-default">Upload dataset</button>*/}
+					</div>
+						{datasetInput}
+					</div>
+				  	<div className="form-group">
+					<label htmlFor="datasetImgUrl">Image URL</label>
+					<div className="btn-group upload-img-control" role="group" aria-label="...">
+						{/*<button onClick={this.toggleForm.bind(null, false, 'image')} type="button" className="btn btn-default">Enter image URL</button>
+						<button onClick={this.toggleForm.bind(null, true, 'image')} type="button" className="btn btn-default">Upload image</button>*/}
+					</div>
+						{imgInput}
+					</div>
+				  	<div className="form-group">
+						<label htmlFor="datasetTags">Tags (separate with commas)</label>
+						<input
+							className="form-control"
+							value={this.state.datasetTags} 
+							onChange={this.onChange.bind(this, "datasetTags")}  
+							type="text" 
+							id="datasetTags" 
+							ref="datasetTags"/>
+						<ul className="tag-list">
+							{tags}
+						</ul>
+					</div>
+				  	<div className="form-group">
+						<label htmlFor="description">Description</label>
+						<textarea
+							className="form-control"
+							value={this.state.description} 
+							onChange={this.onChange.bind(this, "description")}  
+							type="text" 
+							id="description" 
+							ref="description"/>
+					</div>
+					<div className="form-group">
+						<label htmlFor="num_features">Total number of features (leave empty if unknown or irrelevant)</label>
+						<input
+							className="form-control"
+							value={this.state.num_features} 
+							onChange={this.onChange.bind(this, "num_features")} 
+							type="text" 
+							id="num_features" 
+							ref="num_features"/>
+					</div>
+					<div className="form-group">
+						<label htmlFor="num_instances">Total number of instances (leave empty if unknown or irrelevant)</label>
+						<input
+							className="form-control"
+							value={this.state.num_instances} 
+							onChange={this.onChange.bind(this, "num_instances")} 
+							type="text" 
+							id="num_instances" 
+							ref="num_instances"/>
+					</div>
+					<div className="feature-form-container">
+						<h3 style={{textAlign: 'center'}}>Please describe the dataset's features</h3>
+						<table className="feature-form">
+							<thead>
+								<tr>
+									<th>Feature</th>
+									<th>Description</th>
+									<th>Example</th>
+								</tr>
+							{featureboxes}
+							</thead>
+						</table>
+						<button onClick={this.addFeatures} className="btn btn-default btn-sm">
+							<span className="glyphicon glyphicon-plus"></span>
+							Add new feature
+						</button>
+						<br/>
+					</div>
+					<div>
+						<h3 style={{textAlign: 'center'}}>Add any relevant links about the dataset</h3>
+						{datasetArticles}
 						<button
 							onClick={this.addArticle} 
 							className="btn btn-default btn-sm">
@@ -388,7 +388,7 @@ export default class Upload extends React.Component {
 							Submit dataset
 						</button>
 					</div>
-					</div>
+				</div>
 				);
 		}
 		else if (this.state.step === 2 ){	

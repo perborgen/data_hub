@@ -1,5 +1,7 @@
 import React from "react";
 import Request from 'superagent';
+import DisqusThread from 'react-disqus-thread';
+const Link = require('react-router').Link
 
 
 export default class FeaturedRequests extends React.Component {
@@ -26,12 +28,21 @@ export default class FeaturedRequests extends React.Component {
 				<div key={index} className="col-xs-10 col-xs-offset-1 
 											col-sm-6 col-sm-offset-0
 											col-md-4 col-lg-4">
-					
 					<div className="featured-request">
-					<a href={"/request/" + request._id}>
+					<Link to={"/request/" + request.title.split(' ').join('-')}>
 						<h5 style={{textAlign: 'center'}}>{request.title}</h5>
-						<span style={{margin: '0 auto'}} className="request-dataset-offer">{request.paymentAmount} USD</span>
-					</a>
+					</Link>
+					<ul className="tag-list">
+						{request.tags.map((tag, index) => {
+							return (
+								<li key={index} className="tag-item">
+									<span className="tag-text">
+									{tag}
+									</span>
+								</li>
+							)
+						})}
+						</ul>
 					</div>
 				</div>
 			);
@@ -44,8 +55,6 @@ export default class FeaturedRequests extends React.Component {
 								col-sm-12 
 								col-lg-12 
 								col-xs-12">
-					<p className="sub-title">New dataset requests:</p>
-
 				{requests}
 				</div>
 			</div>

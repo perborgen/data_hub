@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SuperRequest from 'superagent';
 import update from 'react-addons-update';
+const Link = require('react-router').Link
 
 export default class Request extends React.Component {
 	
 	constructor(props){
 		super(props);
-		console.log('this: ', this);
 		this.submitDetails = this.submitDetails.bind(this);
 		this.submitDescription = this.submitDescription.bind(this);
 		this.submitWouldPay = this.submitWouldPay.bind(this);
@@ -22,7 +22,8 @@ export default class Request extends React.Component {
 			tags: "",
 			description: "",
 			datasetFeatures: "",
-			user: ""
+			user: "",
+			datasetTags: []
 		}
 	}
 
@@ -59,14 +60,8 @@ export default class Request extends React.Component {
 		}
 	}
 
-	submitFinal(willingToPay) {
-		let paymentAmount;
-		if (willingToPay) {
-			paymentAmount = ReactDOM.findDOMNode(this.refs.paymentAmount).value;
-		}
-		else {
-			paymentAmount = 0;
-		}
+	submitFinal() {
+		console.log('submitFinal, this.state: ', this.state);
 		SuperRequest.post("/api/request/new")
 			.send({
 				title: this.state.title,
@@ -75,122 +70,104 @@ export default class Request extends React.Component {
 				tags: this.state.tags,
 				description: this.state.description,
 				user: 'test',
-				paymentAmount: paymentAmount,
 				user: this.props.userName
 			})
 			.end( (err, res) => {
 				if (err){
 					throw err;
 				}
+				console.log('res: ', res);
 				this.setState({
 					link: '/request/' + res.body._id,
-					step: 4,
+					step: 1,
 				});
 			});
 	}
 
+	onChange(inputField, ev){
+		let new_state = {};
+		new_state[inputField] = ev.target.value;
+		this.setState(new_state);
+	}
+
 	render() {
-		let content;
-		if (this.state.logged_in === false ){
-			return (<p>You have to be logged in to request datasets</p>);
+		let content,
+			tags;
+		
+		if (this.state.tags.length > 0) {
+			tags = this.state.tags.split(',').map((tag, index) => {
+				return (
+					<li key={index} className="tag-item">
+							<span className="tag-text">
+								{tag}
+							</span>
+					</li>
+				);
+			});
 		}
+		console.log('tags: ', tags);
+
 		if (this.state.step === 0){
 			content = (
-				<form onSubmit={this.submitDetails}>
+				<div>
 					<h2 style={{textAlign: 'center'}}>Request a dataset</h2>
-					<table className="uploadTable">
-					<tbody>
-					<tr>
-						<td>
-							<label htmlFor="datasetName" >Name:</label>
-						</td>
-						<td>
-							<input type="text" id="datasetName" ref="datasetName"/>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label htmlFor="datasetTags">Tags</label>
-						</td>
-						<td>
-							<input type="text" id="datasetTags" ref="datasetTags"/>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label htmlFor="datasetFeatures">Preferred features</label>
-						</td>
-						<td>
-							<input type="text" id="datasetFeatures" ref="datasetFeatures"/>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<input type="submit" value="Next step" />
-						</td>
-					</tr>
-					</tbody>
-				</table>
-			</form>
-			)
+					<div className="form-group">
+						<label htmlFor="datasetName">Title (a short title describing the dataset you want)</label>
+						<input
+							className="form-control"
+							value={this.state.datasetName} 
+							onChange={this.onChange.bind(this, "title")} 
+							type="text" 
+							id="datasetName" 
+							ref="datasetName"/>
+					</div>
+					<div className="form-group">
+						<label htmlFor="datasetTags">Tags (separate with commas)</label>
+						<input
+							className="form-control"
+							value={this.state.tags} 
+							onChange={this.onChange.bind(this, "tags")}  
+							type="text" 
+							id="datasetTags" 
+							ref="datasetTags"/>
+						<ul className="tag-list">
+							{tags}
+						</ul>
+					</div>
+					<div className="form-group">
+						<label htmlFor="description">Description</label>
+						<textarea
+							className="form-control"
+							value={this.state.description} 
+							onChange={this.onChange.bind(this, "description")}  
+							type="text" 
+							id="description" 
+							ref="description"/>
+					</div>
+					<div className="submit-dataset-container">
+						<button
+							style={{marginTop: '30px'}} 
+							onClick={this.submitFinal} 
+							className="btn btn-success submit-dataset-button">
+							Submit request
+						</button>
+					</div>
+				</div>
+			);
 		}
 
 		else if (this.state.step === 1) {
 			content = (
 				<div>
-					<p>Please describe your requested dataset:</p>
-					<textarea ref="datasetDescription"></textarea>
-					<br />
-					<input type="submit" onClick={this.submitDescription} className="btn btn-default" />
-				</div>
-			);
-		}
-
-		else if (this.state.step === 2) {
-			content = (
-				<div>
-					<p>Will you offer to pay for this dataset?</p>
-					<input 
-						className="btn btn-default" 
-						type="submit" value="Yes" 
-						onClick={this.submitWouldPay.bind(this, true)} />
-					<input 
-						className="btn btn-default" 
-						type="submit" value="No"  
-						onClick={this.submitWouldPay.bind(this, false)} />
-				</div>
-			);
-		}
-
-		else if (this.state.step === 3) {
-			content = (
-				<div>
-					<p>How much?</p>
-					<input 
-						className="btn btn-default" 
-						type="number"
-						ref="paymentAmount" />
-					<input
-						type="submit"
-						className="btn btn-default"
-						value="Submit request"
-						onClick={this.submitFinal.bind(this, true)} />
-				</div>
-			);
-		}
-
-		else if (this.state.step === 4) {
-			content = (
-				<div>
 					<h3 style={{textAlign: 'center'}}>Well done!</h3>
-					<p style={{textAlign: 'center'}}>You've created a dataset.</p>
-					<a href={this.state.link}>
+					<p style={{textAlign: 'center'}}>You've created a dataset request. Now check it out and share it with the world.</p>
+					<Link to={"/request/" + this.state.title.split(' ').join('-')}>
 						<input 
 							type="submit" 
 							className="btn-success"
 							style={{margin: '0 auto', display: 'block'}} 
 							value="Check it out" />
-					</a>
+					</Link>
 				</div>);	
 
 		} 

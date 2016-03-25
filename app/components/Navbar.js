@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom';
+const Link = require('react-router').Link
 
 export default class NavBar extends React.Component {
 
@@ -65,10 +66,10 @@ export default class NavBar extends React.Component {
 					        <span className="icon-bar"></span>
 					        <span className="icon-bar"></span>
 				      	</button>
-				      	<a 
+				      	<Link 
 				      		className="navbar-brand" 
-				      		href="/">Datasets.co
-				      	</a>
+				      		to="/">Datasets.co
+				      	</Link>
 				    </div>
 				    <div
 				    	className="collapse navbar-collapse" 
@@ -86,18 +87,23 @@ export default class NavBar extends React.Component {
 				        		placeholder="Search" />
 				        	<button type="submit" className="btn search-button btn-default">Search</button>
 			      	</form>
-			      	 <li><a href="/upload" style={{fontSize: '15px'}}>Register new dataset</a></li>
+			      	<li>
+			      	 	<Link to="/upload" style={{fontSize: '15px'}}>Register datset</Link>
+			      	</li>
+			      	<li>
+			      		<Link to="/request" style={{fontSize: '15px'}}>Request dataset</Link>
+			      	</li>
 				   </ul>
 				    <ul className="nav navbar-nav navbar-right">
 				    	<li>
-							<a href="/about">
+							<Link to="/about">
 							About
-							</a>
+							</Link>
 						</li>
 						<li>
-							<a href="/feedback">
+							<Link to="/feedback">
 							Give feedback
-							</a>
+							</Link>
 						</li>
 
 				      	{/* rightNavbar*/}

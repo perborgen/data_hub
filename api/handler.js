@@ -45,7 +45,7 @@ var datasetSchema = new Schema({
 });
 
 var requestSchema = new Schema({
-	title: String,
+	title: { type: String, index: { unique: true }},
 	tags: Array,
 	upvotes: Array,
 	comments: Array,
@@ -118,8 +118,6 @@ const home = (request, reply) => {
 }
 
 const login = (request, reply) => {
-	console.log('login');
-	console.log('request.auth.credentials:', request.auth.credentials);
     if (request.auth.isAuthenticated) {
 		const profile = request.auth.credentials.profile;
     	User.findOne({username: profile.username}, function(err, user){
@@ -181,8 +179,8 @@ const getDataset = (request, reply) => {
 }
 
 const getRequest = (request, reply) => {
-	const requestId = request.params.requestId;
-	Request.findById(requestId, (err, request) => {
+	const title = request.params.requestTitle.split('-').join(' ');
+	Request.findOne({title: title}, (err, request) => {
 	    if (err){
 	        throw err;
 	       	reply.file(index);
@@ -229,7 +227,6 @@ const featuredDatasets = (request, reply) => {
 
 const featuredRequests = (request, reply) => {
 	Request.find({}).sort({num_upvotes: -1})
-		.limit(3)
 		.exec(
 		function(err,datasets){
 	    if (err){
@@ -303,13 +300,12 @@ const newDataset = (request, reply) => {
 		        new_dataset.user = d.displayName;
 		        new_dataset.description = d.description;
 		        new_dataset.features = d.features;
-		        new_dataset.num_upvotes = 0;
+		        new_dataset.num_upvotes = 100;
 		        new_dataset.articles = d.articles;
 		        new_dataset.s3_url = d.s3_dataset_url;
 		        new_dataset.s3_img_url = d.s3_img_url;
 		        new_dataset.num_instances = d.num_instances;
 		        new_dataset.num_features = d.num_features;
-		        console.log('new_dataset: ', new_dataset);		        
 		        new_dataset.save( function(err, res){
 		        if (err){
 		            throw error;
@@ -322,31 +318,20 @@ const newDataset = (request, reply) => {
 }
 
 const newRequest = (request, reply) => {
-	if (request.auth.isAuthenticated){
-		console.log('d: ', d);
-		const d = request.payload;
-	    var new_request = new Request();
-        new_request.title = d.title;
-        new_request.url = d.url;
-        new_request.tags = d.tags;
-        new_request.user = d.user;
-        new_request.description = d.description;
-        new_request.features = d.features;
-        new_request.num_upvotes = 0;
-        new_request.paymentAmount = d.paymentAmount;
-        new_request.save( function(err, res){
-	        if (err){
-	            console.log('ERROR')
-	            throw error;
-	        }
-	        console.log('registration successful, rewuest: ',res);
-	        reply(res);
-        });
-	} 
-	// if the user isn't authenticated
-	else {
-		reply.file(index);
-	}
+	console.log('new request!');
+	const d = request.payload;
+	console.log('d: ', d);
+    var new_request = new Request();
+    new_request.title = d.title;
+    new_request.tags = d.tags.split(',');
+    new_request.description = d.description;
+    new_request.save( function(err, res){
+        if (err){
+            throw error;
+        }
+        reply(res);
+    });
+
 }
 
 
@@ -363,7 +348,6 @@ const upvoteRequest = (request, reply) => {
 		    }
 
 		    if (request) {
-		    	console.log('found request');
 		    	if (request.upvotes.indexOf(userId) === -1) {
 					request.upvotes.push(userId);
 					request.num_upvotes += 1;

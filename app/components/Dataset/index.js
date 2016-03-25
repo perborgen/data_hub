@@ -9,7 +9,6 @@ export default class Dataset extends React.Component {
 	}
 
 	render () {
-		console.log('this.props.params: ', this.props.params);
 		let identifier = this.props.params.datasetTitle;
 		let url = "http://www.datasets.co/dataset/" + identifier;
         let children = React.Children.map(this.props.children, (child) => {
