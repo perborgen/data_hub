@@ -17,6 +17,7 @@ import Search from "./components/Search/Search";
 import SearchResults from "./components/Search/SearchResults";
 import TestUpload from './components/TestUpload';
 import About from './components/About';
+import Contribute from './components/Contribute';
 import Feedback from './components/Feedback';
 
 var routes = (
@@ -25,6 +26,7 @@ var routes = (
             <IndexRoute component={LandingPage} />
             <Route path="account" component={Account}/>
             <Route path="upload" component={DatasetForm}/>
+            <Route path="contribute" component={Contribute}/>
             <Route path="tag" component={Tag}>
             	<Route path=":tagId" component={Tags} />
             </Route>
